@@ -108,6 +108,9 @@
                                 <a class="dropdown-item" href="{{ route('register-employee.index') }}" onclick="">
                                     {{ __('Register Employee') }}
                                 </a>
+                                <a class="dropdown-item" href="{{ route('register-computer.index') }}" onclick="">
+                                    {{ __('Register Computer') }}
+                                </a>
                                 @endif
 
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
