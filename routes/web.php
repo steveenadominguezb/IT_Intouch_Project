@@ -18,9 +18,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 #Ruta que muestra la pagina para registrar un empleado
 Route::get('/home/register-employee', [RegisterEmployeeController::class, 'index'])->name('register-employee.index');
+#Ruta que valida la información y registra al empleado
+Route::post('/home/register-employee', [RegisterEmployeeController::class, 'create'])->name('register-employee.index');
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+

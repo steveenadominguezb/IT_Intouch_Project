@@ -23,7 +23,8 @@ class RegisterEmployeeController extends Controller
     /**
      * Show the view
      */
-    public function index(){
+    public function index()
+    {
         return view('register_employee');
     }
 
@@ -48,12 +49,47 @@ class RegisterEmployeeController extends Controller
      * @param  array  $data
      * @return \App\Models\User
      */
-    protected function create(array $data)
+    protected function create()
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        $this->validate(request(), [
+            'cde' => 'required',
+            'name' => 'required',
+            'position' => 'required',
+            'UserName' => 'required',
+            'Password' => 'required|confirmed',
+            'email' => 'required|email',
+            'number' => 'required',
+
+
         ]);
+        // $employee = new employee();
+        // $employee->CDE = request('cde');
+        // $employee->Name = request('name');
+        // $employee->Position = request('position');
+        // $employee->UserName = request('UserName');
+
+        // if (request('Password') == "") {
+        //     $employee->Password = null;
+        // } else {
+        //     $employee->Password = request('Password');
+        // }
+
+        // $employee->Email = request('email');
+        // $employee->ContactInfo = request('number');
+        // $employee->Status = 'Active';
+        // #$employee->Admin = true;
+
+        // $employee->setPassword(request('Password'));
+        // $employee->IdPrivilege = request('SelectPrivileges');
+
+        // $employee->save();
+
+        #auth()->login($employee);
+        return back();
+        // return User::create([
+        //     'name' => $data['name'],
+        //     'email' => $data['email'],
+        //     'password' => Hash::make($data['password']),
+        // ]);
     }
 }
