@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -24,7 +25,10 @@ class RegisterEmployeeController extends Controller
      * Show the view
      */
     public function index()
-    {
+    {   
+        if(Auth::user()->privilege != 10001){
+            return "No Admin Privileges";
+        }
         return view('register_employee');
     }
 
@@ -60,7 +64,7 @@ class RegisterEmployeeController extends Controller
         $employee->username = request('UserName');
 
         if (request('password') == "") {
-            $employee->password = Hash::make('!ntouch24-7@');
+            $employee->password = Hash::make('IT!ntouch24-7@');
         } else {
             $employee->Password = Hash::make(request('password'));
         }

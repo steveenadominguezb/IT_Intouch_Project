@@ -26,45 +26,43 @@
     <!-- JavaScript Bundle with Popper -->
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
     <style>
+        .box1 {
+            margin-left: 10%;
+            width: 35%;
+            display: inline-block;
+        }
 
-    .box1 {
-      margin-left: 10%;
-      width: 35%;
-      display: inline-block;
-    }
+        .box2 {
+            margin-left: 10%;
+            width: 35%;
+            display: inline-block;
+        }
 
-    .box2 {
-      margin-left: 10%;
-      width: 35%;
-      display: inline-block;
-    }
+        .but-register {
+            margin: auto;
+            margin-top: 5%;
+            width: 25%;
+        }
 
-    .but-register {
-      margin: auto;
-      margin-top: 5%;
-      width: 25%;
-    }
+        .father {
+            height: 100%;
+            margin-top: 15%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .father {
-      height: 100%;
-      margin-top: 15%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+        .form-login {
+            /* background-color: #b7e4c7; */
+            padding: 50px;
+            border: lightcyan;
+            border-radius: 30px;
+        }
 
-    .form-login {
-      /* background-color: #b7e4c7; */
-      padding: 50px;
-      border: lightcyan;
-      border-radius: 30px;
-    }
-
-    .login {
-      margin-right: 20px;
-    }
-
-  </style>
+        .login {
+            margin-right: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -106,9 +104,12 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
+                                @if (Auth::user()->privilege == 10001)
                                 <a class="dropdown-item" href="{{ route('register-employee.index') }}" onclick="">
-                                {{ __('Register Employee') }}
+                                    {{ __('Register Employee') }}
                                 </a>
+                                @endif
+
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
