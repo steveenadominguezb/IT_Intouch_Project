@@ -76,7 +76,7 @@
                             @enderror
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label fw-bold">Password</label>
-                                <input type="password" name="Password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <input type="password" name="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                             </div>
                             @error('Password')
                             <p class="alert alert-danger w-100" role="alert">
@@ -86,7 +86,7 @@
                             @enderror
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label fw-bold">Confirm Password</label>
-                                <input type="password" name="ConfirmPassword" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                <input type="password" name="password_confirmation" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Privileges</label>

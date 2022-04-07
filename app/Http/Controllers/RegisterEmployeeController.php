@@ -29,62 +29,51 @@ class RegisterEmployeeController extends Controller
     }
 
     /**
-     * Get a validator for an incoming registration request.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
-
-    /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
      * @return \App\Models\User
      */
     protected function create()
-    {
+    {   
+        /**
+         * Valida que los campos necesarios hayan sido diligenciados
+         */
         $this->validate(request(), [
             'cde' => 'required',
             'name' => 'required',
             'position' => 'required',
             'UserName' => 'required',
-            'Password' => 'required|confirmed',
+            'password' => 'required|confirmed',
             'email' => 'required|email',
             'number' => 'required',
 
 
         ]);
-        // $employee = new employee();
-        // $employee->CDE = request('cde');
-        // $employee->Name = request('name');
-        // $employee->Position = request('position');
-        // $employee->UserName = request('UserName');
+        /**
+         * Crea un nuevo empleado
+         */
+        $employee = new User();
+        $employee->cde = request('cde');
+        $employee->name = request('name');
+        $employee->position = request('position');
+        $employee->username = request('UserName');
 
-        // if (request('Password') == "") {
-        //     $employee->Password = null;
-        // } else {
-        //     $employee->Password = request('Password');
-        // }
+        if (request('password') == "") {
+            $employee->password = Hash::make('!ntouch24-7@');
+        } else {
+            $employee->Password = Hash::make(request('password'));
+        }
 
-        // $employee->Email = request('email');
-        // $employee->ContactInfo = request('number');
-        // $employee->Status = 'Active';
-        // #$employee->Admin = true;
+        $employee->email = request('email');
+        $employee->ContactInfo = request('number');
+        $employee->status = 'Active';
+        $employee->privilege = request('SelectPrivileges');
+        
+        #Guarda el empleado
+        $employee->save();
 
-        // $employee->setPassword(request('Password'));
-        // $employee->IdPrivilege = request('SelectPrivileges');
-
-        // $employee->save();
-
-        #auth()->login($employee);
+       
         return back();
         // return User::create([
         //     'name' => $data['name'],
