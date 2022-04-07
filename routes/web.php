@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RegisterEmployeeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+#Ruta que muestra la pagina para registrar un empleado
+Route::get('/home/register-employee', [RegisterEmployeeController::class, 'index'])->name('register-employee.index');
 
 Auth::routes();
 
