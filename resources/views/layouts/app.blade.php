@@ -104,6 +104,7 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a href="{{ url('/home') }}" class="dropdown-item">Home</a>
                                 @if (Auth::user()->privilege == 10001)
                                 <a class="dropdown-item" href="{{ route('register-employee.index') }}" onclick="">
                                     {{ __('Register Employee') }}
