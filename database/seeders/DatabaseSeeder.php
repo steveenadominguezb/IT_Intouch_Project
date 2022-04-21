@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             ProgramsTableSeeder::class,
             ComponentsTableSeeder::class,
             ComputersTableSeeder::class,
+            MonitorsTableSeeder::class,
         ]);
     }
 }

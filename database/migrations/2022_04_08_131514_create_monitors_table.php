@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('SerialNumber');
             $table->string('Model');
             $table->string('Brand');
+            $table->string('Status')->default('InStorage');
             $table->timestamps();
 
             $table->primary('SerialNumber');
