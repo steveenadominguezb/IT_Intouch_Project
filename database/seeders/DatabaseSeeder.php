@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             LocationTableSeeder::class,
             ProgramsTableSeeder::class,
+            ComponentsTableSeeder::class,
         ]);
     }
 }
