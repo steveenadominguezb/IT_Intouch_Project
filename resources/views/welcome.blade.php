@@ -36,8 +36,8 @@
                 </div>
             @endif
 
-            <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <img src="https://es.investinbogota.org/sites/default/files/inline-images/Banners%20Pa%CC%81gina%20web-05_1.png" alt="">
+            <div class="mx auto">
+                <img src="{{ asset('img/contact_centers.jpg') }}" alt="img">
             </div>
         </div>
     </body>

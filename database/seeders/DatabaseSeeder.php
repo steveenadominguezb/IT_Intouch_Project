@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             PrivilegesTableSeeder::class,
             UsersTableSeeder::class,
             LocationTableSeeder::class,
+            ProgramsTableSeeder::class,
         ]);
     }
 }
