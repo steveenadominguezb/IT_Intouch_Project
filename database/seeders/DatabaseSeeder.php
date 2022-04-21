@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             LocationTableSeeder::class,
             ProgramsTableSeeder::class,
             ComponentsTableSeeder::class,
+            ComputersTableSeeder::class,
         ]);
     }
 }

@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('computers', function (Blueprint $table) {
             $table->string('SerialNumber')->unique();
             $table->string('HostName')->unique();
-            $table->boolean('Laptop');
+            $table->boolean('Laptop')->default(false);
             $table->string('Model');
             $table->string('OS');
             $table->string('Brand');
-            $table->string('Status');
+            $table->string('Status')->default('InStorage');
             $table->timestamps();
 
             $table->primary('SerialNumber');
