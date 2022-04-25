@@ -33,6 +33,7 @@ class ProgramsTableSeeder extends Seeder
         $program4 = new Program();
         $program4->IdProgram = 104;
         $program4->Name = "Airbnb";
+        $program4->img = "airbnb.png";
         $program4->save();
 
         $program5 = new Program();
@@ -49,6 +50,7 @@ class ProgramsTableSeeder extends Seeder
         $program7 = new Program();
         $program7->IdProgram = 107;
         $program7->Name = "Walmart Spark";
+        $program7->img = "spark.png";
         $program7->save();
 
         $program8 = new Program();

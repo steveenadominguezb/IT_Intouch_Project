@@ -22,7 +22,19 @@
                     </div>
                     @endif
 
-                    <div class="card h-5 d-inline-block" style="width: 18rem;">
+                    @foreach ($waves as $wave)
+                    
+
+                    <div class="card d-inline-block" style="width: 18rem;">
+                        <img src="img/{{$wave->programs->img}}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                        
+                            <p class="card-text fw-bold">{{$wave->programs->Name}}</p>
+                            <p class="card-text fw-bold">{{ $wave->Name}}</p>
+                        </div>
+                    </div>
+                    @endforeach
+                    <!-- <div class="card h-5 d-inline-block" style="width: 18rem;">
                         <img src="{{ asset('img/booking.png') }}" class="card-img-top" alt="...">
                         <div class="card-body">
                             <p class="card-text fw-bold">Booking CSG Spa Wave 29</p>
@@ -33,7 +45,7 @@
                         <div class="card-body">
                             <p class="card-text fw-bold">Spark Delivery Wave 47B</p>
                         </div>
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
