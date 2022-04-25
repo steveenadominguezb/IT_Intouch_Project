@@ -38,6 +38,7 @@ class ProgramsTableSeeder extends Seeder
         $program5 = new Program();
         $program5->IdProgram = 105;
         $program5->Name = "Booking";
+        $program5->img = "booking.png";
         $program5->save();
 
         $program6 = new Program();

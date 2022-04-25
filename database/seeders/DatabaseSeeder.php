@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             ComponentsTableSeeder::class,
             ComputersTableSeeder::class,
             MonitorsTableSeeder::class,
+            WavesTableSeeder::class,
         ]);
     }
 }

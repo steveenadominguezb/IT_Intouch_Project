@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('programs', function (Blueprint $table) {
             $table->unsignedBigInteger('IdProgram');
             $table->string('Name');
+            $table->string('img')->nullable();
             $table->timestamps();
 
             $table->primary('IdProgram');

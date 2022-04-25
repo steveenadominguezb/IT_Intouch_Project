@@ -36,7 +36,7 @@
                 </div>
             @endif
 
-            <div class="mx auto">
+            <div class="mx auo">
                 <img src="{{ asset('img/contact_centers.jpg') }}" alt="img">
             </div>
         </div>
