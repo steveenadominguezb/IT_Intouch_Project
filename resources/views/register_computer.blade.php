@@ -79,6 +79,7 @@
                         </div>
                         <button type="submit" class="but-register btn btn-success d-block fw-bold">Submit</button>
                     </form>
+                    
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ComputerController;
 use App\Http\Controllers\RegisterEmployeeController;
+use App\Http\Controllers\WaveController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,8 @@ Route::get('/', function () {
 });
 #Ruta pagina principal
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+#Ruta post para insertar una nueva wave
+Route::post('/home/insert-wave', [WaveController::class, 'store'])->name('wave.store');
 
 #Ruta que muestra la pagina para registrar un empleado
 Route::get('/home/register-employee', [RegisterEmployeeController::class, 'index'])->name('register-employee.index');
