@@ -25,30 +25,24 @@
                     @endif
 
                     @foreach ($waves as $wave)
-
-
-                    <div class="card d-inline-block me-5 mb-3" style="width: 15rem;">
-                        <img src="img/{{$wave->programs->img}}" class="card-img-top" alt="...">
-                        <div class="card-body">
-
-                            <p class="card-text fw-bold">{{$wave->programs->Name}}</p>
-                            <p class="card-text fw-bold">{{ $wave->Name}}</p>
+                    <div class="sizes">
+                        <div class="card ">
+                            <div class=" card-image waves-effect waves-block waves-light small">
+                                <img class="activator" style="height: fit-content;" src="img/{{$wave->programs->img}}" alt="program image">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4">{{$wave->programs->Name}}<i class="material-icons right">more_vert</i></span>
+                                <p class="card-text fw-bold">{{ $wave->Name}}</p>
+                                <p><a href="#">This is a link</a></p>
+                            </div>
+                            <div class="card-reveal">
+                                <span class="card-title grey-text text-darken-4">{{ $wave->Name}}<i class="material-icons right">close</i></span>
+                                <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            </div>
                         </div>
                     </div>
+
                     @endforeach
-                    
-                    <!-- <div class="card h-5 d-inline-block" style="width: 18rem;">
-                        <img src="{{ asset('img/booking.png') }}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text fw-bold">Booking CSG Spa Wave 29</p>
-                        </div>
-                    </div>
-                    <div class="card d-inline-block" style="width: 18rem;">
-                        <img src="{{ asset('img/spark.png') }}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <p class="card-text fw-bold">Spark Delivery Wave 47B</p>
-                        </div>
-                    </div> -->
 
                 </div>
             </div>

@@ -20,6 +20,12 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link type="text/css" rel="stylesheet" href="{{ asset('css/materialize.min.css')}}" media="screen,projection" />
+
+
     <!-- CSS only -->
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"> -->
 
@@ -60,6 +66,11 @@
         }
 
         .login {
+            margin-right: 20px;
+        }
+        .sizes{
+            width: 23%;
+            display: inline-block;
             margin-right: 20px;
         }
     </style>
@@ -134,6 +145,7 @@
             @yield('content')
         </main>
     </div>
+    <script type="text/javascript" src="{{ asset('js/materialize.min.js') }}"></script>
 </body>
 
 </html>
