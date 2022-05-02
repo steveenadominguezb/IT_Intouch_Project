@@ -30,10 +30,10 @@
                             <div class=" card-image waves-effect waves-block waves-light small">
                                 <img class="activator" style="height: fit-content;" src="img/{{$wave->programs->img}}" alt="program image">
                             </div>
-                            <div class="card-content">
-                                <span class="card-title activator grey-text text-darken-4">{{$wave->programs->Name}}<i class="material-icons right">more_vert</i></span>
+                            <div class="card-content border">
+                                <span class="card-title activator grey-text text-darken-4 fw-bold">{{$wave->programs->Name}}<i class="material-icons right">more_vert</i></span>
                                 <p class="card-text fw-bold">{{ $wave->Name}}</p>
-                                <p><a href="#">This is a link</a></p>
+                                <p>{{ $wave->StartDate }}</p>
                             </div>
                             <div class="card-reveal">
                                 <span class="card-title grey-text text-darken-4">{{ $wave->Name}}<i class="material-icons right">close</i></span>

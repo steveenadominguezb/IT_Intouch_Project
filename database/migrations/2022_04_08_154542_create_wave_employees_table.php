@@ -22,7 +22,7 @@ return new class extends Migration
 
             $table->bigInteger('IdWave');
             $table->string('cde');
-            $table->string('SerialNumberKey');
+            $table->string('SerialNumberKey')->nullable();
             $table->string('SerialNumberComputer');
             $table->unsignedBigInteger('IdLocation');
             

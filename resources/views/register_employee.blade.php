@@ -93,7 +93,7 @@
                                 <select class="form-select" name="SelectPrivileges" aria-label="Privileges" style="height: 6%;">
                                     <!-- <option selected>None</option> -->
                                     <option value="10001">Admin</option>
-                                    <option value="20001">None</option>
+                                    <option value="40001">Agent</option>
                                     <option value="30001">IT</option>
                                 </select>
                             </div>

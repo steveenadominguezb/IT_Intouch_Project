@@ -17,17 +17,22 @@ class PrivilegesTableSeeder extends Seeder
     {
         $privilege1 = new Privilege();
         $privilege1->id = 10001;
-        $privilege1->description = "Admin Privilege";
+        $privilege1->description = "Admin Privileges";
         $privilege1->save();
         
         $privilege2 = new privilege;
         $privilege2->id = 20001;
-        $privilege2->description = "None Privilege";
+        $privilege2->description = "None Privileges";
         $privilege2->save();
 
         $privilege3 = new privilege;
         $privilege3->id = 30001;
-        $privilege3->description = "IT Privilege";
+        $privilege3->description = "IT Privileges";
         $privilege3->save();
+
+        $privilege4 = new privilege;
+        $privilege4->id = 40001;
+        $privilege4->description = "Agent Privileges";
+        $privilege4->save();
     }
 }
