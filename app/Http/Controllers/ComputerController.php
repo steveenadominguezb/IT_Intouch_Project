@@ -63,7 +63,7 @@ class ComputerController extends Controller
         $computer->Model = request('model');
         $computer->OS = request('os');
         $computer->Brand = request('brand');
-        $computer->Status = request('status');
+        $computer->Status = 'InStorage';
 
         #Guarda el computer
         $computer->save();

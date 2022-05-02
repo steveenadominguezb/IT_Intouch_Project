@@ -42,6 +42,7 @@
             margin-left: 10%;
             width: 35%;
             display: inline-block;
+            justify-items: center;
         }
 
         .but-register {

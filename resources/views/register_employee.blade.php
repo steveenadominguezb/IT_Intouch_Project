@@ -11,9 +11,9 @@
                     <form class="" method="POST" action="">
                         @csrf
                         <div class="box1">
-                            <div class="mb-3 ">
-                                <label for="exampleInputEmail1" class="form-label fw-bold">Code</label>
-                                <input type="text" name="cde" class="form-control" id="code" aria-describedby="emailHelp">
+                            <div class="form-floating mb-3 ">
+                                <input type="text" class="form-control" name="cde" placeholder="code" id="code">
+                                <label for="floatingInput" class="fw-bold">Code</label>
                             </div>
                             @error('cde')
                             <p class="alert alert-danger w-100" role="alert">
@@ -21,9 +21,9 @@
                             </p>
 
                             @enderror
-                            <div class="mb-3 ">
-                                <label for="exampleInputEmail1" class="form-label fw-bold">FullName</label>
-                                <input type="text" name="name" class="form-control" id="fullname" aria-describedby="emailHelp">
+                            <div class="form-floating mb-3 ">
+                                <input type="text" name="name" class="form-control" placeholder="fullname" id="fullname" >
+                                <label for="floatingInput" class="fw-bold">FullName</label>
                             </div>
                             @error('name')
                             <p class="alert alert-danger w-100" role="alert">
@@ -31,9 +31,9 @@
                             </p>
 
                             @enderror
-                            <div class="mb-3 ">
-                                <label for="exampleInputEmail1" class="form-label fw-bold">Position</label>
-                                <input type="text" name="position" class="form-control" id="position" aria-describedby="emailHelp">
+                            <div class="form-floating mb-3 ">
+                                <input type="text" name="position" class="form-control" placeholder="position" id="position" >
+                                <label for="floatingInput" class="fw-bold">Position</label>
                             </div>
                             @error('position')
                             <p class="alert alert-danger w-100" role="alert">
@@ -41,9 +41,9 @@
                             </p>
 
                             @enderror
-                            <div class="mb-3 ">
-                                <label for="exampleInputEmail1" class="form-label fw-bold">Email</label>
-                                <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp">
+                            <div class="form-floating mb-3 ">
+                                <input type="email" name="email" class="form-control" placeholder="email" id="email" >
+                                <label for="floatingInput" class=" fw-bold">Email</label>
                             </div>
                             @error('email')
                             <p class="alert alert-danger w-100" role="alert">
@@ -51,9 +51,9 @@
                             </p>
 
                             @enderror
-                            <div class="mb-3 ">
-                                <label for="exampleInputEmail1" class="form-label fw-bold">Contact Number</label>
-                                <input type="number" name="number" class="form-control" id="number" aria-describedby="emailHelp">
+                            <div class="form-floating mb-3 ">
+                                <input type="number" name="number" class="form-control" placeholder="number" id="number" >
+                                <label for="floatingInput" class=" fw-bold">Contact Number</label>
                             </div>
                             @error('number')
                             <p class="alert alert-danger w-100" role="alert">
@@ -64,9 +64,9 @@
                         </div>
 
                         <div class="box2">
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label fw-bold">Username</label>
-                                <input type="text" name="UserName" class="form-control" id="UserName" aria-describedby="emailHelp">
+                            <div class="form-floating mb-3">
+                                <input type="text" name="UserName" class="form-control" placeholder="UserName" id="UserName" >
+                                <label for="floatingInput" class=" fw-bold">Username</label>
                             </div>
                             @error('UserName')
                             <p class="alert alert-danger w-100" role="alert">
@@ -74,9 +74,9 @@
                             </p>
 
                             @enderror
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label fw-bold">Password</label>
-                                <input type="password" name="password" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <div class="form-floating mb-3">
+                                <input type="password" name="password" class="form-control" placeholder="password" id="password" >
+                                <label for="floatingInput" class=" fw-bold">Password</label>
                             </div>
                             @error('Password')
                             <p class="alert alert-danger w-100" role="alert">
@@ -84,13 +84,13 @@
                             </p>
 
                             @enderror
-                            <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label fw-bold">Confirm Password</label>
-                                <input type="password" name="password_confirmation" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            <div class="form-floating mb-3">
+                                <input type="password" name="password_confirmation" class="form-control" placeholder="confirmpassword" id="confirmpassword" >
+                                <label for="floatingInput" class=" fw-bold">Confirm Password</label>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Privileges</label>
-                                <select class="form-select" name="SelectPrivileges" aria-label="Privileges">
+                                <select class="form-select" name="SelectPrivileges" aria-label="Privileges" style="height: 6%;">
                                     <!-- <option selected>None</option> -->
                                     <option value="10001">Admin</option>
                                     <option value="20001">None</option>

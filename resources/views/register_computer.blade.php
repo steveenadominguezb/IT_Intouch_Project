@@ -10,76 +10,69 @@
                 <div class="card-body">
                     <form class="" method="POST" action="">
                         @csrf
-                        <div class="box1">
-                            <div class="mb-3 ">
-                                <label class="form-label fw-bold">SerialNumber</label>
-                                <input type="text" name="serial" class="form-control" id="serial">
-                            </div>
-                            @error('serial')
-                            <p class="alert alert-danger w-100" role="alert">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                            <div class="mb-3 ">
-                                <label class="form-label fw-bold">HostName</label>
-                                <input type="text" name="host" class="form-control" id="host">
-                            </div>
-                            @error('host')
-                            <p class="alert alert-danger w-100" role="alert">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                            <div class="mb-3 ">
-                                <label class="form-label fw-bold w-100 text-cente">OS</label>
-                                <input type="text" name="os" class="form-control" id="os">
-                            </div>
-                            @error('os')
-                            <p class="alert alert-danger w-100" role="alert">
-                                {{ $message }}
-                            </p>
-                            @enderror
+                        <div>
+                            <div class="box1">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" name="serial" placeholder="nameWave" id="serial">
+                                    <label class="fw-bold" for="floatingInput">SerialNumber</label>
+                                </div>
+                                @error('serial')
+                                <p class="alert alert-danger w-100" role="alert">
+                                    {{ $message }}
+                                </p>
+                                @enderror
+                                <div class="form-floating mb-3 ">
+                                    <input type="text" class="form-control" name="host" placeholder="host" id="host">
+                                    <label class="fw-bold" for="floatingInput">HostName</label>
+                                </div>
+                                @error('host')
+                                <p class="alert alert-danger w-100" role="alert">
+                                    {{ $message }}
+                                </p>
+                                @enderror
+                                <div class="form-floating mb-3 ">
+                                    <input type="text" class="form-control" name="os" placeholder="os" id="os">
+                                    <label class="fw-bold" for="floatingInput">OS</label>
+                                </div>
+                                @error('os')
+                                <p class="alert alert-danger w-100" role="alert">
+                                    {{ $message }}
+                                </p>
+                                @enderror
 
+                            </div>
+
+                            <div class="box2">
+                                <div class="form-check">
+                                    <label>
+                                        <input type="checkbox" name="laptop" />
+                                        <span class="fw-bold">Is a Laptop</span>
+                                    </label>
+                                </div>
+                                <div class="form-floating mb-3 ">
+                                    <input type="text" class="form-control" name="brand" placeholder="brand" id="brand">
+                                    <label class="fw-bold" for="floatingInput">Brand</label>
+                                </div>
+                                @error('brand')
+                                <p class="alert alert-danger w-100" role="alert">
+                                    {{ $message }}
+                                </p>
+                                @enderror
+                                <div class="form-floating mb-3 ">
+                                    <input type="text" class="form-control" name="model" placeholder="model" id="model">
+                                    <label class="fw-bold" for="floatingInput">Model</label>
+                                </div>
+                                @error('model')
+                                <p class="alert alert-danger w-100" role="alert">
+                                    {{ $message }}
+                                </p>
+                                @enderror
+                            </div>
                         </div>
 
-                        <div class="box2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="laptop" value="true">
-                                <label class="form-check-label fw-bold" for="flexCheckChecked">
-                                    Is a Laptop
-                                </label>
-                            </div>
-                            <br>
-                            <div class="mb-3 ">
-                                <label class="form-label fw-bold">Brand</label>
-                                <input type="text" name="brand" class="form-control" id="brand">
-                            </div>
-                            @error('brand')
-                            <p class="alert alert-danger w-100" role="alert">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                            <div class="mb-3 ">
-                                <label class="form-label fw-bold">Model</label>
-                                <input type="text" name="model" class="form-control" id="model">
-                            </div>
-                            @error('model')
-                            <p class="alert alert-danger w-100" role="alert">
-                                {{ $message }}
-                            </p>
-                            @enderror
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Status</label>
-                                <select class="form-select" name="status">
-                                    <!-- <option selected>None</option> -->
-                                    <option value="InStorage">Storage</option>
-                                    <option value="Taken">Taken</option>
-                                    <option value="Damaged">Damaged</option>
-                                </select>
-                            </div>
-                        </div>
                         <button type="submit" class="but-register btn btn-success d-block fw-bold">Submit</button>
                     </form>
-                    
+
                 </div>
             </div>
         </div>
