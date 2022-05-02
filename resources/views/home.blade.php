@@ -6,7 +6,7 @@
         <div class="col-md-13">
             <div class="card">
                 <div class="card-header">
-                    <div class="d-inline-block" style="width: 50%;">
+                    <div class="d-inline-block fw-bold" style="width: 50%;">
                         {{ __('Dashboard') }}
                     </div>
                     <div class="d-inline-block text-end" style="width: 49%;">
@@ -35,9 +35,20 @@
                                 <p class="card-text fw-bold">{{ $wave->Name}}</p>
                                 <p>{{ $wave->StartDate }}</p>
                             </div>
-                            <div class="card-reveal">
-                                <span class="card-title grey-text text-darken-4">{{ $wave->Name}}<i class="material-icons right">close</i></span>
-                                <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                            <div class="card-reveal" >
+                                <div style="position: relative;">
+                                    <div style="height: 48%;">
+                                        <span class="card-title grey-text text-darken-4">{{ $wave->Name}}<i class="material-icons right">close</i></span>
+                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+
+                                    </div>
+                                    <div style="position: fixed; bottom: 0; margin-bottom: 10%;">
+                                        <a href="{{ url('/home/wave/' . $wave->IdWave) }}" class="waves-effect waves-light btn-small" ><i class="material-icons right">edit</i>edit</a>
+                                        <!-- <a href="#" class="waves-effect waves-light btn-small" ><i class="material-icons right">delete</i>delete</a> -->
+                                    </div>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
@@ -51,7 +62,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -93,7 +104,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal">Close</button>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>

@@ -35,6 +35,8 @@ Route::get('/home/register-computer', [ComputerController::class, 'index'])->nam
 #Ruta que valida la información y registra un computador
 Route::post('/home/register-computer', [ComputerController::class, 'create'])->name('register-computer.create');
 
+#Ruta que muestra la pagina de edición de la wave
+Route::get('/home/wave/{IdWave}', [WaveController::class, 'create'])->name('wave.create');
 #Rutas para el login
 Auth::routes();
 

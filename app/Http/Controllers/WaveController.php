@@ -34,4 +34,12 @@ class WaveController extends Controller
 
         return back();
     }
+
+    public function create($IdWave){
+        $wave = Wave::where('IdWave', $IdWave)->first();
+        if($wave){
+            return view('wave', compact('wave'));
+        }
+       return "wave doesn't exist";
+    }
 }

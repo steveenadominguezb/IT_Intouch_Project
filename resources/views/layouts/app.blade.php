@@ -111,12 +111,12 @@
                         @endif -->
                         @else
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle text-light fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                            <a id="navbarDropdown" class="h-75 nav-link dropdown-toggle text-light fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
                             </a>
 
                             <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a href="{{ url('/home') }}" class="dropdown-item">Home</a>
+                                <a href="{{ url('/home') }}" class="dropdown-item" style="">Home</a>
                                 @if (Auth::user()->privilege == 10001)
                                 <a class="dropdown-item" href="{{ route('register-employee.index') }}" onclick="">
                                     {{ __('Register Employee') }}
