@@ -37,6 +37,10 @@ Route::post('/home/register-computer', [ComputerController::class, 'create'])->n
 
 #Ruta que muestra la pagina de edición de la wave
 Route::get('/home/wave/{IdWave}', [WaveController::class, 'create'])->name('wave.create');
+
+Route::get('/home/wave/{IdWave}/computers', [WaveController::class, 'showComputers'])->name('wave.show.computers');
+Route::get('/home/wave/{IdWave}/users', [WaveController::class, 'showUsers'])->name('wave.show.users');
+
 #Rutas para el login
 Auth::routes();
 

@@ -11,13 +11,13 @@
                     </div>
                 </div>
 
-                <div class="card-body" style="height: 100%;">
+                <div class="card-body" style="height: max-content">
                     @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session('status') }}
                     </div>
                     @endif
-                    <div style="margin-left: 5%;">
+                    <div style="margin-left: 5%; width: 100%; height: max-content">
                         <div style="width: 35%; float: left; margin-right: 15%;">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" style="margin-left: 10px;" name="floatingName" placeholder="nameWave" value="{{ $wave->Name}}" required>
@@ -33,16 +33,17 @@
                             </div>
                         </div>
                         <div style="width: 50%; float: left; margin-top: 10%;">
-                            <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal">Assign Computers</button>
-                            <button type="button" class="btn btn-primary">Assign Users</button>
+                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/computers') }}"  class="waves-effect waves-light btn">Assign Computers</a>
+                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/users') }}"  class="waves-effect waves-light btn">Assign Users</a>
 
                         </div>
                     </div>
-
-
                 </div>
             </div>
         </div>
     </div>
+</div>
+<div>
+    @yield('assign')
 </div>
 @endsection

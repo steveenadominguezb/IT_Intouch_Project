@@ -62,11 +62,11 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" style="width:30%; height: 60%;" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Wave</h5>
+                <h5 class="modal-title" id="exampleModalLabel">New Wave</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="{{ route('wave.store') }}" method="POST">
@@ -81,7 +81,7 @@
                             <option value="103">Optavia</option>
                             <option value="104">Airbnb</option>
                             <option value="105">Booking</option>
-                            <option value="106">L'oreal</option>
+                            <option value="106">L'Oreal</option>
                             <option value="107">Walmart Spark</option>
                             <option value="108">Vroom</option>
                             <option value="109">Weber</option>
@@ -91,15 +91,15 @@
                         <label for="floatingSelect">Select Program</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" name="floatingName" placeholder="nameWave" required>
+                        <input type="text" class="form-control fw-bold" style="padding-left: 5px;" name="floatingName" placeholder="nameWave" required>
                         <label for="floatingInput">Name Wave</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" name="floatingDate" placeholder="yyyy-mm-dd" value="yyyy-mm-dd" required>
+                        <input type="date" class="form-control" style="padding-left: 5px;" name="floatingDate" placeholder="yyyy-mm-dd" value="yyyy-mm-dd" required>
                         <label for="floatingInputGrid">Start Date</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" name="floatingInspector" placeholder="Itops Inspector" required>
+                        <input type="text" class="form-control" style="padding-left: 5px;" name="floatingInspector" placeholder="Itops Inspector" required>
                         <label for="floatingInput">Itops Inspector</label>
                     </div>
                 </div>

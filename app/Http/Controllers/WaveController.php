@@ -42,4 +42,20 @@ class WaveController extends Controller
         }
        return "wave doesn't exist";
     }
+
+    public function showComputers($IdWave){
+        $wave = Wave::where('IdWave', $IdWave)->first();
+        if($wave){
+            return view('assign_computers', compact('wave'));
+        }
+       return "wave doesn't exist";
+    }
+
+    public function showUsers($IdWave){
+        $wave = Wave::where('IdWave', $IdWave)->first();
+        if($wave){
+            return view('assign_users', compact('wave'));
+        }
+       return "wave doesn't exist";
+    }
 }
