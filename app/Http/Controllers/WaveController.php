@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Computer;
+use App\Models\User;
 use App\Models\Wave;
 use Illuminate\Http\Request;
 
@@ -44,17 +46,19 @@ class WaveController extends Controller
     }
 
     public function showComputers($IdWave){
+        $computers = Computer::all();
         $wave = Wave::where('IdWave', $IdWave)->first();
         if($wave){
-            return view('assign_computers', compact('wave'));
+            return view('assign_computers', compact('wave', 'computers'));
         }
        return "wave doesn't exist";
     }
 
     public function showUsers($IdWave){
+        $users = User::all();
         $wave = Wave::where('IdWave', $IdWave)->first();
         if($wave){
-            return view('assign_users', compact('wave'));
+            return view('assign_users', compact('wave','users'));
         }
        return "wave doesn't exist";
     }
