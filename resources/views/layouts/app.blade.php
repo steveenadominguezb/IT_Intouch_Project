@@ -70,7 +70,7 @@
             margin-right: 20px;
         }
         .sizes{
-            width: 23%;
+            width: 30%;
             display: inline-block;
             margin-right: 20px;
         }
