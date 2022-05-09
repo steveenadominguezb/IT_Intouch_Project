@@ -24,8 +24,27 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $waves = Wave::all();
+        $today = strtotime('today');
+        $today = date("Y-m-d", $today);
 
-        return view('home' , compact("waves"));
+        $previous_week = strtotime("-1 week +1 day");
+
+        $start_week = strtotime("last sunday midnight", $previous_week);
+        $end_week = strtotime("next saturday", $start_week);
+
+        $start_week = date("Y-m-d", $start_week);
+        $end_week = date("Y-m-d", $end_week);
+
+
+        $waves = Wave::where('StartDate','>',$today)->get();
+        $waves_last_week = Wave::where('StartDate','>',$start_week)->where('StartDate', '<', $end_week)->get();
+        $text = request('text');
+
+        $search_wave = Wave::where('Name', 'LIKE', '%' . $text .'%')->get();
+        if($search_wave->isEmpty()){
+            $search_wave = Wave::where('StartDate', 'LIKE', '%' . $text .'%')->get();
+        }
+
+        return view('home', compact("waves" , "waves_last_week" , "search_wave"));
     }
 }

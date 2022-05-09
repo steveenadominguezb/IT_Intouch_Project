@@ -6,7 +6,7 @@
         <div class="col-md-13">
             <div class="card">
                 <div class="card-header">
-                    <div class="d-inline-block fw-bold" style="width: 50%;">
+                    <div class="d-inline-block fw-bold" style="width: 49%;">
                         {{ __('Dashboard') }}
                     </div>
                     <div class="d-inline-block text-end" style="width: 49%;">
@@ -43,7 +43,111 @@
 
                                     </div>
                                     <div style="position: fixed; bottom: 0; margin-bottom: 10%;">
-                                        <a href="{{ url('/home/wave/' . $wave->IdWave) }}" class="waves-effect waves-light btn-small" ><i class="material-icons right">edit</i>edit</a>
+                                        <a href="{{ url('/home/wave/' . $wave->IdWave) }}" class="waves-effect waves-light btn-small"><i class="material-icons right">edit</i>edit</a>
+                                        <!-- <a href="#" class="waves-effect waves-light btn-small" ><i class="material-icons right">delete</i>delete</a> -->
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    @endforeach
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-inline-block fw-bold" style="width: 30%;">
+                        {{ __('Last Week') }}
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                    @endif
+
+                    @foreach ($waves_last_week as $wave)
+                    <div class="sizes">
+                        <div class="card " style="height: 320px;">
+                            <div class=" card-image waves-effect waves-block waves-light small">
+                                <img class="activator" style="height: fit-content;" src="img/{{$wave->programs->img}}" alt="program image">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4 fw-bold" style="font-size: 15px;">{{$wave->programs->Name}}<i class="material-icons right">more_vert</i></span>
+                                <p class="card-text fw-bold">{{ $wave->Name}}</p>
+                                <p>{{ $wave->StartDate }}</p>
+                            </div>
+                            <div class="card-reveal">
+                                <div style="position: relative;">
+                                    <div style="height: 48%;">
+                                        <span class="card-title grey-text text-darken-4 fw-bold" style="font-size: 15px;">{{ $wave->Name}}<i class="material-icons right">close</i></span>
+                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+
+                                    </div>
+                                    <div style="position: fixed; bottom: 0; margin-bottom: 10%;">
+                                        <a href="{{ url('/home/wave/' . $wave->IdWave) }}" class="waves-effect waves-light btn-small"><i class="material-icons right">edit</i>edit</a>
+                                        <!-- <a href="#" class="waves-effect waves-light btn-small" ><i class="material-icons right">delete</i>delete</a> -->
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                    @endforeach
+
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-inline-block fw-bold" style="width: 30%;">
+                        {{ __('Search Wave') }}
+                    </div>
+                    <div style="text-align: center; display: inline-block; width: 60%;">
+                        <form action="">
+                            <div style="width: 60%; display: inline-block;margin-right: 20px;">
+                                <input type="text" name="text">
+                            </div>
+                            <div class="" style="display: inline-block;">
+                                <button type="submit" class="btn btn-primary small">Search</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                    @endif
+
+                    @foreach ($search_wave as $wave)
+                    <div class="sizes">
+                        <div class="card " style="height: 320px;">
+                            <div class=" card-image waves-effect waves-block waves-light small">
+                                <img class="activator" style="height: fit-content;" src="img/{{$wave->programs->img}}" alt="program image">
+                            </div>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4 fw-bold" style="font-size: 15px;">{{$wave->programs->Name}}<i class="material-icons right">more_vert</i></span>
+                                <p class="card-text fw-bold">{{ $wave->Name}}</p>
+                                <p>{{ $wave->StartDate }}</p>
+                            </div>
+                            <div class="card-reveal">
+                                <div style="position: relative;">
+                                    <div style="height: 48%;">
+                                        <span class="card-title grey-text text-darken-4 fw-bold" style="font-size: 15px;">{{ $wave->Name}}<i class="material-icons right">close</i></span>
+                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+
+                                    </div>
+                                    <div style="position: fixed; bottom: 0; margin-bottom: 10%;">
+                                        <a href="{{ url('/home/wave/' . $wave->IdWave) }}" class="waves-effect waves-light btn-small"><i class="material-icons right">edit</i>edit</a>
                                         <!-- <a href="#" class="waves-effect waves-light btn-small" ><i class="material-icons right">delete</i>delete</a> -->
                                     </div>
                                 </div>
@@ -91,8 +195,8 @@
                         <label for="floatingSelect">Select Program</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control fw-bold" style="padding-left: 5px;" name="floatingName" placeholder="nameWave" required>
-                        <label for="floatingInput">Name Wave</label>
+                        <input type="text" class="form-control" style="padding-left: 5px;" name="floatingName" placeholder="nameWave" required>
+                        <label for="floatingInput" class="fw-bold">Name Wave</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input type="date" class="form-control" style="padding-left: 5px;" name="floatingDate" placeholder="yyyy-mm-dd" value="yyyy-mm-dd" required>
