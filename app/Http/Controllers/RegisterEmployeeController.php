@@ -48,7 +48,7 @@ class RegisterEmployeeController extends Controller
             'name' => 'required',
             'position' => 'required',
             'UserName' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'confirmed',
             'email' => 'required|email',
             'number' => 'required',
 

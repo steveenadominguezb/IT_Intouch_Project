@@ -64,8 +64,17 @@ class WaveController extends Controller
     }
 
     public function showUsers($IdWave){
-        $users = User::all();
+        
         $wave = Wave::where('IdWave', $IdWave)->first();
+        $text = trim(request('text'));
+        if($text != null){
+            $users = User::where('cde','LIKE', '%' . $text . '%')->where('Position','Agent')->get();
+            if($users->isEmpty()){
+                $users = User::where('name','LIKE', '%' . $text . '%')->where('Position','Agent')->get();
+            }
+            return view('assign_users', compact('wave','users'));
+        }
+        $users = User::where('Position','Agent')->get();
         if($wave){
             return view('assign_users', compact('wave','users'));
         }

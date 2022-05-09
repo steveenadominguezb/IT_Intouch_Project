@@ -78,7 +78,7 @@
                                 <input type="password" name="password" class="form-control" placeholder="password" id="password" >
                                 <label for="floatingInput" class=" fw-bold">Password</label>
                             </div>
-                            @error('Password')
+                            @error('password')
                             <p class="alert alert-danger w-100" role="alert">
                                 {{ $message }}
                             </p>
