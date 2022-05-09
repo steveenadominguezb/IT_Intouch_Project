@@ -26,19 +26,19 @@
 
                     @foreach ($waves as $wave)
                     <div class="sizes">
-                        <div class="card ">
+                        <div class="card " style="height: 320px;">
                             <div class=" card-image waves-effect waves-block waves-light small">
                                 <img class="activator" style="height: fit-content;" src="img/{{$wave->programs->img}}" alt="program image">
                             </div>
-                            <div class="card-content border">
-                                <span class="card-title activator grey-text text-darken-4 fw-bold">{{$wave->programs->Name}}<i class="material-icons right">more_vert</i></span>
+                            <div class="card-content">
+                                <span class="card-title activator grey-text text-darken-4 fw-bold" style="font-size: 15px;">{{$wave->programs->Name}}<i class="material-icons right">more_vert</i></span>
                                 <p class="card-text fw-bold">{{ $wave->Name}}</p>
                                 <p>{{ $wave->StartDate }}</p>
                             </div>
-                            <div class="card-reveal" >
+                            <div class="card-reveal">
                                 <div style="position: relative;">
                                     <div style="height: 48%;">
-                                        <span class="card-title grey-text text-darken-4">{{ $wave->Name}}<i class="material-icons right">close</i></span>
+                                        <span class="card-title grey-text text-darken-4 fw-bold" style="font-size: 15px;">{{ $wave->Name}}<i class="material-icons right">close</i></span>
                                         <p>Here is some more information about this product that is only revealed once clicked on.</p>
 
                                     </div>

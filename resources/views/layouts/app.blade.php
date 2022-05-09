@@ -70,9 +70,10 @@
             margin-right: 20px;
         }
         .sizes{
-            width: 30%;
+            width: 16%;
             display: inline-block;
             margin-right: 20px;
+            font-size: 10px;
         }
     </style>
 </head>

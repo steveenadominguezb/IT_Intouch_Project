@@ -46,8 +46,17 @@ class WaveController extends Controller
     }
 
     public function showComputers($IdWave){
-        $computers = Computer::all();
         $wave = Wave::where('IdWave', $IdWave)->first();
+        $text = trim(request('text'));
+        if($text != null){
+            $computers = Computer::where('SerialNumber','LIKE', '%' . $text . '%')->where('Status','InStorage')->get();
+            if($computers->isEmpty()){
+                $computers = Computer::where('HostName','LIKE', '%' . $text . '%')->where('Status','InStorage')->get();
+            }
+            return view('assign_computers', compact('wave', 'computers'));
+        }
+
+        $computers = Computer::where('Status','InStorage')->get();
         if($wave){
             return view('assign_computers', compact('wave', 'computers'));
         }
