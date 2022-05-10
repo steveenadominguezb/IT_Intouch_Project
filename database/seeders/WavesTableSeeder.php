@@ -40,8 +40,8 @@ class WavesTableSeeder extends Seeder
         $wave5->save();
 
         $wave3 = new Wave();
-        $wave3->Name = "Airbnb Wave 44";
-        $wave3->StartDate = "2022-04-22";
+        $wave3->Name = "Airbnb Wave 43";
+        $wave3->StartDate = "2022-04-21";
         $wave3->ItopsInspector = "SD";
         $wave3->Return = false;
         $wave3->IdProgram = 104;
