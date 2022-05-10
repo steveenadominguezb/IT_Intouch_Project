@@ -121,7 +121,7 @@
                     </div>
                 </div>
 
-                <div class="card-body">
+                <div class="card-body" style="height: 700px; overflow: scroll;">
                     @if (session('status'))
                     <div class="alert alert-success" role="alert">
                         {{ session('status') }}

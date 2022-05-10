@@ -74,6 +74,10 @@ class WaveController extends Controller
             }
             return view('assign_users', compact('wave','users'));
         }
+        if($wave->Name == 'Staff'){
+            $users = User::where('privilege','!=','40001')->get();
+            return view('assign_users', compact('wave','users'));
+        }
         $users = User::where('Position','Agent')->get();
         if($wave){
             return view('assign_users', compact('wave','users'));
