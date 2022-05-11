@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Register Employee') }}</div>
 
                 <div class="card-body">
-                    <form class="" method="POST" action="">
+                    <form  enctype="multipart/form-data" class="" method="POST" action="">
                         @csrf
                         <div class="box1">
                             <div class="form-floating mb-3 ">
@@ -22,7 +22,7 @@
 
                             @enderror
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="name" class="form-control" placeholder="fullname" id="fullname" >
+                                <input type="text" name="name" class="form-control" placeholder="fullname" id="fullname">
                                 <label for="floatingInput" class="fw-bold">FullName</label>
                             </div>
                             @error('name')
@@ -32,7 +32,7 @@
 
                             @enderror
                             <div class="form-floating mb-3 ">
-                                <input type="text" name="position" class="form-control" placeholder="position" id="position" >
+                                <input type="text" name="position" class="form-control" placeholder="position" id="position">
                                 <label for="floatingInput" class="fw-bold">Position</label>
                             </div>
                             @error('position')
@@ -42,7 +42,7 @@
 
                             @enderror
                             <div class="form-floating mb-3 ">
-                                <input type="email" name="email" class="form-control" placeholder="email" id="email" >
+                                <input type="email" name="email" class="form-control" placeholder="email" id="email">
                                 <label for="floatingInput" class=" fw-bold">Email</label>
                             </div>
                             @error('email')
@@ -52,7 +52,7 @@
 
                             @enderror
                             <div class="form-floating mb-3 ">
-                                <input type="number" name="number" class="form-control" placeholder="number" id="number" >
+                                <input type="number" name="number" class="form-control" placeholder="number" id="number">
                                 <label for="floatingInput" class=" fw-bold">Contact Number</label>
                             </div>
                             @error('number')
@@ -65,7 +65,7 @@
 
                         <div class="box2">
                             <div class="form-floating mb-3">
-                                <input type="text" name="UserName" class="form-control" placeholder="UserName" id="UserName" >
+                                <input type="text" name="UserName" class="form-control" placeholder="UserName" id="UserName">
                                 <label for="floatingInput" class=" fw-bold">Username</label>
                             </div>
                             @error('UserName')
@@ -75,7 +75,7 @@
 
                             @enderror
                             <div class="form-floating mb-3">
-                                <input type="password" name="password" class="form-control" placeholder="password" id="password" >
+                                <input type="password" name="password" class="form-control" placeholder="password" id="password">
                                 <label for="floatingInput" class=" fw-bold">Password</label>
                             </div>
                             @error('password')
@@ -85,7 +85,7 @@
 
                             @enderror
                             <div class="form-floating mb-3">
-                                <input type="password" name="password_confirmation" class="form-control" placeholder="confirmpassword" id="confirmpassword" >
+                                <input type="password" name="password_confirmation" class="form-control" placeholder="confirmpassword" id="confirmpassword">
                                 <label for="floatingInput" class=" fw-bold">Confirm Password</label>
                             </div>
                             <div class="mb-3">
@@ -97,6 +97,9 @@
                                     <option value="30001">IT</option>
                                 </select>
                             </div>
+                        </div>
+                        <div style="text-align: center;margin-top: 30px;">
+                            <input type="file" name="file">
                         </div>
                         <button type="submit" class="but-register btn btn-success fw-bold d-block">Submit</button>
                     </form>
