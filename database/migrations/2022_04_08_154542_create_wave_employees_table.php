@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('wave_employees', function (Blueprint $table) {
             $table->bigInteger('id')->autoIncrement();
-            $table->date('Date');
-            $table->boolean('T&IHeadSet');
-            $table->boolean('T&ICamera');
+            $table->date('Date')->default(now());
+            $table->boolean('T&IHeadSet')->default(false);
+            $table->boolean('T&ICamera')->default(false);
             $table->timestamps();
 
             $table->bigInteger('IdWave');
-            $table->string('cde');
+            $table->string('cde')->nullable();
             $table->string('SerialNumberKey')->nullable();
-            $table->string('SerialNumberComputer');
-            $table->unsignedBigInteger('IdLocation');
+            $table->string('SerialNumberComputer')->nullable();
+            $table->unsignedBigInteger('IdLocation')->nullable();
             
 
             $table->foreign('IdWave')->references('IdWave')->on('waves');

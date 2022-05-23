@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Computer;
 use App\Models\User;
 use App\Models\Wave;
+use App\Models\WaveEmployee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WaveController extends Controller
 {
-     /**
+    /**
      * Create a new controller instance.
      *
      * @return void
@@ -18,7 +20,8 @@ class WaveController extends Controller
     {
         $this->middleware('auth');
     }
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         // $this->validate($request, [
         //     'floatingName' => 'required',
@@ -37,51 +40,76 @@ class WaveController extends Controller
         return back();
     }
 
-    public function create($IdWave){
+    public function create($IdWave)
+    {
         $wave = Wave::where('IdWave', $IdWave)->first();
-        if($wave){
+        if ($wave) {
             return view('wave', compact('wave'));
         }
-       return "wave doesn't exist";
+        return "wave doesn't exist";
     }
 
-    public function showComputers($IdWave){
+    public function showComputers($IdWave)
+    {
         $wave = Wave::where('IdWave', $IdWave)->first();
         $text = trim(request('text'));
-        if($text != null){
-            $computers = Computer::where('SerialNumber','LIKE', '%' . $text . '%')->where('Status','InStorage')->get();
-            if($computers->isEmpty()){
-                $computers = Computer::where('HostName','LIKE', '%' . $text . '%')->where('Status','InStorage')->get();
+        if ($text != null) {
+            $computers = Computer::where('SerialNumber', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->get();
+            if ($computers->isEmpty()) {
+                $computers = Computer::where('HostName', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->get();
             }
             return view('assign_computers', compact('wave', 'computers'));
         }
 
-        $computers = Computer::where('Status','InStorage')->get();
-        if($wave){
+        $computers = Computer::where('Status', 'InStorage')->get();
+        if ($wave) {
             return view('assign_computers', compact('wave', 'computers'));
         }
-       return "wave doesn't exist";
+        return "wave doesn't exist";
     }
 
-    public function showUsers($IdWave){
-        
+    public function showUsers($IdWave)
+    {
         $wave = Wave::where('IdWave', $IdWave)->first();
         $text = trim(request('text'));
-        if($text != null){
-            $users = User::where('cde','LIKE', '%' . $text . '%')->where('Position','Agent')->get();
-            if($users->isEmpty()){
-                $users = User::where('name','LIKE', '%' . $text . '%')->where('Position','Agent')->get();
+        if ($text != null) {
+            $users = User::where('cde', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->get();
+            if ($users->isEmpty()) {
+                $users = User::where('name', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->get();
             }
-            return view('assign_users', compact('wave','users'));
+            return view('assign_users', compact('wave', 'users'));
         }
-        if($wave->Name == 'Staff'){
-            $users = User::where('privilege','!=','40001')->get();
-            return view('assign_users', compact('wave','users'));
+        if ($wave->Name == 'Staff') {
+            $users = User::where('privilege', '!=', '40001')->get();
+            return view('assign_users', compact('wave', 'users'));
         }
-        $users = User::where('Position','Agent')->get();
-        if($wave){
-            return view('assign_users', compact('wave','users'));
+        $users = User::where('Position', 'Agent')->get();
+        if ($wave) {
+            return view('assign_users', compact('wave', 'users'));
         }
-       return "wave doesn't exist";
+        return "wave doesn't exist";
+    }
+
+    public function assignComputers($IdWave)
+    {
+        $wave = Wave::where('IdWave', $IdWave)->first();
+        if (is_null(request('assign'))) {
+            echo '<script language="javascript">alert("Nothing selected");</script>';
+            return view('wave', compact('wave'));
+        }
+        foreach (request('assign') as $value) {
+            
+            $wave_employee = new WaveEmployee();
+            $wave_employee->IdWave = $IdWave;
+            $wave_employee->SerialNumberComputer = $value;
+            $wave_employee->save();
+
+            DB::table('computers')->where('SerialNumber', $value)->update(['Status' => 'Taken']);
+
+            // $computer = Computer::where('SerialNumber', $value)->first();
+
+        }
+        echo '<script language="javascript">alert("Succesful");</script>';
+        return view('wave', compact('wave'));
     }
 }
