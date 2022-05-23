@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-inline-block fw-bold" style="width: 50%;">
-                        {{ $wave->programs->Name }}
+                    <a href="{{ url('/home/wave/' . $wave->IdWave . '') }}" style="color: black;" >{{ $wave->programs->Name }}</a>
                     </div>
                 </div>
 
@@ -50,7 +50,7 @@
                 <div class="card-body" style="display: table;border-spacing: 40px; overflow: scroll;">
 
                     <div style=" width: 48%; display: table-cell; ">
-                    <h6>Computers</h6>
+                    <h6 class="fw-bold" style="text-align: center;">Computers</h6>
                         @if (sizeof($computers_view)!=0)
                         <table>
                             <thead>
@@ -83,7 +83,7 @@
 
                     </div>
                     <div style=" width: 48%; display: table-cell;margin-left: 30px;">
-                        <h6>Users</h6>
+                        <h6 class="fw-bold" style="text-align: center;">Users</h6>
                         @if (sizeof($users_view)!=0)
                         <table>
                             

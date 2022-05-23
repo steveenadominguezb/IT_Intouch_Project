@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-inline-block fw-bold" style="width: 50%;">
-                        {{ $wave->programs->Name }}
+                    <a href="{{ url('/home/wave/' . $wave->IdWave . '') }}" style="color: black;" >{{ $wave->programs->Name }}</a>
                     </div>
                 </div>
 
