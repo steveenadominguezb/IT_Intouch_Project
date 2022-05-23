@@ -129,8 +129,8 @@ class RegisterEmployeeController extends Controller
         #Guarda el empleado
         $employee->save();
 
-
-        return back();
+        echo '<script language="javascript">alert("successful");</script>';
+        return view('register_employee');
         // return User::create([
         //     'name' => $data['name'],
         //     'email' => $data['email'],
