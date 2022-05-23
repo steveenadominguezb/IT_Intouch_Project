@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Computer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -36,7 +37,50 @@ class ComputerController extends Controller
      * @return \App\Models\Computer
      */
     protected function create()
-    {
+    {   
+        try {
+            if ($_FILES['file']['size'] > 0 && $_FILES['file']['type'] == 'text/csv') {
+
+                $dir_subida = 'files/computers/';
+                $fichero_subido = $dir_subida . basename($_FILES['file']['name']);
+                
+                if (move_uploaded_file($_FILES['file']['tmp_name'], $fichero_subido)) {
+    
+                    $csv = array_map('str_getcsv', file('files/computers/' . $_FILES['file']['name']));
+                    array_walk($csv, function (&$a) use ($csv) {
+                        $a = array_combine($csv[0], $a);
+                    });
+                    array_shift($csv);
+                    foreach ($csv as $computer_data) {
+                        $computer = new Computer();
+                        $computer->SerialNumber = $computer_data['SerialNumber'];
+                        $computer->HostName = $computer_data['HostName'];
+                        $computer->OS = $computer_data['OS'];
+                        $computer->Brand = $computer_data['Brand'];
+                        $computer->Model = $computer_data['Model'];
+                        if ($computer_data['isLaptop'] == "YES") {
+                            $computer->Laptop = true;
+                        } else {
+                            $computer->Laptop = false;
+                        }
+    
+    
+                        $computer->save();
+                    }
+                    echo '<script language="javascript">alert("Successful");</script>';
+                   
+                } else {
+                    return "¡Posible ataque de subida de ficheros!\n";
+                }
+
+                return view('register_computer');
+            }
+        } catch (\Throwable $th) {
+            echo '<script language="javascript">alert("Error: , try again.");</script>';
+            $wait = "";
+            return view('register_computer');
+        }
+
         /**
          * Valida que los campos necesarios hayan sido diligenciados
          */

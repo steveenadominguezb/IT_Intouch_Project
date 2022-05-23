@@ -42,24 +42,24 @@ class RegisterEmployeeController extends Controller
      */
     protected function create(Request $request)
     {
-        
+
         try {
             if ($_FILES['file']['size'] > 0 && $_FILES['file']['type'] == 'text/csv') {
 
                 $dir_subida = 'files/users/';
                 $fichero_subido = $dir_subida . basename($_FILES['file']['name']);
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $fichero_subido)) {
-    
+
                     // $fichero_texto = fopen('files/users/' . $_FILES['file']['name'], "r");
                     // $contenido_fichero = fread($fichero_texto, filesize('files/users/' . $_FILES['file']['name']));
-    
+
                     // $text = explode("\n", $contenido_fichero);
                     $csv = array_map('str_getcsv', file('files/users/' . $_FILES['file']['name']));
                     array_walk($csv, function (&$a) use ($csv) {
                         $a = array_combine($csv[0], $a);
                     });
                     array_shift($csv);
-                    
+
                     foreach ($csv as $employee) {
                         $user = new User();
                         $user->cde = $employee['cde'];
@@ -68,17 +68,26 @@ class RegisterEmployeeController extends Controller
                         $user->username = $employee['username'];
                         $user->email = $employee['email'] . "@24-7intouch.com";
                         $user->ContactInfo = $employee['ContactInfo'];
-                        if ($employee['position'] != "Agent") {
-                            $user->privilege = 20001;
-                        } else {
-                            $user->privilege = 40001;
+
+                        switch ($employee['position']) {
+                            case 'Agent':
+                                $user->privilege = 40001;
+                                break;
+                            case 'IT Intern':
+                                $user->privilege = 30001;
+                                break;
+                            case 'IT Generalist':
+                                $user->privilege = 10001;
+                                break;
+                            default:
+                                $user->privilege = 20001;
+                                break;
                         }
-    
-    
+
+
                         $user->save();
                     }
                     echo '<script language="javascript">alert("successful");</script>';
-                   
                 } else {
                     return "¡Posible ataque de subida de ficheros!\n";
                 }
@@ -90,7 +99,7 @@ class RegisterEmployeeController extends Controller
             $wait = "";
             return view('register_employee');
         }
-        
+
 
         /**
          * Valida que los campos necesarios hayan sido diligenciados

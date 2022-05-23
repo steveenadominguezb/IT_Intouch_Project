@@ -45,12 +45,13 @@
                 {{ session()->get('message') }}
             </div>
             @endif
-            <div class="card">
+            <div class="card" style="max-height: 700px; overflow: auto;">
 
-                <div class="card-body" style="height: max-content">
+                <div class="card-body" style="display: table;border-spacing: 40px; overflow: scroll;">
 
-                    <div style=" width: 48%; display: inline-block; margin-left: 20px;">
-                        @if ($computers_view)
+                    <div style=" width: 48%; display: table-cell; ">
+                    <h6>Computers</h6>
+                        @if (sizeof($computers_view)!=0)
                         <table>
                             <thead>
                                 <tr>
@@ -81,9 +82,11 @@
                         @endif
 
                     </div>
-                    <div style=" width: 48%; display: inline-block;margin-left: 20px;">
-                        @if ($users_view)
+                    <div style=" width: 48%; display: table-cell;margin-left: 30px;">
+                        <h6>Users</h6>
+                        @if (sizeof($users_view)!=0)
                         <table>
+                            
                             <thead>
                                 <tr>
                                     <th>CODE</th>

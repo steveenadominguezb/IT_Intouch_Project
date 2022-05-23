@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Register Computer') }}</div>
 
                 <div class="card-body">
-                    <form class="" method="POST" action="">
+                    <form enctype="multipart/form-data" class="" method="POST" action="">
                         @csrf
                         <div>
                             <div class="box1">
@@ -69,7 +69,9 @@
                                 @enderror
                             </div>
                         </div>
-
+                        <div style="text-align: center;margin-top: 30px;">
+                            <input type="file" name="file">
+                        </div>
                         <button type="submit" class="but-register btn btn-success d-block fw-bold">Submit</button>
                     </form>
 

@@ -51,7 +51,7 @@ class WaveController extends Controller
             ->get();
 
         if ($wave) {
-            return view('wave_home', compact('wave', 'computers_view' , 'users_view'));
+            return view('wave_home', compact('wave', 'computers_view', 'users_view'));
         }
         return "wave doesn't exist";
     }
@@ -90,7 +90,7 @@ class WaveController extends Controller
             $users = User::where('privilege', '!=', '40001')->where('status', '!=', 'ActiveFull')->get();
             return view('assign_users', compact('wave', 'users'));
         }
-        $users = User::where('Position', 'Agent')->get();
+        $users = User::where('Position', 'Agent')->where('status', 'Active')->get();
         if ($wave) {
             return view('assign_users', compact('wave', 'users'));
         }
@@ -111,7 +111,7 @@ class WaveController extends Controller
             DB::table('computers')->where('SerialNumber', $value)->update(['Status' => 'Taken']);
         }
         echo '<script language="javascript">alert("Successful");</script>';
-        return redirect()->to('/home/wave/'.$IdWave)->with('message', 'Successful');
+        return redirect()->to('/home/wave/' . $IdWave)->with('message', 'Successful');
     }
 
     public function assignUsers($IdWave)
@@ -128,6 +128,6 @@ class WaveController extends Controller
             DB::table('users')->where('cde', $value)->update(['status' => 'ActiveFull']);
         }
         echo '<script language="javascript">alert("Successful");</script>';
-        return redirect()->to('/home/wave/'.$IdWave)->with('message', 'Successful');
+        return redirect()->to('/home/wave/' . $IdWave)->with('message', 'Successful');
     }
 }
