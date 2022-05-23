@@ -33,13 +33,15 @@
                             </div>
                         </div>
                         <div style="width: 50%; float: left; margin-top: 10%;">
-                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/computers') }}"  class="waves-effect waves-light btn">Assign Computers</a>
-                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/users') }}"  class="waves-effect waves-light btn">Assign Users</a>
+                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/computers') }}" class="waves-effect waves-light btn">Assign Computers</a>
+                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/users') }}" class="waves-effect waves-light btn">Assign Users</a>
 
                         </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
     </div>
 </div>

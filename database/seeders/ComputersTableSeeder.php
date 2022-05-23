@@ -95,5 +95,13 @@ class ComputersTableSeeder extends Seeder
         $computer10->Brand = "DELL";
         $computer10->save();
 
+        $computer11 = new Computer();
+        $computer11->SerialNumber = "BSSL423";
+        $computer11->HostName = "BOG1-IT02";
+        $computer11->Model = "Optiplex 3070";
+        $computer11->OS = "Windows";
+        $computer11->Brand = "DELL";
+        $computer11->save();
+
     }
 }

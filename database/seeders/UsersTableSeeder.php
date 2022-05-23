@@ -148,5 +148,18 @@ class UsersTableSeeder extends Seeder
         $user11->privilege = 30001;
         $user11->save();
 
+        $user12 = new User();
+        $user12->cde = "C210000";
+        $user12->name = "Camila Rubio";
+        $user12->position = "IT Generalist";
+        $user12->username = "maria.rubio01";
+        $user12->password = Hash::make('LEYVA400.');
+        $user12->email = "maria.rubio01@24-7intouch.com";
+        $user12->ContactInfo = "+573115476038";
+        $user12->status = "Active";
+        $user12->privilege = 30001;
+        $user12->save();
+
+
     }
 }

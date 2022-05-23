@@ -43,8 +43,15 @@ class WaveController extends Controller
     public function create($IdWave)
     {
         $wave = Wave::where('IdWave', $IdWave)->first();
+        $computers_view = DB::table('wave_employees')->where('IdWave', $IdWave)
+            ->join('computers', 'wave_employees.SerialNumberComputer', '=', 'computers.SerialNumber')
+            ->get();
+        $users_view = DB::table('wave_employees')->where('IdWave', $IdWave)
+            ->join('users', 'wave_employees.cde', '=', 'users.cde')
+            ->get();
+
         if ($wave) {
-            return view('wave', compact('wave'));
+            return view('wave_home', compact('wave', 'computers_view' , 'users_view'));
         }
         return "wave doesn't exist";
     }
@@ -95,7 +102,7 @@ class WaveController extends Controller
         $wave = Wave::where('IdWave', $IdWave)->first();
         if (is_null(request('assign'))) {
             echo '<script language="javascript">alert("Nothing selected");</script>';
-            return view('wave', compact('wave'));
+            return view('wave_home', compact('wave'));
         }
         foreach (request('assign') as $value) {
 
@@ -104,7 +111,7 @@ class WaveController extends Controller
             DB::table('computers')->where('SerialNumber', $value)->update(['Status' => 'Taken']);
         }
         echo '<script language="javascript">alert("Successful");</script>';
-        return view('wave', compact('wave'));
+        return redirect()->to('/home/wave/'.$IdWave)->with('message', 'Successful');
     }
 
     public function assignUsers($IdWave)
@@ -112,7 +119,7 @@ class WaveController extends Controller
         $wave = Wave::where('IdWave', $IdWave)->first();
         if (is_null(request('assign'))) {
             echo '<script language="javascript">alert("Nothing selected");</script>';
-            return view('wave', compact('wave'));
+            return view('wave_home', compact('wave'));
         }
         foreach (request('assign') as $value) {
 
@@ -121,6 +128,6 @@ class WaveController extends Controller
             DB::table('users')->where('cde', $value)->update(['status' => 'ActiveFull']);
         }
         echo '<script language="javascript">alert("Successful");</script>';
-        return view('wave', compact('wave'));
+        return redirect()->to('/home/wave/'.$IdWave)->with('message', 'Successful');
     }
 }
