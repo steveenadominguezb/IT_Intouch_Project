@@ -80,7 +80,7 @@ class WaveController extends Controller
             return view('assign_users', compact('wave', 'users'));
         }
         if ($wave->Name == 'Staff') {
-            $users = User::where('privilege', '!=', '40001')->get();
+            $users = User::where('privilege', '!=', '40001')->where('status', '!=', 'ActiveFull')->get();
             return view('assign_users', compact('wave', 'users'));
         }
         $users = User::where('Position', 'Agent')->get();
@@ -98,18 +98,29 @@ class WaveController extends Controller
             return view('wave', compact('wave'));
         }
         foreach (request('assign') as $value) {
-            
-            $wave_employee = new WaveEmployee();
-            $wave_employee->IdWave = $IdWave;
-            $wave_employee->SerialNumberComputer = $value;
-            $wave_employee->save();
+
+            DB::table('wave_employees')->updateOrInsert(['IdWave' => $IdWave, 'SerialNumberComputer' => $value], ['SerialNumberComputer' => $value]);
 
             DB::table('computers')->where('SerialNumber', $value)->update(['Status' => 'Taken']);
-
-            // $computer = Computer::where('SerialNumber', $value)->first();
-
         }
-        echo '<script language="javascript">alert("Succesful");</script>';
+        echo '<script language="javascript">alert("Successful");</script>';
+        return view('wave', compact('wave'));
+    }
+
+    public function assignUsers($IdWave)
+    {
+        $wave = Wave::where('IdWave', $IdWave)->first();
+        if (is_null(request('assign'))) {
+            echo '<script language="javascript">alert("Nothing selected");</script>';
+            return view('wave', compact('wave'));
+        }
+        foreach (request('assign') as $value) {
+
+            DB::table('wave_employees')->updateOrInsert(['IdWave' => $IdWave, 'cde' => $value], ['cde' => $value]);
+
+            DB::table('users')->where('cde', $value)->update(['status' => 'ActiveFull']);
+        }
+        echo '<script language="javascript">alert("Successful");</script>';
         return view('wave', compact('wave'));
     }
 }
