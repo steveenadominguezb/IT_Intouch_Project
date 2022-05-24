@@ -143,7 +143,10 @@
                                 <div style="position: relative;">
                                     <div style="height: 48%;">
                                         <span class="card-title grey-text text-darken-4 fw-bold" style="font-size: 15px;">{{ $wave->Name}}<i class="material-icons right">close</i></span>
-                                        <p>Here is some more information about this product that is only revealed once clicked on.</p>
+                                        @php
+                                        $computers = \App\Models\WaveEmployee::where('IdWave', $wave->IdWave)->where('SerialNumberComputer','LIKE','%')->count();
+                                        @endphp
+                                        <p style="font-size: 12px;">Assigned computers: {{$computers}}</p>
 
                                     </div>
                                     <div style="position: fixed; bottom: 0; margin-bottom: 10%;">
