@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ComputerController;
+use App\Http\Controllers\ComputersController;
 use App\Http\Controllers\RegisterEmployeeController;
 use App\Http\Controllers\WaveController;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +48,9 @@ Route::post('/home/wave/{IdWave}/computers', [WaveController::class, 'assignComp
 Route::get('/home/wave/{IdWave}/users', [WaveController::class, 'showUsers'])->name('wave.show.users');
 #Ruta que asigna los computadores
 Route::post('/home/wave/{IdWave}/users', [WaveController::class, 'assignUsers'])->name('wave.assign.users');
+
+Route::get('/home/computers', [ComputerController::class, 'computersList'])->name('computers.list');
+Route::post('/home/computers', [ComputerController::class, 'computersUpdate'])->name('computers.update');
 
 #Rutas para el login
 Auth::routes();

@@ -6,6 +6,7 @@ use App\Models\Computer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class ComputerController extends Controller
@@ -36,16 +37,17 @@ class ComputerController extends Controller
      * @param  array  $data
      * @return \App\Models\Computer
      */
+
     protected function create()
-    {   
+    {
         try {
             if ($_FILES['file']['size'] > 0 && $_FILES['file']['type'] == 'text/csv') {
 
                 $dir_subida = 'files/computers/';
                 $fichero_subido = $dir_subida . basename($_FILES['file']['name']);
-                
+
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $fichero_subido)) {
-    
+
                     $csv = array_map('str_getcsv', file('files/computers/' . $_FILES['file']['name']));
                     array_walk($csv, function (&$a) use ($csv) {
                         $a = array_combine($csv[0], $a);
@@ -63,12 +65,11 @@ class ComputerController extends Controller
                         } else {
                             $computer->Laptop = false;
                         }
-    
-    
+
+
                         $computer->save();
                     }
                     echo '<script language="javascript">alert("Successful");</script>';
-                   
                 } else {
                     return "¡Posible ataque de subida de ficheros!\n";
                 }
@@ -98,12 +99,12 @@ class ComputerController extends Controller
         $computer->SerialNumber = request('serial');
         $computer->HostName = request('host');
         $laptop = request('laptop');
-        if($laptop){
+        if ($laptop) {
             $computer->Laptop = true;
-        }else{
+        } else {
             $computer->Laptop = false;
         }
-        
+
         $computer->Model = request('model');
         $computer->OS = request('os');
         $computer->Brand = request('brand');
@@ -114,5 +115,30 @@ class ComputerController extends Controller
 
 
         return back();
+    }
+
+    public function computersList()
+    {
+        $computers = Computer::all();
+        return view('computers', compact('computers'));
+    }
+
+    public function computersUpdate()
+    {
+        try {
+            $laptop = request('laptop') == 'on' ? true : false;
+            DB::table('computers')->where('SerialNumber', request('serial'))
+                ->update([
+                    'HostName' => request('host'),
+                    'OS' => request('os'),
+                    'OS' => request('os'),
+                    'Brand' => request('brand'),
+                    'Model' => request('model'),
+                    'Laptop' => $laptop,
+                ]);
+            return back()->with(['message' => 'Updated', 'alert' => 'success']);
+        } catch (\Throwable $th) {
+            return back()->with(['message' => 'Error, try again', 'alert' => 'danger']);
+        }
     }
 }

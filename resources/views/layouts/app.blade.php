@@ -69,7 +69,8 @@
         .login {
             margin-right: 20px;
         }
-        .sizes{
+
+        .sizes {
             width: 16%;
             display: inline-block;
             margin-right: 20px;
@@ -92,7 +93,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
-
+                        @guest
+                        @else
+                        @if (Auth::user()->privilege == 10001)
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="{{ route('computers.list') }}">{{ __('Computers') }}</a>
+                        </li>
+                        @endif
+                        @endguest
+                        
+                        
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -111,13 +121,14 @@
                         </li>
                         @endif -->
                         @else
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="h-75 nav-link dropdown-toggle text-light fw-bold" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
                             </a>
 
                             <div class="dropdown-menu dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a href="{{ url('/home') }}" class="dropdown-item" style="">Home</a>
+                                <a href="{{ url('/home') }}" class="dropdown-item" >Home</a>
                                 @if (Auth::user()->privilege == 10001)
                                 <a class="dropdown-item" href="{{ route('register-employee.index') }}" onclick="">
                                     {{ __('Register Employee') }}
@@ -143,7 +154,7 @@
             </div>
         </nav>
 
-        <main class="py-4" >
+        <main class="py-4">
             @yield('content')
         </main>
     </div>
