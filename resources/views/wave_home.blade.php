@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="d-inline-block fw-bold" style="width: 50%;">
-                    <a href="{{ url('/home/wave/' . $wave->IdWave . '') }}" style="color: black;" >{{ $wave->programs->Name }}</a>
+                        <a href="{{ url('/home/wave/' . $wave->IdWave . '') }}" style="color: black;">{{ $wave->programs->Name }}</a>
                     </div>
                 </div>
 
@@ -33,16 +33,16 @@
                             </div>
                         </div>
                         <div style="width: 50%; float: left; margin-top: 10%;">
-                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/computers') }}" class="waves-effect waves-light btn">Assign Computers</a>
-                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/users') }}" class="waves-effect waves-light btn">Assign Users</a>
+                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/computers') }}" class="ms-5 waves-effect waves-light btn">Assign Computers</a>
+                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/users') }}" class="ms-5 waves-effect waves-light btn">Assign Users</a>
 
                         </div>
                     </div>
                 </div>
             </div>
             @if (session()->has('message'))
-            <div class="alert alert-success">
-                {{ session()->get('message') }}
+            <div class="alert alert-{{session()->get('alert')}}" role="alert">
+                {{session()->get('message')}}
             </div>
             @endif
             <div class="card" style="max-height: 700px; overflow: auto;">
@@ -50,7 +50,7 @@
                 <div class="card-body" style="display: table;border-spacing: 40px; overflow: scroll;">
 
                     <div style=" width: 48%; display: table-cell; ">
-                    <h6 class="fw-bold" style="text-align: center;">Computers</h6>
+                        <h6 class="fw-bold" style="text-align: center;">Computers</h6>
                         @if (sizeof($computers_view)!=0)
                         <table>
                             <thead>
@@ -65,11 +65,35 @@
                                     <td>{{ $computer->SerialNumber }}</td>
                                     <td>{{ $computer->HostName }}</td>
                                     <td>
-                                        <div class="form-check">
+                                        <div class="form-check" style="display: inline-block;">
                                             <label>
                                                 <input type="checkbox" name="assign[]" value="{{$computer->SerialNumber}}" />
                                                 <span class="fw-bold"></span>
                                             </label>
+                                        </div>
+                                        <div style="display: inline-block;">
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-primary red" data-bs-toggle="modal" data-bs-target="#modal{{ $computer->SerialNumber }}">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </div>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modal{{ $computer->SerialNumber }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="background: none; box-shadow: none;">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <form enctype="multipart/form-data" class="" method="POST" action="/home/wave/{{$wave->IdWave}}/computer/{{$computer->SerialNumber}}">
+                                                        @csrf
+                                                        <div class="modal-body">
+                                                            <h6>unassign the computer {{$computer->SerialNumber}} ?</h6>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary grey" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary blue" style="margin-left: 20px;">YES</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -86,7 +110,7 @@
                         <h6 class="fw-bold" style="text-align: center;">Users</h6>
                         @if (sizeof($users_view)!=0)
                         <table>
-                            
+
                             <thead>
                                 <tr>
                                     <th>CODE</th>
@@ -101,11 +125,35 @@
                                     <td>{{ $user->name }}</td>
                                     <td>{{ $user->position }}</td>
                                     <td>
-                                        <div class="form-check">
+                                        <div class="form-check" style="display: inline-block;">
                                             <label>
                                                 <input type="checkbox" name="assign[]" value="{{$user->cde}}" />
                                                 <span class="fw-bold"></span>
                                             </label>
+                                        </div>
+                                        <div style="display: inline-block;">
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-primary red" data-bs-toggle="modal" data-bs-target="#modal{{ $user->cde }}">
+                                                <i class="material-icons">delete</i>
+                                            </button>
+                                        </div>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modal{{ $user->cde }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="background: none; box-shadow: none;">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <form enctype="multipart/form-data" class="" method="POST" action="/home/wave/{{$wave->IdWave}}/user/{{$user->cde}}">
+                                                        @csrf
+                                                        <div class="modal-body">
+                                                            <h6>unassign the user {{$user->cde}} ?</h6>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary grey" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary blue" style="margin-left: 20px;">YES</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>

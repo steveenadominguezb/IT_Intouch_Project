@@ -8,6 +8,7 @@ use App\Models\Wave;
 use App\Models\WaveEmployee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\Return_;
 
 class WaveController extends Controller
 {
@@ -129,5 +130,27 @@ class WaveController extends Controller
         }
         echo '<script language="javascript">alert("Successful");</script>';
         return redirect()->to('/home/wave/' . $IdWave)->with('message', 'Successful');
+    }
+
+    public function unassignComputer($IdWave, $SerialNumber)
+    {
+        try {
+            DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', $SerialNumber)->delete();
+            DB::table('computers')->where('SerialNumber', $SerialNumber)->update(['Status' => 'InStorage']);
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
+        } catch (\Throwable $th) {
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'alert' => 'danger']);
+        }
+    }
+
+    public function unassignUser($IdWave, $cde)
+    {
+        try {
+            DB::table('wave_employees')->where('IdWave', $IdWave)->where('cde', $cde)->delete();
+            DB::table('users')->where('cde', $cde)->update(['status' => 'Active']);
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
+        } catch (\Throwable $th) {
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'alert' => 'danger']);
+        }
     }
 }

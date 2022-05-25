@@ -38,6 +38,10 @@ Route::post('/home/register-computer', [ComputerController::class, 'create'])->n
 
 #Ruta que muestra la pagina de edición de la wave
 Route::get('/home/wave/{IdWave}', [WaveController::class, 'create'])->name('wave.create');
+#Ruta que desasigna un computador
+Route::post('/home/wave/{IdWave}/computer/{SerialNumber}', [WaveController::class, 'unassignComputer'])->name('wave.unassign.computer');
+#Ruta que desasigna un usuario
+Route::post('/home/wave/{IdWave}/user/{cde}', [WaveController::class, 'unassignUser'])->name('wave.unassign.user');
 
 #Ruta que muestra la vista para asignar computadores
 Route::get('/home/wave/{IdWave}/computers', [WaveController::class, 'showComputers'])->name('wave.show.computers');

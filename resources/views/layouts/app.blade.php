@@ -97,7 +97,7 @@
                         @else
                         @if (Auth::user()->privilege == 10001)
                         <li class="nav-item">
-                            <a class="nav-link text-light" href="{{ route('computers.list') }}">{{ __('Computers') }}</a>
+                            <a class="ms-5 h-75 nav-link text-light" href="{{ route('computers.list') }}">{{ __('Computers') }}</a>
                         </li>
                         @endif
                         @endguest
