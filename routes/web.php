@@ -53,8 +53,11 @@ Route::get('/home/wave/{IdWave}/users', [WaveController::class, 'showUsers'])->n
 #Ruta que asigna los computadores
 Route::post('/home/wave/{IdWave}/users', [WaveController::class, 'assignUsers'])->name('wave.assign.users');
 
+#Ruta para mostrar lista de computadores
 Route::get('/home/computers', [ComputerController::class, 'computersList'])->name('computers.list');
 Route::post('/home/computers', [ComputerController::class, 'computersUpdate'])->name('computers.update');
+Route::get('/computers/{SerialNumber}', [ComputerController::class, 'computerTracert'])->name('computers.tracert');
+
 
 #Rutas para el login
 Auth::routes();

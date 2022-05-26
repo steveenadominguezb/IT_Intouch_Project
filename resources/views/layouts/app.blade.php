@@ -83,7 +83,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-success shadow-sm">
             <div class="container">
-                <a class="navbar-brand text-light fw-bold" href="{{ url('/') }}">
+                <a class="navbar-brand text-light fw-bold" href="{{ url('/home') }}">
                     IT-Intouch
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

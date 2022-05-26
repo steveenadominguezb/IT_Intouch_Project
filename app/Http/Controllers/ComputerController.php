@@ -118,7 +118,16 @@ class ComputerController extends Controller
     }
 
     public function computersList()
-    {
+    {   
+        $text = trim(request('text'));
+        if ($text != null) {
+            $computers = Computer::where('SerialNumber', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->get();
+            if ($computers->isEmpty()) {
+                $computers = Computer::where('HostName', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->get();
+            }
+            return view('computers', compact('computers'));
+        }
+
         $computers = Computer::all();
         return view('computers', compact('computers'));
     }
@@ -140,5 +149,10 @@ class ComputerController extends Controller
         } catch (\Throwable $th) {
             return back()->with(['message' => 'Error, try again', 'alert' => 'danger']);
         }
+    }
+
+    public function computerTracert($SerialNumber){
+        $computer = Computer::where('SerialNumber', $SerialNumber)->get();
+        return $computer;
     }
 }

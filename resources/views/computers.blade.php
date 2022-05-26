@@ -19,6 +19,16 @@
                         {{ session('status') }}
                     </div>
                     @endif
+                    <div style="text-align: center; margin-bottom: 30px;">
+                        <form action="">
+                            <div style="width: 40%; display: inline-block;margin-right: 20px;">
+                                <input type="text" name="text">
+                            </div>
+                            <div class="" style="display: inline-block;">
+                                <button type="submit" class="btn btn-primary">Search</button>
+                            </div>
+                        </form>
+                    </div>
                     <form action="" method="POST">
                         @csrf
                         <div style="height: 700px; overflow: scroll;">
@@ -52,9 +62,9 @@
                                             </div>
                                             <div style="display: inline-block;">
                                                 <!-- Button trigger modal -->
-                                                <button type="button" class="btn btn-primary red" data-bs-toggle="modal" data-bs-target="#modal{{ $computer->SerialNumber }}">
-                                                    <i class="material-icons">delete</i>
-                                                </button>
+                                                <a href="/computers/{{$computer->SerialNumber}}" class="btn btn-primary blue">
+                                                    <i class="material-icons">arrow_forward</i>
+                                                </a>
                                             </div>
                                             <!-- Modal -->
                                             <div class="modal fade" id="modal{{ $computer->SerialNumber }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="background: none; box-shadow: none;">
@@ -119,7 +129,7 @@
                                                                             {{ $message }}
                                                                         </p>
                                                                         @enderror
-                                                                        <div class="form-check" style="margin-top: 25px;">
+                                                                        <div class="form-check" style="margin-top: 50px;">
                                                                             <label>
                                                                                 <input type="checkbox" name="laptop" {{ ($computer->Laptop == 1 ? ' checked' : '')}} />
                                                                                 <span class="fw-bold">Is a Laptop</span>
