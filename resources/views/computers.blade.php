@@ -31,7 +31,7 @@
                     </div>
                     <form action="" method="POST">
                         @csrf
-                        <div style="height: 700px; overflow: scroll;">
+                        <div style="height: 700px; overflow: auto;">
                             @if (session()->has('message'))
                             <div class="alert alert-{{session()->get('alert')}}" role="alert">
                                 {{session()->get('message')}}
@@ -52,7 +52,7 @@
                                         <td>{{ $computer->SerialNumber }}</td>
                                         <td>{{ $computer->HostName }}</td>
                                         <td>{{ $computer->Status }}</td>
-                                        <td>
+                                        <td>  
                                             <div style="display: inline-block;">
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ $computer->SerialNumber }}">

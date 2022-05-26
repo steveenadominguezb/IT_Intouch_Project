@@ -50,7 +50,6 @@ class WaveController extends Controller
         $users_view = DB::table('wave_employees')->where('IdWave', $IdWave)
             ->join('users', 'wave_employees.cde', '=', 'users.cde')
             ->get();
-
         if ($wave) {
             return view('wave_home', compact('wave', 'computers_view', 'users_view'));
         }
@@ -62,14 +61,14 @@ class WaveController extends Controller
         $wave = Wave::where('IdWave', $IdWave)->first();
         $text = trim(request('text'));
         if ($text != null) {
-            $computers = Computer::where('SerialNumber', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->get();
+            $computers = Computer::where('SerialNumber', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->orderByDesc('created_at')->get();
             if ($computers->isEmpty()) {
-                $computers = Computer::where('HostName', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->get();
+                $computers = Computer::where('HostName', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->orderByDesc('created_at')->get();
             }
             return view('assign_computers', compact('wave', 'computers'));
         }
 
-        $computers = Computer::where('Status', 'InStorage')->get();
+        $computers = Computer::where('Status', 'InStorage')->orderByDesc('created_at')->get();
         if ($wave) {
             return view('assign_computers', compact('wave', 'computers'));
         }
@@ -81,9 +80,9 @@ class WaveController extends Controller
         $wave = Wave::where('IdWave', $IdWave)->first();
         $text = trim(request('text'));
         if ($text != null) {
-            $users = User::where('cde', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->get();
+            $users = User::where('cde', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->where('status','Active')->get();
             if ($users->isEmpty()) {
-                $users = User::where('name', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->get();
+                $users = User::where('name', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->where('status','Active')->get();
             }
             return view('assign_users', compact('wave', 'users'));
         }
@@ -100,42 +99,49 @@ class WaveController extends Controller
 
     public function assignComputers($IdWave)
     {
-        $wave = Wave::where('IdWave', $IdWave)->first();
-        if (is_null(request('assign'))) {
-            echo '<script language="javascript">alert("Nothing selected");</script>';
-            return view('wave_home', compact('wave'));
-        }
-        foreach (request('assign') as $value) {
+        try {
+            $wave = Wave::where('IdWave', $IdWave)->first();
+            if (is_null(request('assign'))) {
+                echo '<script language="javascript">alert("Nothing selected");</script>';
+                return view('wave_home', compact('wave'));
+            }
+            foreach (request('assign') as $value) {
 
-            DB::table('wave_employees')->updateOrInsert(['IdWave' => $IdWave, 'SerialNumberComputer' => $value], ['SerialNumberComputer' => $value]);
+                DB::table('wave_employees')->updateOrInsert(['IdWave' => $IdWave, 'SerialNumberComputer' => $value], ['SerialNumberComputer' => $value]);
 
-            DB::table('computers')->where('SerialNumber', $value)->update(['Status' => 'Taken']);
+                DB::table('computers')->where('SerialNumber', $value)->update(['Status' => 'Taken']);
+            }
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
+        } catch (\Throwable $th) {
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again ' . $th, 'alert' => 'danger']);
         }
-        echo '<script language="javascript">alert("Successful");</script>';
-        return redirect()->to('/home/wave/' . $IdWave)->with('message', 'Successful');
     }
 
     public function assignUsers($IdWave)
     {
-        $wave = Wave::where('IdWave', $IdWave)->first();
-        if (is_null(request('assign'))) {
-            echo '<script language="javascript">alert("Nothing selected");</script>';
-            return view('wave_home', compact('wave'));
-        }
-        foreach (request('assign') as $value) {
+        try {
+            $wave = Wave::where('IdWave', $IdWave)->first();
+            if (is_null(request('assign'))) {
+                echo '<script language="javascript">alert("Nothing selected");</script>';
+                return view('wave_home', compact('wave'));
+            }
+            foreach (request('assign') as $value) {
 
-            DB::table('wave_employees')->updateOrInsert(['IdWave' => $IdWave, 'cde' => $value], ['cde' => $value]);
+                DB::table('wave_employees')->updateOrInsert(['IdWave' => $IdWave, 'cde' => $value], ['cde' => $value]);
 
-            DB::table('users')->where('cde', $value)->update(['status' => 'ActiveFull']);
+                DB::table('users')->where('cde', $value)->update(['status' => 'ActiveFull']);
+            }
+
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
+        } catch (\Throwable $th) {
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again ' . $th, 'alert' => 'danger']);
         }
-        echo '<script language="javascript">alert("Successful");</script>';
-        return redirect()->to('/home/wave/' . $IdWave)->with('message', 'Successful');
     }
 
     public function unassignComputer($IdWave, $SerialNumber)
     {
         try {
-            DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', $SerialNumber)->delete();
+            DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', $SerialNumber)->update(['SerialNumberComputer' => null]);
             DB::table('computers')->where('SerialNumber', $SerialNumber)->update(['Status' => 'InStorage']);
             return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
         } catch (\Throwable $th) {
@@ -146,11 +152,32 @@ class WaveController extends Controller
     public function unassignUser($IdWave, $cde)
     {
         try {
-            DB::table('wave_employees')->where('IdWave', $IdWave)->where('cde', $cde)->delete();
+            DB::table('wave_employees')->where('IdWave', $IdWave)->where('cde', $cde)->update(['cde' => null]);
             DB::table('users')->where('cde', $cde)->update(['status' => 'Active']);
             return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
         } catch (\Throwable $th) {
             return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'alert' => 'danger']);
+        }
+    }
+
+    public function assignComputerUser($IdWave, $SerialNumber)
+    {
+        try {
+            $celdas = DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', null)
+                ->where('cde', request('UserCode'))
+                ->get();
+            if(sizeof($celdas) == 1){
+                DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', null)
+                ->where('cde', request('UserCode'))
+                ->delete();
+                DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', $SerialNumber)
+                ->update(['cde' => request('UserCode')]);
+            }else{
+                return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, user is already assigned or does not correspond to the wave', 'alert' => 'danger']);
+            }
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
+        } catch (\Throwable $th) {
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again' . $th, 'alert' => 'danger']);
         }
     }
 }

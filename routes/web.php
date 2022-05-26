@@ -58,6 +58,8 @@ Route::get('/home/computers', [ComputerController::class, 'computersList'])->nam
 Route::post('/home/computers', [ComputerController::class, 'computersUpdate'])->name('computers.update');
 Route::get('/computers/{SerialNumber}', [ComputerController::class, 'computerTracert'])->name('computers.tracert');
 
+Route::post('/assign/{IdWave}/{SerialNumber}', [WaveController::class, 'assignComputerUser']);
+
 
 #Rutas para el login
 Auth::routes();

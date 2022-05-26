@@ -47,12 +47,24 @@
             @endif
             <div class="card" style="max-height: 700px; overflow: auto;">
 
-                <div class="card-body" style="display: table;border-spacing: 40px; overflow: scroll;">
+                <div class="card-body " style="display: table;border-spacing: 40px; overflow: scroll;">
 
-                    <div style=" width: 48%; display: table-cell; ">
-                        <h6 class="fw-bold" style="text-align: center;">Computers</h6>
+                    <div class="border-end" style=" width: 40%; display: table-cell; ">
+                        <div>
+                            <div style="display: inline-block;">
+                                <h6 class="fw-bold">Computers</h6>
+
+                            </div>
+                            <div style="display: inline-block; text-align: right; width: 80%;">
+
+                                <input type="text" style="display: inline-block; width: 50%;">
+                                <button type="button" class="btn btn-primary blue">
+                                    <i class="material-icons">search</i>
+                                </button>
+                            </div>
+                        </div>
                         @if (sizeof($computers_view)!=0)
-                        <table>
+                        <table style="font-size: 12px;">
                             <thead>
                                 <tr>
                                     <th>SerialNumber</th>
@@ -67,14 +79,49 @@
                                     <td>
                                         <div class="form-check" style="display: inline-block;">
                                             <label>
-                                                <input type="checkbox" name="assign[]" value="{{$computer->SerialNumber}}" />
+                                                @if ($computer->cde == null)
+                                                <input type="checkbox" name="assign[]" value="{{$computer->SerialNumber}}" disabled />
+                                                @else
+                                                <input type="checkbox" name="assign[]" value="{{$computer->SerialNumber}}" checked disabled />
+                                                @endif
                                                 <span class="fw-bold"></span>
                                             </label>
                                         </div>
                                         <div style="display: inline-block;">
+                                            <!-- Button trigger modal 2 -->
+                                            <button type="button" class="btn btn-primary green" data-bs-toggle="modal" data-bs-target="#modal2{{ $computer->SerialNumber }}">
+                                                <i class="material-icons">compare_arrows</i>
+                                            </button>
+                                        </div>
+                                        <!-- Modal 2 -->
+                                        <div class="modal fade" id="modal2{{ $computer->SerialNumber }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="background: none; box-shadow: none;">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <form enctype="multipart/form-data" class="" method="POST" action="/assign/{{$wave->IdWave}}/{{$computer->SerialNumber}}">
+                                                        @csrf
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="staticBackdropLabel">Assign User to {{$computer->SerialNumber}}</h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="form-floating mb-3">
+                                                                <input type="text" class="form-control" style="margin-left: 10px;" name="UserCode" placeholder="nameWave" value="{{$computer->cde}}" required>
+                                                                <label for="floatingInput">User Code</label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary grey" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary blue" style="margin-left: 20px;">YES</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="display: inline-block;">
                                             <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-primary red" data-bs-toggle="modal" data-bs-target="#modal{{ $computer->SerialNumber }}">
-                                                <i class="material-icons">delete</i>
+                                                <i class="material-icons">clear</i>
                                             </button>
                                         </div>
                                         <!-- Modal -->
@@ -106,16 +153,28 @@
                         @endif
 
                     </div>
-                    <div style=" width: 48%; display: table-cell;margin-left: 30px;">
-                        <h6 class="fw-bold" style="text-align: center;">Users</h6>
+                    <div class="border-end" style=" width: 50%; display: table-cell;margin-left: 10px;">
+                        <div>
+                            <div style="display: inline-block;">
+                                <h6 class="fw-bold">Users</h6>
+
+                            </div>
+                            <div style="display: inline-block; text-align: right; width: 80%;">
+
+                                <input type="text" style="display: inline-block; width: 50%;">
+                                <button type="button" class="btn btn-primary blue">
+                                    <i class="material-icons">search</i>
+                                </button>
+                            </div>
+                        </div>
                         @if (sizeof($users_view)!=0)
-                        <table>
+                        <table style="font-size: 12px;">
 
                             <thead>
                                 <tr>
                                     <th>CODE</th>
                                     <th>Full Name</th>
-                                    <th>Position</th>
+                                    <th>User Name</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -123,18 +182,29 @@
                                 <tr>
                                     <td>{{ $user->cde }}</td>
                                     <td>{{ $user->name }}</td>
-                                    <td>{{ $user->position }}</td>
+                                    <td>{{ $user->username }}</td>
                                     <td>
                                         <div class="form-check" style="display: inline-block;">
                                             <label>
-                                                <input type="checkbox" name="assign[]" value="{{$user->cde}}" />
+                                                @if ($user->SerialNumberComputer == null)
+                                                <input type="checkbox" name="assign[]" value="{{$user->cde}}" disabled />
+                                                @else
+                                                <input type="checkbox" name="assign[]" value="{{$user->cde}}" checked disabled />
+                                                @endif
+
                                                 <span class="fw-bold"></span>
                                             </label>
                                         </div>
                                         <div style="display: inline-block;">
                                             <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-primary green">
+                                                <i class="material-icons">compare_arrows</i>
+                                            </button>
+                                        </div>
+                                        <div style="display: inline-block;">
+                                            <!-- Button trigger modal -->
                                             <button type="button" class="btn btn-primary red" data-bs-toggle="modal" data-bs-target="#modal{{ $user->cde }}">
-                                                <i class="material-icons">delete</i>
+                                                <i class="material-icons">clear</i>
                                             </button>
                                         </div>
                                         <!-- Modal -->
