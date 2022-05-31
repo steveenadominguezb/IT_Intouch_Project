@@ -35,6 +35,23 @@
                             @if (session()->has('message'))
                             <div class="alert alert-{{session()->get('alert')}}" role="alert">
                                 {{session()->get('message')}}
+                                @if(session()->has('th'))
+                                <div class="accordion" id="accordionExample" style="background-color: none;">
+
+                                    <div class="accordion-item" style="border-color: black;">
+                                        <h2 class="accordion-header" id="headingThree" style=" background-color: none; margin-top: 0px;">
+                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                See more about the error
+                                            </button>
+                                        </h2>
+                                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                            <div class="accordion-body">
+                                                <strong> {{session()->get('th')}}</strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
                             @endif
                             <table style="margin-left: 10%; width: 80%">
@@ -52,13 +69,18 @@
                                         <td>{{ $computer->SerialNumber }}</td>
                                         <td>{{ $computer->HostName }}</td>
                                         <td>{{ $computer->Status }}</td>
-                                        <td>  
+                                        <td>
                                             <div style="display: inline-block;">
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal{{ $computer->SerialNumber }}">
                                                     <i class="material-icons">edit</i>
                                                 </button>
-
+                                            </div>
+                                            <div style="display: inline-block;">
+                                                <!-- Button trigger modal -->
+                                                <button type="button" class="btn btn-primary black" data-bs-toggle="modal" data-bs-target="#modalflag{{ $computer->SerialNumber }}">
+                                                    <i class="material-icons">flag</i>
+                                                </button>
                                             </div>
                                             <div style="display: inline-block;">
                                                 <!-- Button trigger modal -->
@@ -141,6 +163,28 @@
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary grey" data-bs-dismiss="modal">Close</button>
                                                                 <button type="submit" class="btn btn-primary blue" style="margin-left: 20px;">Save</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal fade" id="modalflag{{ $computer->SerialNumber }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="background: none; box-shadow: none;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <form enctype="multipart/form-data" class="" method="get" action="">
+                                                            @csrf
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title fw-bold" id="staticBackdropLabel">BLACK LIST</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <strong>Would you like to add this computer({{ $computer->SerialNumber }}) to the blacklist?</strong>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary grey" data-bs-dismiss="modal">Close</button>
+                                                                <a href="/computers/blacklist/{{$computer->SerialNumber}}" class="btn btn-primary blue">
+                                                                    YES
+                                                                </a>
                                                             </div>
                                                         </form>
                                                     </div>

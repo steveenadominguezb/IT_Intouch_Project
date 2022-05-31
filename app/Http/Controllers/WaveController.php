@@ -113,8 +113,7 @@ class WaveController extends Controller
             }
             return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again ' . $th, 'alert' => 'danger']);
-        }
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again','th' => $th, 'alert' => 'danger']);        }
     }
 
     public function assignUsers($IdWave)
@@ -134,8 +133,7 @@ class WaveController extends Controller
 
             return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again ' . $th, 'alert' => 'danger']);
-        }
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again','th' => $th, 'alert' => 'danger']);        }
     }
 
     public function unassignComputer($IdWave, $SerialNumber)
@@ -145,7 +143,7 @@ class WaveController extends Controller
             DB::table('computers')->where('SerialNumber', $SerialNumber)->update(['Status' => 'InStorage']);
             return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'alert' => 'danger']);
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
         }
     }
 
@@ -156,7 +154,7 @@ class WaveController extends Controller
             DB::table('users')->where('cde', $cde)->update(['status' => 'Active']);
             return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'alert' => 'danger']);
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
         }
     }
 
@@ -178,7 +176,7 @@ class WaveController extends Controller
             }
             return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again' . $th, 'alert' => 'danger']);
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
         }
     }
 

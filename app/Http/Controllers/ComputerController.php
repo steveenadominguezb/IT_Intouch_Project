@@ -118,7 +118,7 @@ class ComputerController extends Controller
     }
 
     public function computersList()
-    {   
+    {
         $text = trim(request('text'));
         if ($text != null) {
             $computers = Computer::where('SerialNumber', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->get();
@@ -151,8 +151,20 @@ class ComputerController extends Controller
         }
     }
 
-    public function computerTracert($SerialNumber){
+    public function computerTracert($SerialNumber)
+    {
         $computer = Computer::where('SerialNumber', $SerialNumber)->get();
         return $computer;
+    }
+
+    public function inBlackList($SerialNumber)
+    {
+        try {
+            DB::table('computers')->where('SerialNumber', $SerialNumber)
+                ->update(['Status' => 'InBlackList']);
+            return back()->with(['message' => 'Updated', 'alert' => 'success']);
+        } catch (\Throwable $th) {
+            return back()->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
+        }
     }
 }
