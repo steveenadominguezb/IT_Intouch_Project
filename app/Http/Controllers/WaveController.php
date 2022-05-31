@@ -80,9 +80,9 @@ class WaveController extends Controller
         $wave = Wave::where('IdWave', $IdWave)->first();
         $text = trim(request('text'));
         if ($text != null) {
-            $users = User::where('cde', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->where('status','Active')->get();
+            $users = User::where('cde', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->where('status', 'Active')->get();
             if ($users->isEmpty()) {
-                $users = User::where('name', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->where('status','Active')->get();
+                $users = User::where('name', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->where('status', 'Active')->get();
             }
             return view('assign_users', compact('wave', 'users'));
         }
@@ -166,18 +166,24 @@ class WaveController extends Controller
             $celdas = DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', null)
                 ->where('cde', request('UserCode'))
                 ->get();
-            if(sizeof($celdas) == 1){
-                DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', null)
-                ->where('cde', request('UserCode'))
-                ->delete();
+
+            if (sizeof($celdas) == 1) {
                 DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', $SerialNumber)
-                ->update(['cde' => request('UserCode')]);
-            }else{
+                    ->update(['SerialNumberComputer' => null]);
+                DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', null)
+                    ->where('cde', request('UserCode'))
+                    ->update(['SerialNumberComputer' => $SerialNumber]);
+            } else {
                 return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, user is already assigned or does not correspond to the wave', 'alert' => 'danger']);
             }
             return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
         } catch (\Throwable $th) {
             return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again' . $th, 'alert' => 'danger']);
         }
+    }
+
+    public function updateStatus($cde)
+    {
+        DB::table('users')->where('cde', $cde)->update(['status' => 'Active']);
     }
 }
