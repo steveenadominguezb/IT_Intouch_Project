@@ -178,7 +178,12 @@
                                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
+                                                                @if ( $computer->Status != 'InBlackList')
                                                                 <strong>Would you like to add this computer({{ $computer->SerialNumber }}) to the blacklist?</strong>
+                                                                @else
+                                                                <strong>This computer ({{ $computer->SerialNumber }}) is already blacklisted, would you like to change it?</strong>
+                                                                @endif
+                                                                
                                                             </div>
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary grey" data-bs-dismiss="modal">Close</button>

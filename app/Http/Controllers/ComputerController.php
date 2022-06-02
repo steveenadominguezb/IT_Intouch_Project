@@ -160,9 +160,16 @@ class ComputerController extends Controller
     public function inBlackList($SerialNumber)
     {
         try {
-            DB::table('computers')->where('SerialNumber', $SerialNumber)
-                ->update(['Status' => 'InBlackList']);
-            return back()->with(['message' => 'Updated', 'alert' => 'success']);
+            $computer =  DB::table('computers')->where('SerialNumber', $SerialNumber)->get();
+            if ($computer[0]->Status != 'InBlackList') {
+                DB::table('computers')->where('SerialNumber', $SerialNumber)
+                    ->update(['Status' => 'InBlackList']);
+                return back()->with(['message' => 'Updated', 'alert' => 'success']);
+            } else {
+                DB::table('computers')->where('SerialNumber', $SerialNumber)
+                    ->update(['Status' => 'InStorage']);
+                return back()->with(['message' => 'Updated', 'alert' => 'success']);
+            }
         } catch (\Throwable $th) {
             return back()->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
         }
