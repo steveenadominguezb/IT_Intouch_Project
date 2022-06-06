@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ComputerController;
-use App\Http\Controllers\ComputersController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RegisterEmployeeController;
 use App\Http\Controllers\WaveController;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +22,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 #Ruta pagina principal
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 #Ruta post para insertar una nueva wave
 Route::post('/home/insert-wave', [WaveController::class, 'store'])->name('wave.store');
 

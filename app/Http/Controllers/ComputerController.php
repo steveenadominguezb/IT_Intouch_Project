@@ -121,9 +121,12 @@ class ComputerController extends Controller
     {
         $text = trim(request('text'));
         if ($text != null) {
-            $computers = Computer::where('SerialNumber', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->get();
+            $computers = Computer::where('SerialNumber', 'LIKE', '%' . $text . '%')->get();
             if ($computers->isEmpty()) {
-                $computers = Computer::where('HostName', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->get();
+                $computers = Computer::where('HostName', 'LIKE', '%' . $text . '%')->get();
+            }
+            if ($computers->isEmpty()) {
+                $computers = Computer::where('Status', 'LIKE', '%' . $text . '%')->get();
             }
             return view('computers', compact('computers'));
         }
