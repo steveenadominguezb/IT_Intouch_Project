@@ -37,23 +37,24 @@ Route::get('/home/register-computer', [ComputerController::class, 'index'])->nam
 Route::post('/home/register-computer', [ComputerController::class, 'create'])->name('register-computer.create');
 
 #Ruta que muestra la pagina de edición de la wave
-Route::get('/home/wave/{IdWave}', [WaveController::class, 'create'])->name('wave.create');
+Route::get('/home/wave/{IdWave}/{location}', [WaveController::class, 'create'])->name('wave.create');
 #Ruta que desasigna un computador
 Route::post('/home/wave/{IdWave}/computer/{SerialNumber}', [WaveController::class, 'unassignComputer'])->name('wave.unassign.computer');
 #Ruta que desasigna un usuario
 Route::post('/home/wave/{IdWave}/user/{cde}', [WaveController::class, 'unassignUser'])->name('wave.unassign.user');
 
 #Ruta que muestra la vista para asignar computadores
-Route::get('/home/wave/{IdWave}/computers', [WaveController::class, 'showComputers'])->name('wave.show.computers');
+Route::get('/home/wave/{IdWave}/{location}/computers', [WaveController::class, 'showComputers'])->name('wave.show.computers');
 #Ruta que asigna los computadores
-Route::post('/home/wave/{IdWave}/computers', [WaveController::class, 'assignComputers'])->name('wave.assign.computers');
-
-Route::post('/assign/{IdWave}/{SerialNumber}', [WaveController::class, 'assignComputerUser']);
+Route::post('/home/wave/{IdWave}/{location}/computers', [WaveController::class, 'assignComputers'])->name('wave.assign.computers');
 
 #Ruta que muestra la vista para asignar usuarios
 Route::get('/home/wave/{IdWave}/users', [WaveController::class, 'showUsers'])->name('wave.show.users');
 #Ruta que asigna los computadores
 Route::post('/home/wave/{IdWave}/users', [WaveController::class, 'assignUsers'])->name('wave.assign.users');
+
+#Ruta que asigna computador a usuario
+Route::post('/assign/{IdWave}/{SerialNumber}', [WaveController::class, 'assignComputerUser']);
 
 #Ruta para mostrar lista de computadores
 Route::get('/home/computers', [ComputerController::class, 'computersList'])->name('computers.list');

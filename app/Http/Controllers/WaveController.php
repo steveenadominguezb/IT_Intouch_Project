@@ -49,10 +49,14 @@ class WaveController extends Controller
         return back();
     }
 
-    public function create($IdWave)
+    public function create($IdWave, $location)
     {
-        $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', 101)->first();
-
+        $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+        $i = 101;
+        while (!$wave) {
+            $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $i)->first();
+            $i += 100;
+        }
         $computers_view = DB::table('wave_employees')->where('IdWave', $IdWave)
             ->join('computers', 'wave_employees.SerialNumberComputer', '=', 'computers.SerialNumber')
             ->get();
@@ -63,13 +67,17 @@ class WaveController extends Controller
 
         if ($wave) {
             $locations = WaveLocation::where('IdWave', $IdWave)->get();
-            return view('wave_home', compact('wave', 'locations','computers_view', 'users_view'));
+            if ($location != $wave->locations->IdLocation) {
+                return redirect()->to('/home/wave/'.$wave->IdWave.'/'.$wave->locations->IdLocation.'');
+            }
+            return view('wave_home', compact('wave', 'locations', 'computers_view', 'users_view'));
         }
         return "wave doesn't exist";
     }
 
-    public function showComputers($IdWave)
-    {
+    public function showComputers($IdWave, $location)
+    {   
+        return $location;
         $wave = Wave::where('IdWave', $IdWave)->first();
         $text = trim(request('text'));
         if ($text != null) {

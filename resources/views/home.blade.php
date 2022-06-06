@@ -45,7 +45,7 @@
                                         <p style="font-size: 12px;">Assigned computers: {{$computers}}</p>
                                     </div>
                                     <div style="position: fixed; bottom: 0; margin-bottom: 10%;">
-                                        <a href="{{ url('/home/wave/' . $wave->IdWave) }}" class="waves-effect waves-light btn-small"><i class="material-icons right">edit</i>edit</a>
+                                        <a href="{{ url('/home/wave/' . $wave->IdWave. '/101') }}" class="waves-effect waves-light btn-small"><i class="material-icons right">edit</i>edit</a>
                                         <!-- <a href="#" class="waves-effect waves-light btn-small" ><i class="material-icons right">delete</i>delete</a> -->
                                     </div>
                                 </div>
@@ -94,7 +94,7 @@
                                         <p style="font-size: 12px;">Assigned computers: {{$computers}}</p>
                                     </div>
                                     <div style="position: fixed; bottom: 0; margin-bottom: 10%;">
-                                        <a href="{{ url('/home/wave/' . $wave->IdWave) }}" class="waves-effect waves-light btn-small"><i class="material-icons right">edit</i>edit</a>
+                                        <a href="{{ url('/home/wave/' . $wave->IdWave. '/101') }}" class="waves-effect waves-light btn-small"><i class="material-icons right">edit</i>edit</a>
                                         <!-- <a href="#" class="waves-effect waves-light btn-small" ><i class="material-icons right">delete</i>delete</a> -->
                                     </div>
                                 </div>
@@ -154,7 +154,7 @@
 
                                     </div>
                                     <div style="position: fixed; bottom: 0; margin-bottom: 10%;">
-                                        <a href="{{ url('/home/wave/' . $wave->IdWave) }}" class="waves-effect waves-light btn-small"><i class="material-icons right">edit</i>edit</a>
+                                        <a href="{{ url('/home/wave/' . $wave->IdWave . '/101') }}" class="waves-effect waves-light btn-small"><i class="material-icons right">edit</i>edit</a>
                                         <!-- <a href="#" class="waves-effect waves-light btn-small" ><i class="material-icons right">delete</i>delete</a> -->
                                     </div>
                                 </div>

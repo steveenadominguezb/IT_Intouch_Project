@@ -6,19 +6,30 @@
             <div class="col-md-13">
                 <div class="card">
                     <div class="card-header">
-                        <div class="d-inline-block fw-bold" style="width: 20%;">
-                            <a href="{{ url('/home/wave/' . $wave->IdWave . '') }}"
-                                style="color: black;">{{ $wave->programs->Name }}</a>
+                        <div class="d-inline-block fw-bold" style="width: 40%;">
+                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/' . $wave->locations->IdLocation . '') }}"
+                                style="color: black;">{{ $wave->parent->programs->Name }} -</a>
+
+                            <div class="dropdown" style="display: inline-block;">
+                                <button class="dropdown-toggle fw-bold" type="button" id="dropdownMenuButton1"
+                                    style="background: none; border: none" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {{ $wave->locations->Name }}
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    @foreach ($locations as $location)
+                                        <li><a class="dropdown-item"
+                                                href="/home/wave/{{ $wave->IdWave }}/{{ $location->locations->IdLocation }}">{{ $location->locations->Name }}</a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
-                        <div style="display: inline-block; text-align: end; width: 79%;">
+                        <div style="display: inline-block; text-align: end; width: 59%;">
                             <a href="{{ url('/home/wave/' . $wave->IdWave . '/computers') }}"
-                                class="btn-flat fw-bold border-start border-3"
-                                style="font-size: 12px"
-                                >Assign Computers</a>
+                                class="btn-flat fw-bold border-start border-3" style="font-size: 12px">Assign Computers</a>
                             <a href="{{ url('/home/wave/' . $wave->IdWave . '/users') }}"
-                                class="btn-flat fw-bold border-start border-end border-3"
-                                style="font-size: 12px"
-                                >Assign Users</a>
+                                class="btn-flat fw-bold border-start border-end border-3" style="font-size: 12px">Assign
+                                Users</a>
                         </div>
                     </div>
 
