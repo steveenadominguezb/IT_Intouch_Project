@@ -68,7 +68,7 @@ class WaveController extends Controller
         if ($wave) {
             $locations = WaveLocation::where('IdWave', $IdWave)->get();
             if ($location != $wave->locations->IdLocation) {
-                return redirect()->to('/home/wave/'.$wave->IdWave.'/'.$wave->locations->IdLocation.'');
+                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $wave->locations->IdLocation . '');
             }
             return view('wave_home', compact('wave', 'locations', 'computers_view', 'users_view'));
         }
@@ -76,9 +76,8 @@ class WaveController extends Controller
     }
 
     public function showComputers($IdWave, $location)
-    {   
-        return $location;
-        $wave = Wave::where('IdWave', $IdWave)->first();
+    {
+        $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
         $text = trim(request('text'));
         if ($text != null) {
             $computers = Computer::where('SerialNumber', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->orderByDesc('created_at')->get();
@@ -87,17 +86,17 @@ class WaveController extends Controller
             }
             return view('assign_computers', compact('wave', 'computers'));
         }
-
+        $locations = WaveLocation::where('IdWave', $IdWave)->get();
         $computers = Computer::where('Status', 'InStorage')->orderByDesc('created_at')->get();
         if ($wave) {
-            return view('assign_computers', compact('wave', 'computers'));
+            return view('assign_computers', compact('wave', 'computers', 'locations'));
         }
         return "wave doesn't exist";
     }
 
-    public function showUsers($IdWave)
+    public function showUsers($IdWave, $location)
     {
-        $wave = Wave::where('IdWave', $IdWave)->first();
+        $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
         $text = trim(request('text'));
         if ($text != null) {
             $users = User::where('cde', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->where('status', 'Active')->get();
@@ -106,13 +105,14 @@ class WaveController extends Controller
             }
             return view('assign_users', compact('wave', 'users'));
         }
+        $locations = WaveLocation::where('IdWave', $IdWave)->get();
         if ($wave->Name == 'Staff') {
             $users = User::where('privilege', '!=', '40001')->where('status', '!=', 'ActiveFull')->get();
-            return view('assign_users', compact('wave', 'users'));
+            return view('assign_users', compact('wave', 'users', 'locations'));
         }
         $users = User::where('Position', 'Agent')->where('status', 'Active')->get();
         if ($wave) {
-            return view('assign_users', compact('wave', 'users'));
+            return view('assign_users', compact('wave', 'users', 'locations'));
         }
         return "wave doesn't exist";
     }
