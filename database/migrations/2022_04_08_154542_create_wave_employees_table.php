@@ -20,18 +20,15 @@ return new class extends Migration
             $table->boolean('T&ICamera')->default(false);
             $table->timestamps();
 
-            $table->bigInteger('IdWave');
+
             $table->string('cde')->nullable();
             $table->string('SerialNumberKey')->nullable();
             $table->string('SerialNumberComputer')->nullable();
-            $table->unsignedBigInteger('IdLocation')->nullable();
-            
 
-            $table->foreign('IdWave')->references('IdWave')->on('waves');
+
             $table->foreign('cde')->references('cde')->on('users');
             $table->foreign('SerialNumberKey')->references('SerialNumber')->on('yubikeys');
             $table->foreign('SerialNumberComputer')->references('SerialNumber')->on('computers');
-            $table->foreign('IdLocation')->references('IdLocation')->on('locations');
         });
     }
 
