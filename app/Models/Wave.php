@@ -10,7 +10,6 @@ class Wave extends Model
     use HasFactory;
 
     public function programs(){
-       
         return $this->belongsTo(Program::class, 'IdProgram', 'IdProgram');
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Computer;
 use App\Models\User;
 use App\Models\Wave;
 use App\Models\WaveEmployee;
+use App\Models\WaveLocation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\Return_;
@@ -29,7 +30,6 @@ class WaveController extends Controller
         //     'floatingDate' => 'required',
         //     'floatingInspector' => 'required',
         // ]);
-
         $wave = new Wave();
         $wave->Name = request('floatingName');
         $wave->StartDate = request('floatingDate');
@@ -38,20 +38,32 @@ class WaveController extends Controller
 
         $wave->save();
 
+        $wave = Wave::where('Name', request('floatingName'))->orderByDesc('created_at')->first();
+
+        $wave_location = new WaveLocation();
+        $wave_location->IdWave = $wave->IdWave;
+        $wave_location->IdLocation = request('floatingSelectLocation');
+
+        $wave_location->save();
+
         return back();
     }
 
     public function create($IdWave)
     {
-        $wave = Wave::where('IdWave', $IdWave)->first();
+        $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', 101)->first();
+
         $computers_view = DB::table('wave_employees')->where('IdWave', $IdWave)
             ->join('computers', 'wave_employees.SerialNumberComputer', '=', 'computers.SerialNumber')
             ->get();
+
         $users_view = DB::table('wave_employees')->where('IdWave', $IdWave)
             ->join('users', 'wave_employees.cde', '=', 'users.cde')
             ->get();
+
         if ($wave) {
-            return view('wave_home', compact('wave', 'computers_view', 'users_view'));
+            $locations = WaveLocation::where('IdWave', $IdWave)->get();
+            return view('wave_home', compact('wave', 'locations','computers_view', 'users_view'));
         }
         return "wave doesn't exist";
     }
@@ -113,7 +125,8 @@ class WaveController extends Controller
             }
             return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again','th' => $th, 'alert' => 'danger']);        }
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
+        }
     }
 
     public function assignUsers($IdWave)
@@ -133,7 +146,8 @@ class WaveController extends Controller
 
             return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again','th' => $th, 'alert' => 'danger']);        }
+            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
+        }
     }
 
     public function unassignComputer($IdWave, $SerialNumber)

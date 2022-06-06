@@ -173,7 +173,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" style="width:30%; height: 60%;" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="exampleModal" style="background: none; box-shadow: none;" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -202,11 +202,22 @@
                         <label for="floatingSelect">Select Program</label>
                     </div>
                     <div class="form-floating mb-3">
+                        <select class="form-select" name="floatingSelectLocation" aria-label="Floating label select example" required>
+                            <option value="101">Bogotá</option>
+                            <option value="201">Medellín</option>
+                            <option value="301">Bucaramanga</option>
+                            <option value="401">Barranquilla</option>
+                            <option value="501">Cali</option>
+
+                        </select>
+                        <label for="floatingSelect">Select Location</label>
+                    </div>
+                    <div class="form-floating mb-3">
                         <input type="text" class="form-control" style="padding-left: 5px;" name="floatingName" placeholder="nameWave" required>
                         <label for="floatingInput" class="fw-bold">Name Wave</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input type="date" class="form-control" style="padding-left: 5px;" name="floatingDate" placeholder="yyyy-mm-dd" value="yyyy-mm-dd" required>
+                        <input type="date" class="form-control" style="padding-left: 5px;" name="floatingDate" placeholder="yyyy-mm-dd" required>
                         <label for="floatingInputGrid">Start Date</label>
                     </div>
                     <div class="form-floating mb-3">

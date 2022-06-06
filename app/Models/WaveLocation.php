@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class WaveLocation extends Model
+{
+    use HasFactory;
+
+    public function parent()
+    {
+        return $this->belongsTo(Wave::class, 'IdWave', 'IdWave');
+    }
+
+    public function locations()
+    {
+        return $this->belongsTo(Location::class, 'IdLocation', 'IdLocation');
+    }
+}

@@ -6,19 +6,26 @@
             <div class="col-md-13">
                 <div class="card">
                     <div class="card-header">
-                        <div class="d-inline-block fw-bold" style="width: 20%;">
+                        <div class="d-inline-block fw-bold" style="width: 40%;">
                             <a href="{{ url('/home/wave/' . $wave->IdWave . '') }}"
-                                style="color: black;">{{ $wave->programs->Name }}</a>
+                                style="color: black;">{{ $wave->parent->programs->Name }} -</a>
+
+                            <div style="display: inline-block;width: 100px; ">
+                                <select style="border: none" class="form-select fw-bold" name="floatingSelectLocation"
+                                    aria-label="Floating label select example" required>
+                                    @foreach ($locations as $location)
+                                    <option value="{{ $location->locations->IdLocation }}">{{ $location->locations->Name }}</option>
+                                    @endforeach
+
+                                </select>
+                            </div>
                         </div>
-                        <div style="display: inline-block; text-align: end; width: 79%;">
+                        <div style="display: inline-block; text-align: end; width: 59%;">
                             <a href="{{ url('/home/wave/' . $wave->IdWave . '/computers') }}"
-                                class="btn-flat fw-bold border-start border-3"
-                                style="font-size: 12px"
-                                >Assign Computers</a>
+                                class="btn-flat fw-bold border-start border-3" style="font-size: 12px">Assign Computers</a>
                             <a href="{{ url('/home/wave/' . $wave->IdWave . '/users') }}"
-                                class="btn-flat fw-bold border-start border-end border-3"
-                                style="font-size: 12px"
-                                >Assign Users</a>
+                                class="btn-flat fw-bold border-start border-end border-3" style="font-size: 12px">Assign
+                                Users</a>
                         </div>
                     </div>
 
@@ -32,18 +39,18 @@
                             <div style="width: 35%; float: left; margin-right: 15%;">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" style="margin-left: 10px;" name="floatingName"
-                                        placeholder="nameWave" value="{{ $wave->Name }}" required>
+                                        placeholder="nameWave" value="{{ $wave->parent->Name }}" required>
                                     <label for="floatingInput">Name Wave</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="date" class="form-control" style="margin-left: 10px;" name="floatingDate"
-                                        value="{{ $wave->StartDate }}" required>
+                                        value="{{ $wave->parent->StartDate }}" required>
                                     <label for="floatingInputGrid">Start Date</label>
                                 </div>
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" style="margin-left: 10px;"
                                         name="floatingInspector" placeholder="Itops Inspector"
-                                        value="{{ $wave->ItopsInspector }}" required>
+                                        value="{{ $wave->parent->ItopsInspector }}" required>
                                     <label for="floatingInput">Itops Inspector</label>
                                 </div>
                             </div>

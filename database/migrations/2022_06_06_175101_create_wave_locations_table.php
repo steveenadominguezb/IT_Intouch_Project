@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('wave_location', function (Blueprint $table) {
+        Schema::create('wave_locations', function (Blueprint $table) {
             $table->bigInteger('IdWaveLocation')->autoIncrement();
             $table->bigInteger('IdWave');
             $table->unsignedBigInteger('IdLocation');
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('wave_location');
+        Schema::dropIfExists('wave_locations');
     }
 };

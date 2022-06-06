@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('wave_employees', function (Blueprint $table) {
             $table->bigInteger('IdWave');
-            $table->foreign('IdWave')->references('IdWaveLocation')->on('wave_location');
+            $table->foreign('IdWave')->references('IdWaveLocation')->on('wave_locations');
         });
     }
 
