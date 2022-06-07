@@ -108,7 +108,7 @@ class WaveController extends Controller
             return view('assign_users', compact('wave', 'users'));
         }
         $locations = WaveLocation::where('IdWave', $IdWave)->get();
-        if ($wave->Name == 'Staff') {
+        if ($wave->parent->Name == 'Staff') {
             $users = User::where('privilege', '!=', '40001')->where('status', '!=', 'ActiveFull')->get();
             return view('assign_users', compact('wave', 'users', 'locations'));
         }

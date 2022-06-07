@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Wave;
+use App\Models\WaveLocation;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -54,5 +55,30 @@ class WavesTableSeeder extends Seeder
         $wave4->Return = false;
         $wave4->IdProgram = 1;
         $wave4->save();
+
+        $waveLocation = new WaveLocation();
+        $waveLocation->IdWave = 5;
+        $waveLocation->IdLocation = 101;
+        $waveLocation->save();
+
+        $waveLocation = new WaveLocation();
+        $waveLocation->IdWave = 1;
+        $waveLocation->IdLocation = 101;
+        $waveLocation->save();
+
+        $waveLocation = new WaveLocation();
+        $waveLocation->IdWave = 2;
+        $waveLocation->IdLocation = 101;
+        $waveLocation->save();
+
+        $waveLocation = new WaveLocation();
+        $waveLocation->IdWave = 3;
+        $waveLocation->IdLocation = 101;
+        $waveLocation->save();
+
+        $waveLocation = new WaveLocation();
+        $waveLocation->IdWave = 4;
+        $waveLocation->IdLocation = 101;
+        $waveLocation->save();
     }
 }

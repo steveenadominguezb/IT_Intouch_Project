@@ -40,7 +40,7 @@
                                     <div style="height: 48%;">
                                         <span class="card-title grey-text text-darken-4 fw-bold" style="font-size: 15px;">{{ $wave->Name}}<i class="material-icons right">close</i></span>
                                         @php
-                                        $computers = \App\Models\WaveEmployee::where('IdWave', $wave->IdWave)->where('SerialNumberComputer','LIKE','%')->count();
+                                        $computers = \App\Models\WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer','LIKE','%')->count();
                                         @endphp
                                         <p style="font-size: 12px;">Assigned computers: {{$computers}}</p>
                                     </div>
@@ -89,7 +89,7 @@
                                     <div style="height: 48%;">
                                         <span class="card-title grey-text text-darken-4 fw-bold" style="font-size: 15px;">{{ $wave->Name}}<i class="material-icons right">close</i></span>
                                         @php
-                                        $computers = \App\Models\WaveEmployee::where('IdWave', $wave->IdWave)->where('SerialNumberComputer','LIKE','%')->count();
+                                        $computers = \App\Models\WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer','LIKE','%')->count();
                                         @endphp
                                         <p style="font-size: 12px;">Assigned computers: {{$computers}}</p>
                                     </div>
@@ -148,7 +148,7 @@
                                     <div style="height: 48%;">
                                         <span class="card-title grey-text text-darken-4 fw-bold" style="font-size: 15px;">{{ $wave->Name}}<i class="material-icons right">close</i></span>
                                         @php
-                                        $computers = \App\Models\WaveEmployee::where('IdWave', $wave->IdWave)->where('SerialNumberComputer','LIKE','%')->count();
+                                        $computers = \App\Models\WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer','LIKE','%')->count();
                                         @endphp
                                         <p style="font-size: 12px;">Assigned computers: {{$computers}}</p>
 
