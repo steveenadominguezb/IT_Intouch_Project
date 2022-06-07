@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\Return_;
 
+use function PHPUnit\Framework\returnValueMap;
+
 class WaveController extends Controller
 {
     /**
@@ -57,11 +59,11 @@ class WaveController extends Controller
             $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $i)->first();
             $i += 100;
         }
-        $computers_view = DB::table('wave_employees')->where('IdWave', $IdWave)
+        $computers_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)
             ->join('computers', 'wave_employees.SerialNumberComputer', '=', 'computers.SerialNumber')
             ->get();
 
-        $users_view = DB::table('wave_employees')->where('IdWave', $IdWave)
+        $users_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)
             ->join('users', 'wave_employees.cde', '=', 'users.cde')
             ->get();
 
@@ -117,88 +119,121 @@ class WaveController extends Controller
         return "wave doesn't exist";
     }
 
-    public function assignComputers($IdWave)
+    public function assignComputers($IdWave, $location)
     {
         try {
-            $wave = Wave::where('IdWave', $IdWave)->first();
+            $locations = WaveLocation::where('IdWave', $IdWave)->get();
+            $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+
             if (is_null(request('assign'))) {
-                echo '<script language="javascript">alert("Nothing selected");</script>';
-                return view('wave_home', compact('wave'));
+                return back()->with(['message' => 'Nothing selected', 'alert' => 'success', 'locations' => $locations]);
             }
             foreach (request('assign') as $value) {
 
-                DB::table('wave_employees')->updateOrInsert(['IdWave' => $IdWave, 'SerialNumberComputer' => $value], ['SerialNumberComputer' => $value]);
+                DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'SerialNumberComputer' => $value], ['SerialNumberComputer' => $value]);
 
                 DB::table('computers')->where('SerialNumber', $value)->update(['Status' => 'Taken']);
             }
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'locations' => $locations]);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'locations' => $locations]);
         }
     }
 
-    public function assignUsers($IdWave)
+    public function assignUsers($IdWave, $location)
     {
         try {
-            $wave = Wave::where('IdWave', $IdWave)->first();
+            $locations = WaveLocation::where('IdWave', $IdWave)->get();
+            $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
             if (is_null(request('assign'))) {
-                echo '<script language="javascript">alert("Nothing selected");</script>';
-                return view('wave_home', compact('wave'));
+                return back()->with(['message' => 'Nothing selected', 'alert' => 'success', 'locations' => $locations]);
             }
             foreach (request('assign') as $value) {
 
-                DB::table('wave_employees')->updateOrInsert(['IdWave' => $IdWave, 'cde' => $value], ['cde' => $value]);
+                DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'cde' => $value], ['cde' => $value]);
 
                 DB::table('users')->where('cde', $value)->update(['status' => 'ActiveFull']);
             }
 
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'locations' => $locations]);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'locations' => $locations]);
         }
     }
 
-    public function unassignComputer($IdWave, $SerialNumber)
+    public function unassignComputer($IdWave, $location, $SerialNumber)
     {
         try {
-            DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', $SerialNumber)->update(['SerialNumberComputer' => null]);
+            $locations = WaveLocation::where('IdWave', $IdWave)->get();
+            $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+            $wave_employees = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $SerialNumber)->first();
+
+            if ($wave_employees->cde != null) {
+                DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $SerialNumber)->update(['SerialNumberComputer' => null]);
+            } else {
+                DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $SerialNumber)->delete();
+            }
+
             DB::table('computers')->where('SerialNumber', $SerialNumber)->update(['Status' => 'InStorage']);
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
+
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'locations' => $locations]);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'locations' => $locations]);
         }
     }
 
-    public function unassignUser($IdWave, $cde)
+    public function unassignUser($IdWave, $location, $cde)
     {
         try {
-            DB::table('wave_employees')->where('IdWave', $IdWave)->where('cde', $cde)->update(['cde' => null]);
+            $locations = WaveLocation::where('IdWave', $IdWave)->get();
+            $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+
+            $wave_employees = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('cde', $cde)->first();
+
+            if ($wave_employees->SerialNumberComputer != null) {
+                DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('cde', $cde)->update(['cde' => null]);
+            } else {
+                DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('cde', $cde)->delete();
+            }
+
             DB::table('users')->where('cde', $cde)->update(['status' => 'Active']);
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
+
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'locations' => $locations]);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'locations' => $locations]);
         }
     }
 
-    public function assignComputerUser($IdWave, $SerialNumber)
+    public function assignComputerUser($IdWave, $location, $SerialNumber)
     {
         try {
-            $celdas = DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', null)
+            $locations = WaveLocation::where('IdWave', $IdWave)->get();
+            $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+
+            $celdas = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
                 ->where('cde', request('UserCode'))
                 ->get();
 
             if (sizeof($celdas) == 1) {
-                DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', $SerialNumber)
-                    ->update(['SerialNumberComputer' => null]);
-                DB::table('wave_employees')->where('IdWave', $IdWave)->where('SerialNumberComputer', null)
+
+                $wave_employees = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $SerialNumber)->first();
+
+                if ($wave_employees->cde != null) {
+                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $SerialNumber)->update(['SerialNumberComputer' => null]);
+                } else {
+                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $SerialNumber)->delete();
+                }
+
+                DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
                     ->where('cde', request('UserCode'))
                     ->update(['SerialNumberComputer' => $SerialNumber]);
             } else {
-                return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, user is already assigned or does not correspond to the wave', 'alert' => 'danger']);
+
+                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, user is already assigned or does not correspond to the wave', 'alert' => 'danger', 'locations' => $locations]);
             }
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Successful', 'alert' => 'success']);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'locations' => $locations]);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $IdWave)->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'locations' => $locations]);
         }
     }
 

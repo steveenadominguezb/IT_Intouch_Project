@@ -150,7 +150,7 @@
                                                             <div class="modal-content">
                                                                 <form enctype="multipart/form-data" class=""
                                                                     method="POST"
-                                                                    action="/assign/{{ $wave->IdWave }}/{{ $computer->SerialNumber }}">
+                                                                    action="/assign/{{ $wave->IdWave }}/{{ $wave->locations->IdLocation}}/{{ $computer->SerialNumber }}">
                                                                     @csrf
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title" id="staticBackdropLabel">
@@ -197,7 +197,7 @@
                                                             <div class="modal-content">
                                                                 <form enctype="multipart/form-data" class=""
                                                                     method="POST"
-                                                                    action="/home/wave/{{ $wave->IdWave }}/computer/{{ $computer->SerialNumber }}">
+                                                                    action="/home/wave/{{ $wave->IdWave }}/{{ $wave->locations->IdLocation }}/computer/{{ $computer->SerialNumber }}">
                                                                     @csrf
                                                                     <div class="modal-body">
                                                                         <h6>unassign the computer
@@ -291,7 +291,7 @@
                                                             <div class="modal-content">
                                                                 <form enctype="multipart/form-data" class=""
                                                                     method="POST"
-                                                                    action="/home/wave/{{ $wave->IdWave }}/user/{{ $user->cde }}">
+                                                                    action="/home/wave/{{ $wave->IdWave }}/{{ $wave->locations->IdLocation }}/user/{{ $user->cde }}">
                                                                     @csrf
                                                                     <div class="modal-body">
                                                                         <h6>unassign the user {{ $user->cde }} ?</h6>
