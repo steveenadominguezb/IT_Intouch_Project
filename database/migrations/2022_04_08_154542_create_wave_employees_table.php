@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('wave_employees', function (Blueprint $table) {
             $table->bigInteger('id')->autoIncrement();
             $table->date('Date')->default(now());
-            $table->boolean('T&IHeadSet')->default(false);
-            $table->boolean('T&ICamera')->default(false);
+            $table->boolean('T&IHeadSet')->default(true);
+            $table->boolean('T&ICamera')->default(true);
             $table->timestamps();
 
 

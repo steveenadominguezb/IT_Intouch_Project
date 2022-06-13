@@ -241,4 +241,21 @@ class WaveController extends Controller
     {
         DB::table('users')->where('cde', $cde)->update(['status' => 'Active']);
     }
+
+    public function addLocation($IdWave, $location)
+    {
+        try {
+            $locations = WaveLocation::where('IdWave', $IdWave)->get();
+            $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+
+            $wave_location = new WaveLocation();
+            $wave_location->IdWave = $IdWave;
+            $wave_location->IdLocation = request('floatingSelectLocation');
+            $wave_location->save();
+
+            return redirect()->to('/home/wave/' . $IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'locations' => $locations]);
+        } catch (\Throwable $th) {
+            return redirect()->to('/home/wave/' . $IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'locations' => $locations]);
+        }
+    }
 }

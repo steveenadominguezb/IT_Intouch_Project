@@ -21,6 +21,14 @@
                                                 href="/home/wave/{{ $wave->IdWave }}/{{ $location->locations->IdLocation }}">{{ $location->locations->Name }}</a>
                                         </li>
                                     @endforeach
+                                    <li>
+                                        <!-- Button trigger add location modal -->
+                                        <button type="button" class="btn-flat" data-bs-toggle="modal"
+                                            data-bs-target="#modal_add_location">
+                                            Add Location
+                                        </button>
+                                    </li>
+
                                 </ul>
                             </div>
                         </div>
@@ -150,7 +158,7 @@
                                                             <div class="modal-content">
                                                                 <form enctype="multipart/form-data" class=""
                                                                     method="POST"
-                                                                    action="/assign/{{ $wave->IdWave }}/{{ $wave->locations->IdLocation}}/{{ $computer->SerialNumber }}">
+                                                                    action="/assign/{{ $wave->IdWave }}/{{ $wave->locations->IdLocation }}/{{ $computer->SerialNumber }}">
                                                                     @csrf
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title" id="staticBackdropLabel">
@@ -320,6 +328,40 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+    <!-- Add location modal -->
+    <div class="modal fade" style="background: none; box-shadow: none;" id="modal_add_location"
+        data-bs-backdrop="static" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">New Location</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/home/wave/{{$wave->IdWave}}/{{$wave->IdWaveLocation}}/new-location" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <select class="form-select" name="floatingSelectLocation"
+                                aria-label="Floating label select example" required>
+                                <option value="101">Bogotá</option>
+                                <option value="201">Medellín</option>
+                                <option value="301">Bucaramanga</option>
+                                <option value="401">Barranquilla</option>
+                                <option value="501">Cali</option>
+
+                            </select>
+                            <label for="floatingSelect">Select Location</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
