@@ -38,6 +38,10 @@
                             <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->locations->IdLocation }}/users"
                                 class="btn-flat fw-bold border-start border-end border-3" style="font-size: 12px">Assign
                                 Users</a>
+                            <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->locations->IdLocation }}/users"
+                                class="btn-flat fw-bold border-end border-3" style="font-size: 12px" data-bs-toggle="modal"
+                                data-bs-target="#modal_inventory_update">
+                                Inventory Update</a>
                         </div>
                     </div>
 
@@ -341,7 +345,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">New Location</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="/home/wave/{{$wave->IdWave}}/{{$wave->IdWaveLocation}}/new-location" method="POST">
+                <form action="/home/wave/{{ $wave->IdWave }}/{{ $wave->IdWaveLocation }}/new-location" method="POST">
                     @csrf
                     <div class="modal-body">
                         <div class="form-floating mb-3">
@@ -360,6 +364,40 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Inventory update modal -->
+    <div class="modal fade" style="background: none; box-shadow: none;" id="modal_inventory_update"
+        data-bs-backdrop="static" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Inventory Update</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/home/wave/{{ $wave->IdWave }}/{{ $wave->IdWaveLocation }}/new-location" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-floating mb-3">
+                            <select class="form-select" name="floatingSelectLocation"
+                                aria-label="Floating label select example" required>
+                                <option value="101">Bogotá</option>
+                                <option value="201">Medellín</option>
+                                <option value="301">Bucaramanga</option>
+                                <option value="401">Barranquilla</option>
+                                <option value="501">Cali</option>
+
+                            </select>
+                            <label for="floatingSelect">Select Location</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary me-3 grey" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary blue">Save</button>
                     </div>
                 </form>
             </div>
