@@ -382,18 +382,7 @@
                 <form action="/home/wave/{{ $wave->IdWave }}/{{ $wave->IdWaveLocation }}/new-location" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <div class="form-floating mb-3">
-                            <select class="form-select" name="floatingSelectLocation"
-                                aria-label="Floating label select example" required>
-                                <option value="101">Bogotá</option>
-                                <option value="201">Medellín</option>
-                                <option value="301">Bucaramanga</option>
-                                <option value="401">Barranquilla</option>
-                                <option value="501">Cali</option>
-
-                            </select>
-                            <label for="floatingSelect">Select Location</label>
-                        </div>
+                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary me-3 grey" data-bs-dismiss="modal">Close</button>
