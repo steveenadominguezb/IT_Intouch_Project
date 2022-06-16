@@ -104,7 +104,7 @@ class RegisterEmployeeController extends Controller
                         foreach ($wave->locations as $location) {
                             if (strtolower(str_replace(['á', 'í'], ['a', 'i'], $location->location['Name'])) == strtolower($employee['location'])) {
                                 $created = true;
-                                $idLocation = $location['IdWave'];
+                                $idLocation = $location['IdWaveLocation'];
                             }
                         }
                         if (!$created) {
