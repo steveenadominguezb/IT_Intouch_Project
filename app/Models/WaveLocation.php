@@ -14,7 +14,7 @@ class WaveLocation extends Model
         return $this->belongsTo(Wave::class, 'IdWave', 'IdWave');
     }
 
-    public function locations()
+    public function location()
     {
         return $this->belongsTo(Location::class, 'IdLocation', 'IdLocation');
     }

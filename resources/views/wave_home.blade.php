@@ -7,18 +7,18 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="d-inline-block fw-bold" style="width: 40%;">
-                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/' . $wave->locations->IdLocation . '') }}"
+                            <a href="{{ url('/home/wave/' . $wave->IdWave . '/' . $wave->location->IdLocation . '') }}"
                                 style="color: black;">{{ $wave->parent->programs->Name }} -</a>
 
                             <div class="dropdown" style="display: inline-block;">
                                 <button class="dropdown-toggle fw-bold" type="button" id="dropdownMenuButton1"
                                     style="background: none; border: none" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $wave->locations->Name }}
+                                    {{ $wave->location->Name }}
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     @foreach ($locations as $location)
                                         <li><a class="dropdown-item"
-                                                href="/home/wave/{{ $wave->IdWave }}/{{ $location->locations->IdLocation }}">{{ $location->locations->Name }}</a>
+                                                href="/home/wave/{{ $wave->IdWave }}/{{ $location->location->IdLocation }}">{{ $location->location->Name }}</a>
                                         </li>
                                     @endforeach
                                     <li>
@@ -33,12 +33,12 @@
                             </div>
                         </div>
                         <div style="display: inline-block; text-align: end; width: 59%;">
-                            <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->locations->IdLocation }}/computers"
+                            <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->location->IdLocation }}/computers"
                                 class="btn-flat fw-bold border-start border-3" style="font-size: 12px">Assign Computers</a>
-                            <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->locations->IdLocation }}/users"
+                            <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->location->IdLocation }}/users"
                                 class="btn-flat fw-bold border-start border-end border-3" style="font-size: 12px">Assign
                                 Users</a>
-                            <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->locations->IdLocation }}/users"
+                            <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->location->IdLocation }}/users"
                                 class="btn-flat fw-bold border-end border-3" style="font-size: 12px" data-bs-toggle="modal"
                                 data-bs-target="#modal_inventory_update">
                                 Inventory Update</a>
@@ -303,7 +303,7 @@
                                                             <div class="modal-content">
                                                                 <form enctype="multipart/form-data" class=""
                                                                     method="POST"
-                                                                    action="/home/wave/{{ $wave->IdWave }}/{{ $wave->locations->IdLocation }}/user/{{ $user->cde }}">
+                                                                    action="/home/wave/{{ $wave->IdWave }}/{{ $wave->location->IdLocation }}/user/{{ $user->cde }}">
                                                                     @csrf
                                                                     <div class="modal-body">
                                                                         <h6>unassign the user {{ $user->cde }} ?</h6>

@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Models\Wave;
+use App\Models\WaveEmployee;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\Console\Input\Input;
@@ -61,12 +64,19 @@ class RegisterEmployeeController extends Controller
                     array_shift($csv);
 
                     foreach ($csv as $employee) {
+                        $result = DB::table('users')->where('cde', $employee['cde'])->get();
                         $user = new User();
                         $user->cde = $employee['cde'];
                         $user->name = $employee['name'];
                         $user->position = $employee['position'];
-                        $user->username = $employee['username'];
-                        $user->email = $employee['email'] . "@24-7intouch.com";
+                        if ($employee['username'] == "") {
+                            $user->username = $employee['name'];
+                            $user->email = $employee['name'] . "@24-7intouch.com";
+                        } else {
+                            $user->username = $employee['username'];
+                            $user->email = $employee['username'] . "@24-7intouch.com";
+                        }
+
                         $user->ContactInfo = $employee['ContactInfo'];
 
                         switch ($employee['position']) {
@@ -84,8 +94,36 @@ class RegisterEmployeeController extends Controller
                                 break;
                         }
 
+                        $wave = Wave::where('Name', $employee['wave'])->first();
+                        if (!$wave) {
+                            echo '<script language="javascript">alert("Error, wave (' . $employee['wave'] . ') doesn\'t exist");</script>';
+                            return view('register_employee');
+                        }
+                        $created = false;
+                        $idLocation = 0;
+                        foreach ($wave->locations as $location) {
+                            if (strtolower(str_replace(['á', 'í'], ['a', 'i'], $location->location['Name'])) == strtolower($employee['location'])) {
+                                $created = true;
+                                $idLocation = $location['IdWave'];
+                            }
+                        }
+                        if (!$created) {
+                            echo '<script language="javascript">alert("Error, wave (' . $employee['wave'] . ') doesn\'t have a ' . strtolower($employee['location']) . ' location");</script>';
+                            return view('register_employee');
+                        }
+                        if (sizeof($result) == 0) {
 
-                        $user->save();
+                            $user->save();
+                        }
+
+                        $wave_employees = new WaveEmployee();
+                        $wave_employees->cde = $employee['cde'];
+                        $wave_employees->IdWave = $idLocation;
+                        $result = DB::table('wave_employees')->where('cde', $employee['cde'])->get();
+                        if (sizeof($result) == 0) {
+                            $wave_employees->save();
+                            DB::table('users')->where('cde', $employee['cde'])->update(['status' => 'ActiveFull']);
+                        }
                     }
                     echo '<script language="javascript">alert("successful");</script>';
                 } else {
@@ -95,9 +133,9 @@ class RegisterEmployeeController extends Controller
                 return view('register_employee');
             }
         } catch (\Throwable $th) {
-            echo '<script language="javascript">alert("Error, try again.");</script>';
+            echo '<script language="javascript">alert("Error,' . $th . ' try again.");</script>';
             $wait = "";
-            return view('register_employee');
+            return $th;
         }
 
 
@@ -145,5 +183,50 @@ class RegisterEmployeeController extends Controller
         //     'email' => $data['email'],
         //     'password' => Hash::make($data['password']),
         // ]);
+    }
+
+    public function eliminar_tildes($cadena)
+    {
+        //Codificamos la cadena en formato utf8 en caso de que nos de errores
+        $cadena = utf8_encode($cadena);
+
+        //Ahora reemplazamos las letras
+        $cadena = str_replace(
+            array('á', 'à', 'ä', 'â', 'ª', 'Á', 'À', 'Â', 'Ä'),
+            array('a', 'a', 'a', 'a', 'a', 'A', 'A', 'A', 'A'),
+            $cadena
+        );
+
+        $cadena = str_replace(
+            array('é', 'è', 'ë', 'ê', 'É', 'È', 'Ê', 'Ë'),
+            array('e', 'e', 'e', 'e', 'E', 'E', 'E', 'E'),
+            $cadena
+        );
+
+        $cadena = str_replace(
+            array('í', 'ì', 'ï', 'î', 'Í', 'Ì', 'Ï', 'Î'),
+            array('i', 'i', 'i', 'i', 'I', 'I', 'I', 'I'),
+            $cadena
+        );
+
+        $cadena = str_replace(
+            array('ó', 'ò', 'ö', 'ô', 'Ó', 'Ò', 'Ö', 'Ô'),
+            array('o', 'o', 'o', 'o', 'O', 'O', 'O', 'O'),
+            $cadena
+        );
+
+        $cadena = str_replace(
+            array('ú', 'ù', 'ü', 'û', 'Ú', 'Ù', 'Û', 'Ü'),
+            array('u', 'u', 'u', 'u', 'U', 'U', 'U', 'U'),
+            $cadena
+        );
+
+        $cadena = str_replace(
+            array('ñ', 'Ñ', 'ç', 'Ç'),
+            array('n', 'N', 'c', 'C'),
+            $cadena
+        );
+
+        return $cadena;
     }
 }

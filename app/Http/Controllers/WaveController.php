@@ -69,8 +69,8 @@ class WaveController extends Controller
 
         if ($wave) {
             $locations = WaveLocation::where('IdWave', $IdWave)->get();
-            if ($location != $wave->locations->IdLocation) {
-                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $wave->locations->IdLocation . '');
+            if ($location != $wave->location->IdLocation) {
+                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $wave->location->IdLocation . '');
             }
             return view('wave_home', compact('wave', 'locations', 'computers_view', 'users_view'));
         }

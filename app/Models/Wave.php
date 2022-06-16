@@ -12,4 +12,8 @@ class Wave extends Model
     public function programs(){
         return $this->belongsTo(Program::class, 'IdProgram', 'IdProgram');
     }
+
+    public function locations(){
+        return $this->hasMany(WaveLocation::class, 'IdWave', 'IdWave');
+    }
 }
