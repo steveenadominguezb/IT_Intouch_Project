@@ -64,6 +64,8 @@ Route::post('/home/computers', [ComputerController::class, 'computersUpdate'])->
 Route::get('/computers/{SerialNumber}', [ComputerController::class, 'computerTracert'])->name('computers.tracert');
 Route::get('/computers/blacklist/{SerialNumber}', [ComputerController::class, 'inBlackList'])->name('computers.blacklist');
 
+#Ruta para actualizar inventario
+Route::get('/home/wave/{IdWave}/{location}/inventory', [WaveController::class, 'inventory'])->name('wave.show.inventory');
 
 
 

@@ -258,4 +258,11 @@ class WaveController extends Controller
             return redirect()->to('/home/wave/' . $IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'locations' => $locations]);
         }
     }
+
+    public function inventory($IdWave, $location){
+        
+        $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+        $locations = WaveLocation::where('IdWave', $IdWave)->get();
+        return view('inventory' , compact('wave', 'locations'));
+    }
 }
