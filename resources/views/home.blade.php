@@ -45,13 +45,19 @@
                                                 @php
                                                     $waves_locations = \App\Models\WaveLocation::where('IdWave', $wave->IdWave)->get();
                                                     $computers = 0;
+                                                    $users = 0;
                                                     foreach ($waves_locations as $value) {
                                                         $computers += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('SerialNumberComputer', 'LIKE', '%')
                                                             ->count();
+                                                        $users += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
+                                                            ->where('cde', 'LIKE', '%')
+                                                            ->count();
                                                     }
                                                 @endphp
+                                                <br>
                                                 <p style="font-size: 12px;">Assigned computers: {{ $computers }}</p>
+                                                <p style="font-size: 12px;">Assigned users: {{ $users }}</p>
                                             </div>
                                             <div style="position: fixed; bottom: 0; margin-bottom: 10%;">
                                                 <a href="{{ url('/home/wave/' . $wave->IdWave . '/101') }}"
@@ -107,13 +113,19 @@
                                                 @php
                                                     $waves_locations = \App\Models\WaveLocation::where('IdWave', $wave->IdWave)->get();
                                                     $computers = 0;
+                                                    $users = 0;
                                                     foreach ($waves_locations as $value) {
                                                         $computers += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('SerialNumberComputer', 'LIKE', '%')
                                                             ->count();
+                                                        $users += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
+                                                            ->where('cde', 'LIKE', '%')
+                                                            ->count();
                                                     }
                                                 @endphp
+                                                <br>
                                                 <p style="font-size: 12px;">Assigned computers: {{ $computers }}</p>
+                                                <p style="font-size: 12px;">Assigned users: {{ $users }}</p>
                                             </div>
                                             <div style="position: fixed; bottom: 0; margin-bottom: 10%;">
                                                 <a href="{{ url('/home/wave/' . $wave->IdWave . '/101') }}"
@@ -179,14 +191,19 @@
                                                 @php
                                                     $waves_locations = \App\Models\WaveLocation::where('IdWave', $wave->IdWave)->get();
                                                     $computers = 0;
+                                                    $users = 0;
                                                     foreach ($waves_locations as $value) {
                                                         $computers += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('SerialNumberComputer', 'LIKE', '%')
                                                             ->count();
+                                                        $users += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
+                                                            ->where('cde', 'LIKE', '%')
+                                                            ->count();
                                                     }
                                                 @endphp
+                                                <br>
                                                 <p style="font-size: 12px;">Assigned computers: {{ $computers }}</p>
-
+                                                <p style="font-size: 12px;">Assigned users: {{ $users }}</p>
                                             </div>
                                             <div style="position: fixed; bottom: 0; margin-bottom: 10%;">
                                                 <a href="{{ url('/home/wave/' . $wave->IdWave . '/101') }}"
