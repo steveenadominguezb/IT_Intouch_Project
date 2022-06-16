@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class WaveEmployee extends Model
 {
     use HasFactory;
+    
+    public $timestamps = true;
 }

@@ -150,7 +150,7 @@ class WaveController extends Controller
             }
             foreach (request('assign') as $value) {
 
-                DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'cde' => $value], ['cde' => $value]);
+                DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'cde' => $value], ['cde' => $value , 'Date' => now()]);
 
                 DB::table('users')->where('cde', $value)->update(['status' => 'ActiveFull']);
             }
