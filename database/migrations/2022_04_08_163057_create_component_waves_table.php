@@ -18,10 +18,10 @@ return new class extends Migration
             $table->integer('Lot');
             $table->timestamps();
             $table->unsignedBigInteger('IdComponent');
-            $table->bigInteger('IdWaveEmployee');
+            $table->bigInteger('IdWave');
 
             $table->foreign('IdComponent')->references('IdComponent')->on('components');
-            $table->foreign('IdWaveEmployee')->references('id')->on('wave_employees');
+            $table->foreign('IdWave')->references('IdWave')->on('waves');
         });
     }
 
