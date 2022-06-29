@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Component;
 use App\Models\Computer;
 use App\Models\User;
 use App\Models\Wave;
@@ -263,6 +264,7 @@ class WaveController extends Controller
         
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
         $locations = WaveLocation::where('IdWave', $IdWave)->get();
-        return view('inventory' , compact('wave', 'locations'));
+        $inventory = Component::all();
+        return view('wave_inventory' , compact('wave', 'locations', 'inventory'));
     }
 }

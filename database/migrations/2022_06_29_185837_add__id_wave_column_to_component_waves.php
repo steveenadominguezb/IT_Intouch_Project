@@ -13,14 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('component_waves', function (Blueprint $table) {
-            $table->id();
-            $table->integer('Lot');
-            $table->timestamps();
-            $table->unsignedBigInteger('IdComponent');
-
-            $table->foreign('IdComponent')->references('IdComponent')->on('components');
-           
+        Schema::table('component_waves', function (Blueprint $table) {
+            $table->bigInteger('IdWaveLocation');
+            $table->foreign('IdWaveLocation')->references('IdWaveLocation')->on('wave_locations');
         });
     }
 
@@ -31,6 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('component_waves');
+        Schema::table('component_waves', function (Blueprint $table) {
+        });
     }
 };

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ComputerController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\RegisterEmployeeController;
 use App\Http\Controllers\WaveController;
 use Illuminate\Support\Facades\Auth;
@@ -64,9 +65,11 @@ Route::post('/home/computers', [ComputerController::class, 'computersUpdate'])->
 Route::get('/computers/{SerialNumber}', [ComputerController::class, 'computerTracert'])->name('computers.tracert');
 Route::get('/computers/blacklist/{SerialNumber}', [ComputerController::class, 'inBlackList'])->name('computers.blacklist');
 
-#Ruta para actualizar inventario
+#Ruta para actualizar inventario desde la wave
 Route::get('/home/wave/{IdWave}/{location}/inventory', [WaveController::class, 'inventory'])->name('wave.show.inventory');
 
+#Ruta de gestion del inventario
+Route::get('/home/inventory', [InventoryController::class, 'index'])->name('inventory.index');
 
 
 #Rutas para el login
