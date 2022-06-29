@@ -226,8 +226,8 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" style="background: none; box-shadow: none;" data-bs-backdrop="static"
-        tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" style="background: none; box-shadow: none; width: 600px"
+        data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -256,18 +256,47 @@
                             </select>
                             <label for="floatingSelect">Select Program</label>
                         </div>
-                        <div class="form-floating mb-3">
-                            <select class="form-select" name="floatingSelectLocation"
-                                aria-label="Floating label select example" required>
-                                <option value="101">Bogotá</option>
-                                <option value="201">Medellín</option>
-                                <option value="301">Bucaramanga</option>
-                                <option value="401">Barranquilla</option>
-                                <option value="501">Cali</option>
+                        <div class="">
+                            <label class="fw-bold" style="margin-bottom: 2%">Select Locations:</label>
+                            <br>
+                            <div style="display: inline-block; margin-right: 12%; margin-left: 5%">
+                                <div>
+                                    <label>
+                                        <input type="checkbox" name="locations[]" value="101" />
+                                        <span>Bogotá</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input type="checkbox" name="locations[]" value="201" />
+                                        <span>Medellín</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input type="checkbox" name="locations[]" value="301" />
+                                        <span>Bucaramanga</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div style="display: inline-block">
+                                <div>
+                                    <label>
+                                        <input type="checkbox" name="locations[]" value="401" />
+                                        <span>Barranquilla</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input type="checkbox" name="locations[]" value="501" />
+                                        <span>Cali</span>
+                                    </label>
+                                </div>
+                            </div>
 
-                            </select>
-                            <label for="floatingSelect">Select Location</label>
+
                         </div>
+                        <br>
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" style="padding-left: 5px;" name="floatingName"
                                 placeholder="nameWave" required>
@@ -279,8 +308,8 @@
                             <label for="floatingInputGrid">Start Date</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" style="padding-left: 5px;" name="floatingInspector"
-                                placeholder="Itops Inspector" required>
+                            <input type="text" class="form-control" style="padding-left: 5px;"
+                                name="floatingInspector" placeholder="Itops Inspector" required>
                             <label for="floatingInput">Itops Inspector</label>
                         </div>
                     </div>

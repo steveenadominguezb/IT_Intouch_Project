@@ -43,11 +43,13 @@ class WaveController extends Controller
 
         $wave = Wave::where('Name', request('floatingName'))->orderByDesc('created_at')->first();
 
-        $wave_location = new WaveLocation();
-        $wave_location->IdWave = $wave->IdWave;
-        $wave_location->IdLocation = request('floatingSelectLocation');
+        foreach (request('locations') as $location) {
+            $wave_location = new WaveLocation();
+            $wave_location->IdWave = $wave->IdWave;
+            $wave_location->IdLocation = $location;
 
-        $wave_location->save();
+            $wave_location->save();
+        }
 
         return back();
     }
@@ -151,7 +153,7 @@ class WaveController extends Controller
             }
             foreach (request('assign') as $value) {
 
-                DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'cde' => $value], ['cde' => $value , 'Date' => now()]);
+                DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'cde' => $value], ['cde' => $value, 'Date' => now()]);
 
                 DB::table('users')->where('cde', $value)->update(['status' => 'ActiveFull']);
             }
@@ -260,11 +262,12 @@ class WaveController extends Controller
         }
     }
 
-    public function inventory($IdWave, $location){
-        
+    public function inventory($IdWave, $location)
+    {
+
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
         $locations = WaveLocation::where('IdWave', $IdWave)->get();
         $inventory = Component::all();
-        return view('wave_inventory' , compact('wave', 'locations', 'inventory'));
+        return view('wave_inventory', compact('wave', 'locations', 'inventory'));
     }
 }
