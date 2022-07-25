@@ -1,7 +1,0 @@
-id,cde,name,position,username,email,email_verified_at,password,ContactInfo,status,remember_token,created_at,updated_at,privilege
-1,C220631,"Steveen Dominguez","IT Generalist",steveen.dominguez,steveen.dominguez@24-7intouch.com,NULL,$2y$10$9aWEZ//wznvUD7Ev1.wP/.uUszdszDAJrM48eE7pDZlPQJms/APsG,+573224660181,Active,NULL,"2022-05-10 20:28:19","2022-05-10 20:28:19",30001
-2,C000001,Administrator,Administrator,admin.it,admin.it@24-7intouch.com,NULL,$2y$10$8jAueq3sZMnE9fpsDVaIB.PR0oa9.qBWdvpqhk5JchZeQYZuz3CWK,+5730000001,Active,NULL,"2022-05-10 20:28:19","2022-05-10 20:28:19",10001
-3,C0000002,Dumy,Dumy,dumy.it,dumy.it@24-7intouch.com,NULL,$2y$10$uku9rMTqS.sP4E0xZenUX.g9mLDeY/R56rnUqiThQmGpQncWL8t22,+573000002,Active,NULL,"2022-05-10 20:28:20","2022-05-10 20:28:20",20001
-4,C220809,"Sebastian Camilo Gonzalez Sanchez",Agent,sebastian.gonzalez,sebastian.gonzalez@24-7intouch.com,NULL,$2y$10$RMmm4wH1K/ZxWR.oVCV1w.dJssjtQ7MMUkCd5qDm/V7XiTSkjtSP2,3507616668,Active,NULL,"2022-05-10 20:28:20","2022-05-10 20:28:20",40001
-5,C221328,"Valeria Barberi Ochoa",Agent,valeria.barberi,valeria.barberi@24-7intouch.com,NULL,$2y$10$asQQJtCiLm/EAYSg8OvsE.Unll2HBvmE22iVbV4Ka41IgEP0Z7ea2,3204914511,Active,NULL,"2022-05-10 20:28:21","2022-05-10 20:28:21",40001
-6,C221332,"Natalia Patricia Gonzalez Maldonado",Agent,natalia.gonzalez,natalia.gonzalez@24-7intouch.com,NULL,$2y$10$iPJ.jllKV2GxKnZU5jbng.vmDyWRz760IwsKsIBOGsNcX5itOQY6G,3156932797,Active,NULL,"2022-05-10 20:28:21","2022-05-10 20:28:21",40001
