@@ -144,14 +144,11 @@
                                                         class="material-icons right">edit</i>edit</a>
                                                 @if (Auth::user()->privilege == 10001)
                                                     <div style="display: inline-block">
-                                                        <form action="/home/wave/delete" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="IdWave"
-                                                                value="{{ $wave->IdWave }}">
-                                                            <button type="submit" style="background: none; border: none"
-                                                                class="waves-effect waves-light"><i
-                                                                    class="material-icons right">delete</i></button>
-                                                        </form>
+
+                                                        <button type="submit" style="background: none; border: none"
+                                                            class="waves-effect waves-light" data-bs-toggle="modal"
+                                                            data-bs-target="#DeleteWaveModal"><i
+                                                                class="material-icons right">delete</i></button>
                                                     </div>
                                                 @endif
 
@@ -354,5 +351,29 @@
                 </form>
             </div>
         </div>
-    </div>
+    </div> {{-- End Modal --}}
+
+    <!-- Modal to Delete Wave -->
+    <div class="modal fade" id="DeleteWaveModal" style="background: none; box-shadow: none; width: 600px"
+        data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Delete Wave</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="/home/wave/delete" method="POST">
+                    @csrf
+                    <input type="hidden" name="IdWave" value="{{ $wave->IdWave }}">
+                    <div class="modal-body">
+                        <p>Are you sure that want to delete this wave?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn red">Yes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> {{-- End Modal to Delete Wave --}}
 @endsection
