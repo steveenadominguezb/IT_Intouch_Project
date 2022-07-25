@@ -127,7 +127,7 @@ class RegisterEmployeeController extends Controller
                     }
                     echo '<script language="javascript">alert("successful");</script>';
                 } else {
-                    return "¡Posible ataque de subida de ficheros!\n";
+                    return "¡Possible file upload attack!\n";
                 }
 
                 return view('register_employee');
