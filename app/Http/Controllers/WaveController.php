@@ -73,16 +73,30 @@ class WaveController extends Controller
         if ($wave) {
             $locations = WaveLocation::where('IdWave', $IdWave)->get();
             if ($location != $wave->location->IdLocation) {
-                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $wave->location->IdLocation . '');
+                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $wave->location->IdLocation . '')->with(['wave' => $wave, 'locations' => $locations]);
             }
             return view('wave_home', compact('wave', 'locations', 'computers_view', 'users_view'));
         }
         return "wave doesn't exist";
     }
 
+    public function delete()
+    {
+        try {
+            $IdWave = request('IdWave');
+            $wave = Wave::where('IdWave', $IdWave)->delete();
+
+            return back();
+        } catch (\Throwable $th) {
+            //throw $th;
+            return $th;
+        }
+    }
+
     public function showComputers($IdWave, $location)
     {
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+        $locations = WaveLocation::where('IdWave', $IdWave)->get();
         $text = trim(request('text'));
         if ($text != null) {
             $computers = Computer::where('SerialNumber', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->orderByDesc('created_at')->get();
@@ -91,7 +105,7 @@ class WaveController extends Controller
             }
             return view('assign_computers', compact('wave', 'computers'));
         }
-        $locations = WaveLocation::where('IdWave', $IdWave)->get();
+
         $computers = Computer::where('Status', 'InStorage')->orderByDesc('created_at')->get();
         if ($wave) {
             return view('assign_computers', compact('wave', 'computers', 'locations'));
@@ -102,15 +116,16 @@ class WaveController extends Controller
     public function showUsers($IdWave, $location)
     {
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+        $locations = WaveLocation::where('IdWave', $IdWave)->get();
         $text = trim(request('text'));
         if ($text != null) {
             $users = User::where('cde', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->where('status', 'Active')->get();
             if ($users->isEmpty()) {
                 $users = User::where('name', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->where('status', 'Active')->get();
             }
-            return view('assign_users', compact('wave', 'users'));
+            return view('assign_users', compact('wave', 'users', 'locations'));
         }
-        $locations = WaveLocation::where('IdWave', $IdWave)->get();
+
         if ($wave->parent->Name == 'Staff') {
             $users = User::where('privilege', '!=', '40001')->where('status', '!=', 'ActiveFull')->get();
             return view('assign_users', compact('wave', 'users', 'locations'));
@@ -137,9 +152,9 @@ class WaveController extends Controller
 
                 DB::table('computers')->where('SerialNumber', $value)->update(['Status' => 'Taken']);
             }
-            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'locations' => $locations]);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations]);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'locations' => $locations]);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'wave' => $wave, 'locations' => $locations]);
         }
     }
 
@@ -158,7 +173,7 @@ class WaveController extends Controller
                 DB::table('users')->where('cde', $value)->update(['status' => 'ActiveFull']);
             }
 
-            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'locations' => $locations]);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations]);
         } catch (\Throwable $th) {
             return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'locations' => $locations]);
         }

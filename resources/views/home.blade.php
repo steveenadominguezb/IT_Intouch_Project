@@ -63,7 +63,18 @@
                                                 <a href="{{ url('/home/wave/' . $wave->IdWave . '/101') }}"
                                                     class="waves-effect waves-light btn-small"><i
                                                         class="material-icons right">edit</i>edit</a>
-                                                <!-- <a href="#" class="waves-effect waves-light btn-small" ><i class="material-icons right">delete</i>delete</a> -->
+                                                @if (Auth::user()->privilege == 10001)
+                                                    <div style="display: inline-block">
+                                                        <form action="/home/wave/delete" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="IdWave"
+                                                                value="{{ $wave->IdWave }}">
+                                                            <button type="submit" style="background: none; border: none"
+                                                                class="waves-effect waves-light"><i
+                                                                    class="material-icons right">delete</i></button>
+                                                        </form>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
 
@@ -131,7 +142,19 @@
                                                 <a href="{{ url('/home/wave/' . $wave->IdWave . '/101') }}"
                                                     class="waves-effect waves-light btn-small"><i
                                                         class="material-icons right">edit</i>edit</a>
-                                                <!-- <a href="#" class="waves-effect waves-light btn-small" ><i class="material-icons right">delete</i>delete</a> -->
+                                                @if (Auth::user()->privilege == 10001)
+                                                    <div style="display: inline-block">
+                                                        <form action="/home/wave/delete" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="IdWave"
+                                                                value="{{ $wave->IdWave }}">
+                                                            <button type="submit" style="background: none; border: none"
+                                                                class="waves-effect waves-light"><i
+                                                                    class="material-icons right">delete</i></button>
+                                                        </form>
+                                                    </div>
+                                                @endif
+
                                             </div>
                                         </div>
 
@@ -209,7 +232,18 @@
                                                 <a href="{{ url('/home/wave/' . $wave->IdWave . '/101') }}"
                                                     class="waves-effect waves-light btn-small"><i
                                                         class="material-icons right">edit</i>edit</a>
-                                                <!-- <a href="#" class="waves-effect waves-light btn-small" ><i class="material-icons right">delete</i>delete</a> -->
+                                                @if (Auth::user()->privilege == 10001)
+                                                    <div style="display: inline-block">
+                                                        <form action="/home/wave/delete" method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="IdWave"
+                                                                value="{{ $wave->IdWave }}">
+                                                            <button type="submit" style="background: none; border: none"
+                                                                class="waves-effect waves-light"><i
+                                                                    class="material-icons right">delete</i></button>
+                                                        </form>
+                                                    </div>
+                                                @endif
                                             </div>
                                         </div>
 

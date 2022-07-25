@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('IdLocation');
             $table->timestamps();
 
-            $table->foreign('IdWave')->references('IdWave')->on('waves');
+            $table->foreign('IdWave')->references('IdWave')->on('waves')->onDelete('cascade');
             $table->foreign('IdLocation')->references('IdLocation')->on('locations');
         });
     }

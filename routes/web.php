@@ -27,18 +27,25 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 #Ruta post para insertar una nueva wave
 Route::post('/home/insert-wave', [WaveController::class, 'store'])->name('wave.store');
 
+
 #Ruta que muestra la pagina para registrar un empleado
 Route::get('/home/register-employee', [RegisterEmployeeController::class, 'index'])->name('register-employee.index');
 #Ruta que valida la información y registra al empleado
 Route::post('/home/register-employee', [RegisterEmployeeController::class, 'create'])->name('register-employee.create');
+
 
 #Ruta que muestra la pagina para registrar un computador
 Route::get('/home/register-computer', [ComputerController::class, 'index'])->name('register-computer.index');
 #Ruta que valida la información y registra un computador
 Route::post('/home/register-computer', [ComputerController::class, 'create'])->name('register-computer.create');
 
+
 #Ruta que muestra la pagina de edición de la wave
 Route::get('/home/wave/{IdWave}/{location}', [WaveController::class, 'create'])->name('wave.create');
+#Ruta para eliminar una wave
+Route::post('/home/wave/delete', [WaveController::class, 'delete'])->name('wave.delete');
+
+
 #Ruta para agregar una nueva ubicacion
 Route::post('/home/wave/{IdWave}/{location}/new-location', [WaveController::class, 'addLocation'])->name('wave.new-location');
 #Ruta que desasigna un computador
