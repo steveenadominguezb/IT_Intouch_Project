@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="wave_home" style="width: 70%; margin: auto">
         <div class="row justify-content-center">
             <div class="col-md-13">
                 <div class="card">
@@ -53,13 +53,14 @@
                         <div style="margin-left: 5%; width: 100%; height: max-content">
                             <div style="width: 35%; float: left; margin-right: 15%;">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" style="margin-left: 10px;" name="floatingName"
-                                        placeholder="nameWave" value="{{ $wave->parent->Name }}" required>
+                                    <input type="text" class="form-control" style="margin-left: 10px;"
+                                        name="floatingName" placeholder="nameWave" value="{{ $wave->parent->Name }}"
+                                        required>
                                     <label for="floatingInput">Name Wave</label>
                                 </div>
                                 <div class="form-floating mb-3">
-                                    <input type="date" class="form-control" style="margin-left: 10px;" name="floatingDate"
-                                        value="{{ $wave->parent->StartDate }}" required>
+                                    <input type="date" class="form-control" style="margin-left: 10px;"
+                                        name="floatingDate" value="{{ $wave->parent->StartDate }}" required>
                                     <label for="floatingInputGrid">Start Date</label>
                                 </div>
                                 <div class="form-floating mb-3">
@@ -100,10 +101,47 @@
                     </div>
                 @endif
                 <div class="card" style="max-height: 700px; overflow: auto;">
+                    <div style="margin-right: 2%; margin-top: 2%; text-align: end">
+                        <!-- Button trigger modal RELATE EVERYTHING -->
+                        <button type="button" class="btn btn-small btn-primary grey fw-bold" style=""
+                            data-bs-toggle="modal" data-bs-target="#modal_relate_everything">Relate everything
+                        </button>
+                    </div>
+                    <!-- Modal RELATE EVERYTHING -->
+                    <div class="modal fade" id="modal_relate_everything" data-bs-backdrop="static" data-bs-keyboard="false"
+                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"
+                        style="background: none; box-shadow: none;">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <form enctype="multipart/form-data" class="" method="POST"
+                                    action="">
+                                    @csrf
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">
+                                            Relate
+                                        </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        @csrf
+                                        <div style="display: inline-block">
+                                            <input type="file" name="file">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary grey"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary blue"
+                                            style="margin-left: 20px;">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body " style="display: table; overflow: scroll; margin-left: 2%; margin-right: 1%">
 
-                    <div class="card-body " style="display: table;border-spacing: 40px; overflow: scroll;">
-
-                        <div class="border-end" style=" width: 40%; display: table-cell; ">
+                        <div class="border-end" style=" width: 35%; display: table-cell; ">
                             <div>
                                 <div style="display: inline-block;">
                                     <h6 class="fw-bold">Computers</h6>
@@ -161,8 +199,7 @@
                                                             <div class="modal-content">
                                                                 <form enctype="multipart/form-data" class=""
                                                                     method="POST"
-                                                                    action="/assign/{{ $wave->IdWave }}/{{ $wave->location->IdLocation }}/{{ $computer->SerialNumber }}"
-                                                                    >
+                                                                    action="/assign/{{ $wave->IdWave }}/{{ $wave->location->IdLocation }}/{{ $computer->SerialNumber }}">
                                                                     @csrf
                                                                     <div class="modal-header">
                                                                         <h5 class="modal-title" id="staticBackdropLabel">
@@ -183,9 +220,11 @@
 
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary grey"
+                                                                        <button type="button"
+                                                                            class="btn btn-secondary grey"
                                                                             data-bs-dismiss="modal">Close</button>
-                                                                        <button type="submit" class="btn btn-primary blue"
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary blue"
                                                                             style="margin-left: 20px;">YES</button>
                                                                     </div>
                                                                 </form>
@@ -217,9 +256,11 @@
 
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary grey"
+                                                                        <button type="button"
+                                                                            class="btn btn-secondary grey"
                                                                             data-bs-dismiss="modal">Close</button>
-                                                                        <button type="submit" class="btn btn-primary blue"
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary blue"
                                                                             style="margin-left: 20px;">YES</button>
                                                                     </div>
                                                                 </form>
@@ -236,7 +277,9 @@
                             @endif
 
                         </div>
-                        <div class="border-end" style=" width: 50%; display: table-cell;margin-left: 10px;">
+
+                        {{-- Users --}}
+                        <div class="border-start" style=" width: 45%; display: table-cell; padding-left: 1%">
                             <div>
                                 <div style="display: inline-block;">
                                     <h6 class="fw-bold">Users</h6>
@@ -310,9 +353,11 @@
 
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary grey"
+                                                                        <button type="button"
+                                                                            class="btn btn-secondary grey"
                                                                             data-bs-dismiss="modal">Close</button>
-                                                                        <button type="submit" class="btn btn-primary blue"
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary blue"
                                                                             style="margin-left: 20px;">YES</button>
                                                                     </div>
                                                                 </form>
@@ -327,8 +372,7 @@
                             @else
                                 no data found
                             @endif
-                        </div>
-
+                        </div> {{-- End div users --}}
                     </div>
                 </div>
 
@@ -382,7 +426,7 @@
                 <form action="/home/wave/{{ $wave->IdWave }}/{{ $wave->IdWaveLocation }}/new-location" method="POST">
                     @csrf
                     <div class="modal-body">
-                        
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary me-3 grey" data-bs-dismiss="modal">Close</button>

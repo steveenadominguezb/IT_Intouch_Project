@@ -260,6 +260,7 @@ class WaveController extends Controller
 
     public function assignComputerUser($IdWave, $location, $SerialNumber)
     {
+
         try {
             $locations = WaveLocation::where('IdWave', $IdWave)->get();
             $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
@@ -320,5 +321,66 @@ class WaveController extends Controller
         $locations = WaveLocation::where('IdWave', $IdWave)->get();
         $inventory = Component::all();
         return view('wave_inventory', compact('wave', 'locations', 'inventory'));
+    }
+
+    public function relateEverything($IdWave, $location)
+    {
+        $locations = WaveLocation::where('IdWave', $IdWave)->get();
+        $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+        if (request('file')) {
+            try {
+                if ($_FILES['file']['size'] > 0 && $_FILES['file']['type'] == 'text/csv') {
+                    $dir_subida = 'files/users/';
+                    $fichero_subido = $dir_subida . basename($_FILES['file']['name']);
+                    if (move_uploaded_file($_FILES['file']['tmp_name'], $fichero_subido)) {
+
+                        $csv = array_map('str_getcsv', file('files/users/' . $_FILES['file']['name']));
+                        array_walk($csv, function (&$a) use ($csv) {
+                            $a = array_combine($csv[0], $a);
+                        });
+                        array_shift($csv);
+
+                        foreach ($csv as $computer) {
+                            $resultUser = DB::table('users')->where('name', $computer['Username'])->get();
+                            $resultComputer = DB::table('computers')->where('SerialNumber', $computer['Service TAG'])->get();
+                            if (sizeof($resultComputer) == 0) {
+                                return $computer['Service TAG'] . " is not registered";
+                            }
+
+                            if (sizeof($resultUser) == 0) {
+                                return $computer['Username'] . " is not registered";
+                            }
+                            $celdas = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
+                                ->where('cde', $resultUser[0]->cde)
+                                ->get();
+                            if (sizeof($celdas) == 1) {
+
+                                $wave_employees = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Service TAG'])->first();
+
+                                if ($wave_employees->cde != null) {
+                                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Service TAG'])->update(['SerialNumberComputer' => null]);
+                                } else {
+                                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Service TAG'])->delete();
+                                }
+
+                                DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
+                                    ->where('cde', $resultUser[0]->cde)
+                                    ->update(['SerialNumberComputer' => $computer['Service TAG']]);
+                            } else {
+
+                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, '.$resultUser[0]->name.' is already assigned or does not correspond to the wave or location', 'alert' => 'danger', 'locations' => $locations]);
+                            }
+                        }
+                        echo '<script language="javascript">alert("successful");</script>';
+                    } else {
+                        return "¡Possible file upload attack!\n";
+                    }
+                }
+                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations]);
+            } catch (\Throwable $th) {
+                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'wave' => $wave, 'locations' => $locations]);
+            }
+        }
+        return back()->with(['message' => 'Nothing selected', 'alert' => 'success', 'locations' => $locations]);
     }
 }

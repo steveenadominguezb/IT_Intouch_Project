@@ -62,9 +62,11 @@ Route::post('/home/wave/{IdWave}/{location}/computers', [WaveController::class, 
 Route::get('/home/wave/{IdWave}/{location}/users', [WaveController::class, 'showUsers'])->name('wave.show.users');
 #Ruta que asigna los computadores
 Route::post('/home/wave/{IdWave}/{location}/users', [WaveController::class, 'assignUsers'])->name('wave.assign.users');
-
 #Ruta que asigna computador a usuario
 Route::post('/assign/{IdWave}/{location}/{SerialNumber}', [WaveController::class, 'assignComputerUser']);
+#Ruta que asigna computadores a usuarios maxivamente
+Route::post('/home/wave/{IdWave}/{location}', [WaveController::class, 'relateEverything']);
+
 
 #Ruta para mostrar lista de computadores
 Route::get('/home/computers', [ComputerController::class, 'computersList'])->name('computers.list');
