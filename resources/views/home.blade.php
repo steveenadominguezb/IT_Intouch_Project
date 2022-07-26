@@ -65,14 +65,11 @@
                                                         class="material-icons right">edit</i>edit</a>
                                                 @if (Auth::user()->privilege == 10001)
                                                     <div style="display: inline-block">
-                                                        <form action="/home/wave/delete" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="IdWave"
-                                                                value="{{ $wave->IdWave }}">
-                                                            <button type="submit" style="background: none; border: none"
-                                                                class="waves-effect waves-light"><i
-                                                                    class="material-icons right">delete</i></button>
-                                                        </form>
+                                                        {{-- Button trigger DeleteWaveModal --}}
+                                                        <button type="submit" style="background: none; border: none"
+                                                            class="waves-effect waves-light" data-bs-toggle="modal"
+                                                            data-bs-target="#DeleteWaveModal"><i
+                                                                class="material-icons right">delete</i></button>
                                                     </div>
                                                 @endif
                                             </div>
@@ -144,7 +141,7 @@
                                                         class="material-icons right">edit</i>edit</a>
                                                 @if (Auth::user()->privilege == 10001)
                                                     <div style="display: inline-block">
-
+                                                        {{-- Button trigger DeleteWaveModal --}}
                                                         <button type="submit" style="background: none; border: none"
                                                             class="waves-effect waves-light" data-bs-toggle="modal"
                                                             data-bs-target="#DeleteWaveModal"><i
@@ -231,14 +228,11 @@
                                                         class="material-icons right">edit</i>edit</a>
                                                 @if (Auth::user()->privilege == 10001)
                                                     <div style="display: inline-block">
-                                                        <form action="/home/wave/delete" method="POST">
-                                                            @csrf
-                                                            <input type="hidden" name="IdWave"
-                                                                value="{{ $wave->IdWave }}">
-                                                            <button type="submit" style="background: none; border: none"
-                                                                class="waves-effect waves-light"><i
-                                                                    class="material-icons right">delete</i></button>
-                                                        </form>
+                                                        {{-- Button trigger DeleteWaveModal --}}
+                                                        <button type="submit" style="background: none; border: none"
+                                                            class="waves-effect waves-light" data-bs-toggle="modal"
+                                                            data-bs-target="#DeleteWaveModal"><i
+                                                                class="material-icons right">delete</i></button>
                                                     </div>
                                                 @endif
                                             </div>
