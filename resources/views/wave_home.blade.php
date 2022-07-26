@@ -280,12 +280,12 @@
                                                             <span class="fw-bold"></span>
                                                         </label>
                                                     </div>
-                                                    <div style="display: inline-block;">
+                                                    {{-- <div style="display: inline-block;">
                                                         <!-- Button trigger modal -->
                                                         <button type="button" class="btn btn-primary green">
                                                             <i class="material-icons">compare_arrows</i>
                                                         </button>
-                                                    </div>
+                                                    </div> --}}
                                                     <div style="display: inline-block;">
                                                         <!-- Button trigger modal -->
                                                         <button type="button" class="btn btn-primary red"
