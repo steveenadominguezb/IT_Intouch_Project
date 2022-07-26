@@ -158,7 +158,10 @@ class WaveController extends Controller
                         foreach ($csv as $computer) {
                             $result = DB::table('computers')->where('SerialNumber', $computer['SerialNumber'])->get();
                             if (sizeof($result) == 0) {
-                                return $computer['SerialNumber'] . " is not registered";
+                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['SerialNumber'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
+                            }
+                            if ($result[0]->Status != "InStorage") {
+                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $result[0]->HostName . ' is already assigned or does not correspond to the wave', 'alert' => 'danger', 'locations' => $locations]);
                             }
                             DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'SerialNumberComputer' => $computer['SerialNumber']], ['SerialNumberComputer' => $computer['SerialNumber']]);
 
@@ -344,11 +347,11 @@ class WaveController extends Controller
                             $resultUser = DB::table('users')->where('name', $computer['Username'])->get();
                             $resultComputer = DB::table('computers')->where('SerialNumber', $computer['Service TAG'])->get();
                             if (sizeof($resultComputer) == 0) {
-                                return $computer['Service TAG'] . " is not registered";
+                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['Service TAG'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
                             }
 
                             if (sizeof($resultUser) == 0) {
-                                return $computer['Username'] . " is not registered";
+                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['Username'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
                             }
                             $celdas = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
                                 ->where('cde', $resultUser[0]->cde)
@@ -368,7 +371,7 @@ class WaveController extends Controller
                                     ->update(['SerialNumberComputer' => $computer['Service TAG']]);
                             } else {
 
-                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, '.$resultUser[0]->name.' is already assigned or does not correspond to the wave or location', 'alert' => 'danger', 'locations' => $locations]);
+                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $resultUser[0]->name . ' is already assigned or does not correspond to the wave or location', 'alert' => 'danger', 'locations' => $locations]);
                             }
                         }
                         echo '<script language="javascript">alert("successful");</script>';
