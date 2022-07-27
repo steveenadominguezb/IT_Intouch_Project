@@ -42,7 +42,10 @@ class ComputerController extends Controller
     {
         try {
             if ($_FILES['file']['size'] > 0 && $_FILES['file']['type'] == 'text/csv') {
-
+                $fails = 'This Computers is already registered: ';
+                $count_fails=0;
+                $registered = false;
+                $count =0;
                 $dir_subida = 'files/computers/';
                 $fichero_subido = $dir_subida . basename($_FILES['file']['name']);
 
@@ -54,6 +57,8 @@ class ComputerController extends Controller
                     });
                     array_shift($csv);
                     foreach ($csv as $computer_data) {
+                        $resultComputer = DB::table('computers')->where('SerialNumber', $computer_data['SerialNumber'])->get();
+
                         $computer = new Computer();
                         $computer->SerialNumber = $computer_data['SerialNumber'];
                         $computer->HostName = $computer_data['HostName'];
@@ -66,10 +71,20 @@ class ComputerController extends Controller
                             $computer->Laptop = false;
                         }
 
-
-                        $computer->save();
+                        if (sizeof($resultComputer) == 1 || $computer_data['SerialNumber']=="") {
+                            $registered = true;
+                            $count_fails++;
+                            $fails .= $computer_data['SerialNumber'] . ' - ' . $computer_data['HostName'] . '; ';
+                        } else {
+                            $count ++;
+                            $computer->save();
+                        }
                     }
-                    echo '<script language="javascript">alert("Successful");</script>';
+                    if ($registered) {
+                        $mes = explode(":", $fails);
+                        return back()->with(['message' => $count.' computers successfully registered. ', 'th' => $fails, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_fails]);
+                    }
+                    return back()->with(['message' => 'Successfull', 'alert' => 'success']);
                 } else {
                     return "¡Posible ataque de subida de ficheros!\n";
                 }
@@ -77,9 +92,7 @@ class ComputerController extends Controller
                 return view('register_computer');
             }
         } catch (\Throwable $th) {
-            echo '<script language="javascript">alert("Error: , try again.");</script>';
-            $wait = "";
-            return view('register_computer');
+            return back()->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
         }
 
         /**
@@ -92,6 +105,13 @@ class ComputerController extends Controller
             'brand' => 'required',
             'model' => 'required'
         ]);
+
+        #Comprueba que el computador no esté registrado ya
+        $resultComputer = DB::table('computers')->where('SerialNumber', request('serial'))->get();
+        if (sizeof($resultComputer) == 1) {
+            return back()->with(['message' => 'Error, ' . request('serial') . ' - ' . request('host') . ' is already registered', 'alert' => 'danger']);
+        }
+
         /**
          * Crea una instancia computer
          */
@@ -114,7 +134,7 @@ class ComputerController extends Controller
         $computer->save();
 
 
-        return back();
+        return back()->with(['message' => 'Successful', 'alert' => 'success']);
     }
 
     public function computersList()
