@@ -13,7 +13,11 @@
                             <div class="dropdown" style="display: inline-block;">
                                 <button class="dropdown-toggle fw-bold" type="button" id="dropdownMenuButton1"
                                     style="background: none; border: none" data-bs-toggle="dropdown" aria-expanded="false">
-                                    {{ $wave->location->Name }}
+                                    @if (session()->has('all_locations'))
+                                        {{ $all_locations }}
+                                    @else
+                                        {{ $wave->location->Name }}
+                                    @endif
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     @foreach ($locations as $location)
@@ -21,6 +25,9 @@
                                                 href="/home/wave/{{ $wave->IdWave }}/{{ $location->location->IdLocation }}">{{ $location->location->Name }}</a>
                                         </li>
                                     @endforeach
+                                    <li><a class="dropdown-item" href="/wave/{{ $wave->IdWave }}/all-locations">All
+                                            Locations</a>
+                                    </li>
                                     <li>
                                         <!-- Button trigger add location modal -->
                                         <button type="button" class="btn-flat" data-bs-toggle="modal"
@@ -28,7 +35,6 @@
                                             Add Location
                                         </button>
                                     </li>
-
                                 </ul>
                             </div>
                         </div>
@@ -138,9 +144,10 @@
                                 </form>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-body " style="display: table; overflow: scroll; margin-left: 2%; margin-right: 1%">
+                    </div><!-- End Modal RELATE EVERYTHING -->
 
+                    <div class="card-body " style="display: table; overflow: scroll; margin-left: 2%; margin-right: 1%">
+                        {{-- Computers Frame --}}
                         <div class="border-end" style=" width: 35%; display: table-cell; ">
                             <div>
                                 <div style="display: inline-block;">
@@ -282,7 +289,7 @@
                                 no data found
                             @endif
 
-                        </div>
+                        </div>{{-- End Computers Frame --}}
 
                         {{-- Users --}}
                         <div class="border-start" style=" width: 45%; display: table-cell; padding-left: 1%">

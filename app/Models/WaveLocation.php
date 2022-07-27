@@ -18,4 +18,7 @@ class WaveLocation extends Model
     {
         return $this->belongsTo(Location::class, 'IdLocation', 'IdLocation');
     }
+    public function sons(){
+        return $this->hasMany(WaveEmployee::class, 'IdWave', 'IdWaveLocation');
+    }
 }

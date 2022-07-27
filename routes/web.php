@@ -42,6 +42,8 @@ Route::post('/home/register-computer', [ComputerController::class, 'create'])->n
 
 #Ruta que muestra la pagina de edición de la wave
 Route::get('/home/wave/{IdWave}/{location}', [WaveController::class, 'create'])->name('wave.create');
+#Ruta que muestra la wave con todas sus locations
+Route::get('/wave/{IdWave}/all-locations', [WaveController::class, 'allLocations'])->name('wave.all-locations');
 #Ruta para eliminar una wave
 Route::post('/home/wave/delete', [WaveController::class, 'delete'])->name('wave.delete');
 

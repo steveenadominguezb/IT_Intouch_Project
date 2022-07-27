@@ -64,7 +64,7 @@ class WaveController extends Controller
         }
         $computers_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)
             ->join('computers', 'wave_employees.SerialNumberComputer', '=', 'computers.SerialNumber')
-            ->leftJoin('users','wave_employees.cde', '=', 'users.cde')
+            ->leftJoin('users', 'wave_employees.cde', '=', 'users.cde')
             ->get();
         $users_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)
             ->join('users', 'wave_employees.cde', '=', 'users.cde')
@@ -385,5 +385,19 @@ class WaveController extends Controller
             }
         }
         return back()->with(['message' => 'Nothing selected', 'alert' => 'success', 'locations' => $locations]);
+    }
+
+    public function allLocations($IdWave)
+    {
+        $locations = WaveLocation::where('IdWave', $IdWave)
+            ->join('locations', 'wave_locations.IdLocation', '=', 'locations.IdLocation')
+            ->get();
+        $result = [];
+        foreach ($locations as $location) {
+            array_push($result, WaveEmployee::where('IdWave', $location->IdWaveLocation)->get());
+        }
+        $wave = WaveLocation::where('IdWave', $IdWave)->first();
+        $all_locations = "All Locations";
+        return view('wave_all_locations', compact('wave', 'locations', 'all_locations', 'result'));
     }
 }
