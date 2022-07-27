@@ -277,6 +277,7 @@
                                 <option value="108">Vroom</option>
                                 <option value="109">Weber</option>
                                 <option value="110">Levis</option>
+                                <option value="111">Mejuri</option>
 
                             </select>
                             <label for="floatingSelect">Select Program</label>

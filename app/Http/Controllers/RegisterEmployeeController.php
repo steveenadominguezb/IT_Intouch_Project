@@ -48,7 +48,10 @@ class RegisterEmployeeController extends Controller
 
         try {
             if ($_FILES['file']['size'] > 0 && $_FILES['file']['type'] == 'text/csv') {
-
+                $fails = 'This Users is already registered: ';
+                $count_fails = 0;
+                $registered = false;
+                $count = 0;
                 $dir_subida = 'files/users/';
                 $fichero_subido = $dir_subida . basename($_FILES['file']['name']);
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $fichero_subido)) {
@@ -111,8 +114,12 @@ class RegisterEmployeeController extends Controller
                             echo '<script language="javascript">alert("Error, wave (' . $employee['wave'] . ') doesn\'t have a ' . strtolower($employee['location']) . ' location");</script>';
                             return view('register_employee');
                         }
-                        if (sizeof($result) == 0) {
-
+                        if (sizeof($result) != 0 || $employee['cde'] == "") {
+                            $registered = true;
+                            $count_fails++;
+                            $fails .= $employee['cde'] . ' - ' . $employee['name'] . '; ';
+                        } else {
+                            $count++;
                             $user->save();
                         }
 
@@ -125,7 +132,11 @@ class RegisterEmployeeController extends Controller
                             DB::table('users')->where('cde', $employee['cde'])->update(['status' => 'ActiveFull']);
                         }
                     }
-                    echo '<script language="javascript">alert("successful");</script>';
+                    if ($registered) {
+                        $mes = explode(":", $fails);
+                        return back()->with(['message' => $count . ' users successfully registered. ', 'th' => $fails, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_fails]);
+                    }
+                    return back()->with(['message' => 'Successfull', 'alert' => 'success']);
                 } else {
                     return "¡Possible file upload attack!\n";
                 }
@@ -133,9 +144,7 @@ class RegisterEmployeeController extends Controller
                 return view('register_employee');
             }
         } catch (\Throwable $th) {
-            echo '<script language="javascript">alert("Error,' . $th . ' try again.");</script>';
-            $wait = "";
-            return $th;
+            return back()->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
         }
 
 

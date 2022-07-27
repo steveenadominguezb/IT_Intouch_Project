@@ -80,5 +80,11 @@ class ProgramsTableSeeder extends Seeder
         $program11->Name = "24-7Intouch";
         $program11->img = "intouch.png";
         $program11->save();
+
+        $program12 = new Program();
+        $program12->IdProgram = 111;
+        $program12->Name = "Mejuri";
+        $program12->img = "mejuri.png";
+        $program12->save();
     }
 }

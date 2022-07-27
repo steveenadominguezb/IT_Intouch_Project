@@ -43,9 +43,9 @@ class ComputerController extends Controller
         try {
             if ($_FILES['file']['size'] > 0 && $_FILES['file']['type'] == 'text/csv') {
                 $fails = 'This Computers is already registered: ';
-                $count_fails=0;
+                $count_fails = 0;
                 $registered = false;
-                $count =0;
+                $count = 0;
                 $dir_subida = 'files/computers/';
                 $fichero_subido = $dir_subida . basename($_FILES['file']['name']);
 
@@ -71,22 +71,22 @@ class ComputerController extends Controller
                             $computer->Laptop = false;
                         }
 
-                        if (sizeof($resultComputer) == 1 || $computer_data['SerialNumber']=="") {
+                        if (sizeof($resultComputer) != 0 || $computer_data['SerialNumber'] == "") {
                             $registered = true;
                             $count_fails++;
                             $fails .= $computer_data['SerialNumber'] . ' - ' . $computer_data['HostName'] . '; ';
                         } else {
-                            $count ++;
+                            $count++;
                             $computer->save();
                         }
                     }
                     if ($registered) {
                         $mes = explode(":", $fails);
-                        return back()->with(['message' => $count.' computers successfully registered. ', 'th' => $fails, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_fails]);
+                        return back()->with(['message' => $count . ' computers successfully registered. ', 'th' => $fails, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_fails]);
                     }
                     return back()->with(['message' => 'Successfull', 'alert' => 'success']);
                 } else {
-                    return "¡Posible ataque de subida de ficheros!\n";
+                    return "¡Possible file upload attack!\n";
                 }
 
                 return view('register_computer');
