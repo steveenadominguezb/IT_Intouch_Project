@@ -86,6 +86,12 @@ class RegisterEmployeeController extends Controller
                             case 'Agent':
                                 $user->privilege = 40001;
                                 break;
+                            case 'TL':
+                                $user->privilege = 40001;
+                                break;
+                            case 'Trainer':
+                                $user->privilege = 40001;
+                                break;
                             case 'IT Intern':
                                 $user->privilege = 30001;
                                 break;
@@ -99,20 +105,20 @@ class RegisterEmployeeController extends Controller
 
                         $wave = Wave::where('Name', $employee['wave'])->first();
                         if (!$wave) {
-                            echo '<script language="javascript">alert("Error, wave (' . $employee['wave'] . ') doesn\'t exist");</script>';
-                            return view('register_employee');
+                            // echo '<script language="javascript">alert("Error, wave (' . $employee['wave'] . ') doesn\'t exist");</script>';
+                            return back()->with(['message' => 'Error, wave (' . $employee['wave'] . ') doesn\'t exist ', 'alert' => 'warning']);
                         }
                         $created = false;
                         $idLocation = 0;
                         foreach ($wave->locations as $location) {
-                            if (strtolower(str_replace(['á', 'í'], ['a', 'i'], $location->location['Name'])) == strtolower($employee['location'])) {
+                            if (strtolower(str_replace(['á', 'í'], ['a', 'i'], $location->location['Name'])) == strtolower($employee['location'],)) {
                                 $created = true;
                                 $idLocation = $location['IdWaveLocation'];
                             }
                         }
                         if (!$created) {
-                            echo '<script language="javascript">alert("Error, wave (' . $employee['wave'] . ') doesn\'t have a ' . strtolower($employee['location']) . ' location");</script>';
-                            return view('register_employee');
+                            //echo '<script language="javascript">alert("Error, wave (' . $employee['wave'] . ') doesn\'t have a ' . strtolower($employee['location']) . ' location");</script>';
+                            return back()->with(['message' => 'Error, wave (' . $employee['wave'] . ') doesn\'t have a ' . strtolower($employee['location']) . ' location', 'alert' => 'warning']);
                         }
                         if (sizeof($result) != 0 || $employee['cde'] == "") {
                             $registered = true;
@@ -136,7 +142,7 @@ class RegisterEmployeeController extends Controller
                         $mes = explode(":", $fails);
                         return back()->with(['message' => $count . ' users successfully registered. ', 'th' => $fails, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_fails]);
                     }
-                    return back()->with(['message' => 'Successfull', 'alert' => 'success']);
+                    return back()->with(['message' => $count . ' users successfully registered.', 'alert' => 'success']);
                 } else {
                     return "¡Possible file upload attack!\n";
                 }

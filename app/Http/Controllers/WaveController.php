@@ -64,8 +64,8 @@ class WaveController extends Controller
         }
         $computers_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)
             ->join('computers', 'wave_employees.SerialNumberComputer', '=', 'computers.SerialNumber')
+            ->leftJoin('users','wave_employees.cde', '=', 'users.cde')
             ->get();
-
         $users_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)
             ->join('users', 'wave_employees.cde', '=', 'users.cde')
             ->get();
@@ -156,16 +156,16 @@ class WaveController extends Controller
                         array_shift($csv);
 
                         foreach ($csv as $computer) {
-                            $result = DB::table('computers')->where('SerialNumber', $computer['SerialNumber'])->get();
+                            $result = DB::table('computers')->where('SerialNumber', $computer['Serial'])->get();
                             if (sizeof($result) == 0) {
-                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['SerialNumber'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
+                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['Serial'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
                             }
                             if ($result[0]->Status != "InStorage") {
-                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $result[0]->HostName . ' is already assigned or does not correspond to the wave', 'alert' => 'danger', 'locations' => $locations]);
+                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $result[0]->Workstation . ' is already assigned or does not correspond to the wave', 'alert' => 'danger', 'locations' => $locations]);
                             }
-                            DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'SerialNumberComputer' => $computer['SerialNumber']], ['SerialNumberComputer' => $computer['SerialNumber']]);
+                            DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'SerialNumberComputer' => $computer['Serial']], ['SerialNumberComputer' => $computer['Serial']]);
 
-                            DB::table('computers')->where('SerialNumber', $computer['SerialNumber'])->update(['Status' => 'Taken']);
+                            DB::table('computers')->where('SerialNumber', $computer['Serial'])->update(['Status' => 'Taken']);
                         }
                         echo '<script language="javascript">alert("successful");</script>';
                     } else {
@@ -345,9 +345,9 @@ class WaveController extends Controller
 
                         foreach ($csv as $computer) {
                             $resultUser = DB::table('users')->where('name', $computer['Username'])->get();
-                            $resultComputer = DB::table('computers')->where('SerialNumber', $computer['Service TAG'])->get();
+                            $resultComputer = DB::table('computers')->where('SerialNumber', $computer['Serial'])->get();
                             if (sizeof($resultComputer) == 0) {
-                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['Service TAG'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
+                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['Serial'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
                             }
 
                             if (sizeof($resultUser) == 0) {
@@ -358,17 +358,17 @@ class WaveController extends Controller
                                 ->get();
                             if (sizeof($celdas) == 1) {
 
-                                $wave_employees = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Service TAG'])->first();
+                                $wave_employees = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->first();
 
                                 if ($wave_employees->cde != null) {
-                                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Service TAG'])->update(['SerialNumberComputer' => null]);
+                                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->update(['SerialNumberComputer' => null]);
                                 } else {
-                                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Service TAG'])->delete();
+                                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->delete();
                                 }
 
                                 DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
                                     ->where('cde', $resultUser[0]->cde)
-                                    ->update(['SerialNumberComputer' => $computer['Service TAG']]);
+                                    ->update(['SerialNumberComputer' => $computer['Serial']]);
                             } else {
 
                                 return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $resultUser[0]->name . ' is already assigned or does not correspond to the wave or location', 'alert' => 'danger', 'locations' => $locations]);

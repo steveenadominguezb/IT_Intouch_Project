@@ -57,11 +57,11 @@ class ComputerController extends Controller
                     });
                     array_shift($csv);
                     foreach ($csv as $computer_data) {
-                        $resultComputer = DB::table('computers')->where('SerialNumber', $computer_data['SerialNumber'])->get();
+                        $resultComputer = DB::table('computers')->where('SerialNumber', $computer_data['Serial'])->get();
 
                         $computer = new Computer();
-                        $computer->SerialNumber = $computer_data['SerialNumber'];
-                        $computer->HostName = $computer_data['HostName'];
+                        $computer->SerialNumber = $computer_data['Serial'];
+                        $computer->HostName = $computer_data['Worksation'];
                         $computer->OS = $computer_data['OS'];
                         $computer->Brand = $computer_data['Brand'];
                         $computer->Model = $computer_data['Model'];
@@ -71,10 +71,10 @@ class ComputerController extends Controller
                             $computer->Laptop = false;
                         }
 
-                        if (sizeof($resultComputer) != 0 || $computer_data['SerialNumber'] == "") {
+                        if (sizeof($resultComputer) != 0 || $computer_data['Serial'] == "") {
                             $registered = true;
                             $count_fails++;
-                            $fails .= $computer_data['SerialNumber'] . ' - ' . $computer_data['HostName'] . '; ';
+                            $fails .= $computer_data['Serial'] . ' - ' . $computer_data['Worksation'] . '; ';
                         } else {
                             $count++;
                             $computer->save();

@@ -86,7 +86,8 @@
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapseThree" aria-expanded="false"
                                             aria-controls="collapseThree">
-                                            Accordion Item #3
+                                            <strong style="overflow: hidden; max-height: 18px ">
+                                                {{ session()->get('th') }}</strong>
                                         </button>
                                     </h2>
                                     <div id="collapseThree" class="accordion-collapse collapse"
@@ -113,8 +114,7 @@
                         style="background: none; box-shadow: none;">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
-                                <form enctype="multipart/form-data" class="" method="POST"
-                                    action="">
+                                <form enctype="multipart/form-data" class="" method="POST" action="">
                                     @csrf
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="staticBackdropLabel">
@@ -210,6 +210,12 @@
                                                                             aria-label="Close"></button>
                                                                     </div>
                                                                     <div class="modal-body">
+
+                                                                        <div>
+                                                                            <strong
+                                                                                style="margin-left: 2%; font-size: 15px">
+                                                                                {{ $computer->name }}</strong>
+                                                                        </div>
                                                                         <div class="form-floating mb-3">
                                                                             <input type="text" class="form-control"
                                                                                 style="margin-left: 10px;" name="UserCode"
