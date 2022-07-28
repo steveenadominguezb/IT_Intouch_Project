@@ -161,7 +161,7 @@ class WaveController extends Controller
                                 return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['Serial'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
                             }
                             if ($result[0]->Status != "InStorage") {
-                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $result[0]->Workstation . ' is already assigned or does not correspond to the wave', 'alert' => 'danger', 'locations' => $locations]);
+                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $result[0]->HostName . ' is already assigned or does not correspond to the wave', 'alert' => 'danger', 'locations' => $locations]);
                             }
                             DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'SerialNumberComputer' => $computer['Serial']], ['SerialNumberComputer' => $computer['Serial']]);
 

@@ -61,7 +61,7 @@ class ComputerController extends Controller
 
                         $computer = new Computer();
                         $computer->SerialNumber = $computer_data['Serial'];
-                        $computer->HostName = $computer_data['Worksation'];
+                        $computer->HostName = $computer_data['Workstation'];
                         $computer->OS = $computer_data['OS'];
                         $computer->Brand = $computer_data['Brand'];
                         $computer->Model = $computer_data['Model'];
@@ -74,7 +74,7 @@ class ComputerController extends Controller
                         if (sizeof($resultComputer) != 0 || $computer_data['Serial'] == "") {
                             $registered = true;
                             $count_fails++;
-                            $fails .= $computer_data['Serial'] . ' - ' . $computer_data['Worksation'] . '; ';
+                            $fails .= $computer_data['Serial'] . ' - ' . $computer_data['Workstation'] . '; ';
                         } else {
                             $count++;
                             $computer->save();

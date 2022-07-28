@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder
         $user1->status = "Active";
         $user1->privilege = 30001;
         $user1->save();
-        
+
         $user2 = new User();
         $user2->cde = "C000001";
         $user2->name = "Administrator";
@@ -63,7 +63,7 @@ class UsersTableSeeder extends Seeder
         $user4->status = "Active";
         $user4->privilege = 40001;
         $user4->save();
-        
+
         $user5 = new User();
         $user5->cde = "C221328";
         $user5->name = "Valeria Barberi Ochoa";
@@ -160,6 +160,52 @@ class UsersTableSeeder extends Seeder
         $user12->privilege = 30001;
         $user12->save();
 
-
+        $user13 = new User();
+        $user13->cde = "C22185";
+        $user13->name = "Cristian David Cordoba Suarez";
+        $user13->position = "IT Generalist";
+        $user13->username = "cristian.suarez";
+        $user13->password = Hash::make('!ntouch247');
+        $user13->email = "cristian.suarez@24-7intouch.com";
+        $user13->ContactInfo = "+573001234567";
+        $user13->status = "Active";
+        $user13->privilege = 30001;
+        $user13->save();
+        
+        $user14 = new User();
+        $user14->cde = "C222238";
+        $user14->name = "Laura Virginia Pena Cabrera";
+        $user14->position = "IT Intern";
+        $user14->username = "laura.pena";
+        $user14->password = Hash::make('!ntouch247');
+        $user14->email = "laura.pena@24-7intouch.com";
+        $user14->ContactInfo = "+573001234567";
+        $user14->status = "Active";
+        $user14->privilege = 30001;
+        $user14->save();
+        
+        $user15 = new User();
+        $user15->cde = "C222450";
+        $user15->name = "Angela Tatiana Garzon Martinez";
+        $user15->position = "IT Intern";
+        $user15->username = "angela.garzon";
+        $user15->password = Hash::make('!ntouch247');
+        $user15->email = "angela.garzon@24-7intouch.com";
+        $user15->ContactInfo = "+573001234567";
+        $user15->status = "Active";
+        $user15->privilege = 30001;
+        $user15->save();
+        
+        $user16 = new User();
+        $user16->cde = "C222426";
+        $user16->name = "Jose Lisandro Mora Fiesco";
+        $user16->position = "IT Intern";
+        $user16->username = "jose.mora";
+        $user16->password = Hash::make('!ntouch247');
+        $user16->email = "jose.mora@24-7intouch.com";
+        $user16->ContactInfo = "+573001234567";
+        $user16->status = "Active";
+        $user16->privilege = 30001;
+        $user16->save();
     }
 }

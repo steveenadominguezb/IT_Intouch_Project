@@ -1,6 +1,6 @@
 @extends('wave')
 @section('assign')
-    <div class="container">
+    <div class="computers" style="width: 70%; margin: auto">
         <div class="row justify-content-center">
             <div class="col-md-13">
                 <div class="card" style="max-height: 700px; overflow: auto;">

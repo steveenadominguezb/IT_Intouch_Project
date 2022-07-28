@@ -13,7 +13,7 @@
                             <div class="dropdown" style="display: inline-block;">
                                 <button class="dropdown-toggle fw-bold" type="button" id="dropdownMenuButton1"
                                     style="background: none; border: none" data-bs-toggle="dropdown" aria-expanded="false">
-                                    @if ($all_locations)
+                                    @if (  true === (isset( $all_locations ) ? $all_locations :false))
                                         {{ $all_locations }}
                                     @else
                                         {{ $wave->location->Name }}
