@@ -393,14 +393,27 @@ class WaveController extends Controller
             ->join('locations', 'wave_locations.IdLocation', '=', 'locations.IdLocation')
             ->get();
         $result = [];
+        $num_locations = 0;
         foreach ($locations as $location) {
-            //array_push($result, $location);
+            array_push($result, $location);
             $computers_info = WaveEmployee::where('IdWave', $location->IdWaveLocation)
                 ->join('computers', 'wave_employees.SerialNumberComputer', '=', 'computers.SerialNumber')
                 ->get();
             $users_info = WaveEmployee::where('IdWave', $location->IdWaveLocation)
                 ->join('users', 'wave_employees.cde', '=', 'users.cde')
                 ->get();
+
+            if (sizeof($computers_info) != 0) {
+                $result[$num_locations]['Computers'] = $computers_info;
+            }else{
+                $result[$num_locations]['Computers'] = [];
+            }
+            if (sizeof($users_info) != 0) {
+                $result[$num_locations]['Users'] = $users_info;
+            }else{
+                $result[$num_locations]['Users'] = [];
+            }
+            $num_locations++;
         }
         $wave = WaveLocation::where('IdWave', $IdWave)->first();
         $all_locations = "All Locations";

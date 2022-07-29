@@ -21,7 +21,40 @@
                                 {{ session('status') }}
                             </div>
                         @endif
+                        @if (Auth::user()->name == 'Laura Alejandra Acero Amaya')
+                            <div class="sizes">
+                                <div class="card " style="height: 320px;">
+                                    <div class=" card-image waves-effect waves-block waves-light small">
+                                        <img class="activator" style="height: fit-content;" src="img/love.png"
+                                            alt="program image">
+                                    </div>
+                                    <div class="card-content">
+                                        <span class="card-title activator grey-text text-darken-4 fw-bold"
+                                            style="font-size: 15px;">I LOVE YOU<i
+                                                class="material-icons right">more_vert</i></span>
+                                        <p class="card-text fw-bold">My GirlFriend</p>
+                                    </div>
+                                    <div class="card-reveal">
+                                        <div style="position: relative;">
+                                            <div style="height: 48%;">
+                                                <span class="card-title grey-text text-darken-4 fw-bold"
+                                                    style="font-size: 15px;">I LOVE YOU<i
+                                                        class="material-icons right">close</i></span>
+                                                <br>
+                                                <br>
+                                                <p style="font-size: 12px;">Que Dios me dé mucho tiempo de vida, pues todo
+                                                    ese tiempo lo quiero pasar contigo.</p>
 
+                                            </div>
+                                            <div style="position: fixed; bottom: 0; margin-bottom: 10%;">
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                         @foreach ($waves as $wave)
                             <div class="sizes">
                                 <div class="card " style="height: 320px;">
