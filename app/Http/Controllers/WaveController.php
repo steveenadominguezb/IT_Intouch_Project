@@ -394,7 +394,13 @@ class WaveController extends Controller
             ->get();
         $result = [];
         foreach ($locations as $location) {
-            array_push($result, WaveEmployee::where('IdWave', $location->IdWaveLocation)->get());
+            //array_push($result, $location);
+            $computers_info = WaveEmployee::where('IdWave', $location->IdWaveLocation)
+                ->join('computers', 'wave_employees.SerialNumberComputer', '=', 'computers.SerialNumber')
+                ->get();
+            $users_info = WaveEmployee::where('IdWave', $location->IdWaveLocation)
+                ->join('users', 'wave_employees.cde', '=', 'users.cde')
+                ->get();
         }
         $wave = WaveLocation::where('IdWave', $IdWave)->first();
         $all_locations = "All Locations";
