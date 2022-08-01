@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\WaveEmployee;
+use App\Models\WaveLocation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -48,7 +50,9 @@ class UsersController extends Controller
     public function userTracert($cde)
     {
         $user = User::where("cde", $cde)->first();
-        return $user;
+        $waves_user = WaveEmployee::where('cde', $cde)
+            ->get();
+        return view('user_tracert', compact('user', 'waves_user'));
     }
 
     /**
