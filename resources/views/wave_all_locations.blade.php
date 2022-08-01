@@ -10,33 +10,35 @@
                         </div>
                     </div>
                     <div class="card-body " style="display: table;border-spacing: 40px; overflow: scroll;">
-                        <div style="display: table; width: 100%">
-                            @foreach ($result as $location)
-                                <div style="display: table-cell; height: fit-content; ">
-                                    <div style="display: table-caption;">
-                                        {{ $location->Name }}
-                                    </div>
-                                    <div style="display: table-row-group">
-                                        <div style="display: table-cell">
-                                            Computers ({{ sizeof($location->Computers) }})
-                                            @foreach ($location->Computers as $computer)
-                                                <div>
-                                                    <strong>{{ $computer->HostName }}</strong>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                        <div style="display: table-cell">
-                                            Users ({{ sizeof($location->Users) }})
+                        <table style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>Location</th>
+                                    <th>Users</th>
+                                    <th>Computers</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($result as $location)
+                                    <tr>
+                                        <td>{{ $location->Name }}</td>
+                                        <td>
                                             @foreach ($location->Users as $user)
-                                                <div>
-                                                    <strong>{{ $user->name }}</strong>
-                                                </div>
+                                            {{$user->name}}
+                                            <br>
                                             @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+                                        </td>
+                                        <td>
+                                            @foreach ($location->Computers as $computer)
+                                            {{$computer->HostName}}
+                                            <br>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
                     </div>
                 </div>
             </div>
