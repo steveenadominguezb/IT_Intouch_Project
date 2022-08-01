@@ -20,4 +20,9 @@ class WaveEmployee extends Model
     {
         return $this->belongsTo(Computer::class, 'SerialNumberComputer', 'SerialNumber');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'cde', 'cde');
+    }
 }

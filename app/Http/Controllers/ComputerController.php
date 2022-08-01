@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Computer;
 use App\Models\User;
+use App\Models\WaveEmployee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -176,8 +177,9 @@ class ComputerController extends Controller
 
     public function computerTracert($SerialNumber)
     {
-        $computer = Computer::where('SerialNumber', $SerialNumber)->get();
-        return $computer;
+        $computer = Computer::where('SerialNumber', $SerialNumber)->first();
+        $waves_computer = WaveEmployee::where('SerialNumberComputer', $SerialNumber)->get();
+        return view('computer_tracert', compact('computer','waves_computer'));
     }
 
     public function inBlackList($SerialNumber)
