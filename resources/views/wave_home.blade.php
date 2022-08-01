@@ -92,8 +92,15 @@
                                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                             data-bs-target="#collapseThree" aria-expanded="false"
                                             aria-controls="collapseThree">
-                                            <strong style="overflow: hidden; max-height: 18px ">
-                                                {{ session()->get('th') }}</strong>
+                                            @if (session()->has('fails') && session()->has('mes'))
+                                                <strong>
+
+                                                    {{ session()->get('mes')[0] }}
+                                                    ({{ session()->get('fails') }}):</strong>
+                                            @else
+                                                <strong style="overflow: hidden; max-height: 18px ">
+                                                    {{ session()->get('th') }}</strong>
+                                            @endif
                                         </button>
                                     </h2>
                                     <div id="collapseThree" class="accordion-collapse collapse"

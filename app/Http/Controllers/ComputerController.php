@@ -170,7 +170,7 @@ class ComputerController extends Controller
                 ]);
             return back()->with(['message' => 'Updated', 'alert' => 'success']);
         } catch (\Throwable $th) {
-            return back()->with(['message' => 'Error, try again', 'alert' => 'danger']);
+            return back()->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
         }
     }
 

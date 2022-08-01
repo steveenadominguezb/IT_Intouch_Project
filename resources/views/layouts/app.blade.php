@@ -100,6 +100,9 @@
                             <a class="ms-5 h-75 nav-link text-light" href="{{ route('computers.list') }}">{{ __('Computers') }}</a>
                         </li>
                         <li class="nav-item">
+                            <a class="ms-2 h-75 nav-link text-light" href="{{ route('users.list') }}">{{ __('Users') }}</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="ms-2 h-75 nav-link text-light" href="{{ route('inventory.index') }}">{{ __('Inventory') }}</a>
                         </li>
                         @endif

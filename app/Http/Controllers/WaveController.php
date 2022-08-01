@@ -330,6 +330,13 @@ class WaveController extends Controller
     {
         $locations = WaveLocation::where('IdWave', $IdWave)->get();
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+        $computers_registered = 'This Computers is not registered: ';
+        $count_computers = 0;
+        $users_assigned = 'This Users is already assigned or does not correspond to the wave or location: ';
+        $count_users = 0;
+        $assigned = false;
+        $registered = false;
+        $count = 0;
         if (request('file')) {
             try {
                 if ($_FILES['file']['size'] > 0 && $_FILES['file']['type'] == 'text/csv') {
@@ -344,37 +351,50 @@ class WaveController extends Controller
                         array_shift($csv);
 
                         foreach ($csv as $computer) {
-                            $resultUser = DB::table('users')->where('name', $computer['Username'])->get();
-                            $resultComputer = DB::table('computers')->where('SerialNumber', $computer['Serial'])->get();
-                            if (sizeof($resultComputer) == 0) {
-                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['Serial'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
-                            }
-
-                            if (sizeof($resultUser) == 0) {
-                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['Username'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
-                            }
-                            $celdas = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
-                                ->where('cde', $resultUser[0]->cde)
-                                ->get();
-                            if (sizeof($celdas) == 1) {
-
-                                $wave_employees = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->first();
-
-                                if ($wave_employees->cde != null) {
-                                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->update(['SerialNumberComputer' => null]);
-                                } else {
-                                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->delete();
+                            if ($computer['Serial'] != "") {
+                                $resultUser = DB::table('users')->where('name', $computer['Username'])->get();
+                                $resultComputer = DB::table('computers')->where('SerialNumber', $computer['Serial'])->get();
+                                if (sizeof($resultComputer) == 0) {
+                                    $registered = true;
+                                    $count_computers++;
+                                    $computers_registered .= $computer['Serial'] . ' - ' . $computer['Workstation'] . '; ';
                                 }
 
-                                DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
+                                if (sizeof($resultUser) == 0) {
+                                    return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['Username'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
+                                }
+                                $celdas = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
                                     ->where('cde', $resultUser[0]->cde)
-                                    ->update(['SerialNumberComputer' => $computer['Serial']]);
-                            } else {
+                                    ->get();
+                                if (sizeof($celdas) == 1) {
 
-                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $resultUser[0]->name . ' is already assigned or does not correspond to the wave or location', 'alert' => 'danger', 'locations' => $locations]);
+                                    $wave_employees = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->first();
+
+                                    if ($wave_employees->cde != null) {
+                                        DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->update(['SerialNumberComputer' => null]);
+                                    } else {
+                                        DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->delete();
+                                    }
+
+                                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
+                                        ->where('cde', $resultUser[0]->cde)
+                                        ->update(['SerialNumberComputer' => $computer['Serial']]);
+                                    $count++;
+                                } else {
+                                    $assigned = true;
+                                    $count_users++;
+                                    $users_assigned .= $resultUser[0]->cde . ' - ' . $resultUser[0]->name . '; ';
+                                }
                             }
                         }
-                        echo '<script language="javascript">alert("successful");</script>';
+                        if ($assigned) {
+                            $mes = explode(":", $users_assigned);
+                            return back()->with(['message' => $count . ' computers successfully assigned. ', 'th' => $users_assigned, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_users]);
+                        }
+                        if ($registered) {
+                            $mes = explode(":", $computers_registered);
+                            return back()->with(['message' => $count . ' computers successfully assigned. ', 'th' => $computers_registered, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_computers]);
+                        }
                     } else {
                         return "¡Possible file upload attack!\n";
                     }
@@ -405,12 +425,12 @@ class WaveController extends Controller
 
             if (sizeof($computers_info) != 0) {
                 $result[$num_locations]['Computers'] = $computers_info;
-            }else{
+            } else {
                 $result[$num_locations]['Computers'] = [];
             }
             if (sizeof($users_info) != 0) {
                 $result[$num_locations]['Users'] = $users_info;
-            }else{
+            } else {
                 $result[$num_locations]['Users'] = [];
             }
             $num_locations++;
