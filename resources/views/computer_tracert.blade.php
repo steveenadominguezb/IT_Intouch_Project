@@ -38,7 +38,7 @@
                                 </div>
                             </div>
                             <div style="margin-bottom: 3%; display: inline-block">
-                                <h6>Assigned User</h6>
+                                <h6>End User</h6>
                                 @foreach ($waves_computer as $wave)
                                     <div style="display: table; font-size: 15px">
                                         <p style="display: table-cell; border-right: 20px solid transparent">

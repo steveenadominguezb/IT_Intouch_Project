@@ -19,6 +19,7 @@ class ComputerController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('admin');
         $this->middleware('auth');
     }
     /**
@@ -179,7 +180,7 @@ class ComputerController extends Controller
     {
         $computer = Computer::where('SerialNumber', $SerialNumber)->first();
         $waves_computer = WaveEmployee::where('SerialNumberComputer', $SerialNumber)->get();
-        return view('computer_tracert', compact('computer','waves_computer'));
+        return view('computer_tracert', compact('computer', 'waves_computer'));
     }
 
     public function inBlackList($SerialNumber)

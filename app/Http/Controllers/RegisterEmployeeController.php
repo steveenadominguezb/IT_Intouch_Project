@@ -24,6 +24,7 @@ class RegisterEmployeeController extends Controller
      */
     public function __construct()
     {
+        $this->middleware('admin');
         $this->middleware('auth');
     }
     /**
@@ -31,9 +32,6 @@ class RegisterEmployeeController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->privilege != 10001) {
-            return "No Admin Privileges";
-        }
         return view('register_employee');
     }
 
