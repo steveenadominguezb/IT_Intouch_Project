@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('Name');
             $table->date('StartDate');
             $table->string('ItopsInspector');
-            $table->boolean('Return')->default(false);
             $table->timestamps();
             $table->unsignedBigInteger('IdProgram');
 
