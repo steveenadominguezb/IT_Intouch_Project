@@ -227,8 +227,14 @@
                                     </div>
                                     <div class="card-content">
                                         <span class="card-title activator grey-text text-darken-4 fw-bold"
-                                            style="font-size: 15px;">{{ $wave->programs->Name }}<i
-                                                class="material-icons right">more_vert</i></span>
+                                            style="font-size: 15px;">
+                                            @if ($wave->Name == 'Staff' || $wave->Name == 'Attrition')
+                                                {{ $wave->Name }}
+                                            @else
+                                                {{ $wave->programs->Name }}
+                                            @endif
+                                            <i class="material-icons right">more_vert</i>
+                                        </span>
                                         <p class="card-text fw-bold">{{ $wave->Name }}</p>
                                         <p>{{ $wave->StartDate }}</p>
                                     </div>

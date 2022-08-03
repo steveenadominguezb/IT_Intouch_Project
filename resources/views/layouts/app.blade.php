@@ -110,7 +110,7 @@
                                 </li>
                                 <li class="nav-item">
                                     <a class="ms-2 h-75 nav-link text-light"
-                                        href="{{ route('inventory.index') }}">{{ __('Attrition') }}</a>
+                                        href="/home/wave/6/101">{{ __('Attrition') }}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="ms-2 h-75 nav-link text-light"
@@ -128,14 +128,15 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link text-light h-75" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link text-light h-75"
+                                        href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
 
                             <!-- @if (Route::has('register'))
     <li class="nav-item">
-                                <a class="nav-link text-light" href="{{ route('register') }}">{{ __('Register') }}</a>
-                            </li>
+                                        <a class="nav-link text-light" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    </li>
     @endif -->
                         @else
                             <li class="nav-item dropdown">

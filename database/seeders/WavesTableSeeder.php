@@ -84,7 +84,7 @@ class WavesTableSeeder extends Seeder
         $waveLocation->save();
 
         $waveLocation = new WaveLocation();
-        $waveLocation->IdWave = 5;
+        $waveLocation->IdWave = 6;
         $waveLocation->IdLocation = 101;
         $waveLocation->save();
     }
