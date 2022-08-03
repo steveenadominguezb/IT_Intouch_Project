@@ -21,17 +21,17 @@
                             <tbody>
                                 @foreach ($result as $location)
                                     <tr>
-                                        <td>{{ $location->Name }}</td>
+                                        <td>{{ $location->Name }} ({{ sizeof($location->Users) }})</td>
                                         <td>
                                             @foreach ($location->Users as $user)
-                                            {{$user->name}}
-                                            <br>
+                                                {{ $user->name }}
+                                                <br>
                                             @endforeach
                                         </td>
                                         <td>
                                             @foreach ($location->Computers as $computer)
-                                            {{$computer->HostName}}
-                                            <br>
+                                                {{ $computer->HostName }}
+                                                <br>
                                             @endforeach
                                         </td>
                                     </tr>

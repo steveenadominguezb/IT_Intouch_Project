@@ -158,10 +158,10 @@
                         <div class="border-end" style=" width: 35%; display: table-cell; ">
                             <div>
                                 <div style="display: inline-block;">
-                                    <h6 class="fw-bold">Computers</h6>
+                                    <h6 class="fw-bold">Computers ({{ sizeof($computers_view) }})</h6>
 
                                 </div>
-                                <div style="display: inline-block; text-align: right; width: 80%;">
+                                <div style="display: inline-block; text-align: right; width: 70%;">
 
                                     <input type="text" style="display: inline-block; width: 50%;">
                                     <button type="button" class="btn btn-primary blue">
@@ -302,7 +302,7 @@
                         <div class="border-start" style=" width: 45%; display: table-cell; padding-left: 1%">
                             <div>
                                 <div style="display: inline-block;">
-                                    <h6 class="fw-bold">Users</h6>
+                                    <h6 class="fw-bold">Users ({{ sizeof($users_view) }})</h6>
 
                                 </div>
                                 <div style="display: inline-block; text-align: right; width: 80%;">

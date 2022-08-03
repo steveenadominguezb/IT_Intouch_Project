@@ -28,20 +28,20 @@ class UsersController extends Controller
     {
         $text = trim(request('text'));
         if ($text != null) {
-            $users = User::where('cde', 'LIKE', '%' . $text . '%')->get();
+            $users = User::where('cde', 'LIKE', '%' . $text . '%')->latest()->get();
             if ($users->isEmpty()) {
-                $users = User::where('name', 'LIKE', '%' . $text . '%')->get();
+                $users = User::where('name', 'LIKE', '%' . $text . '%')->latest()->get();
             }
             if ($users->isEmpty()) {
-                $users = User::where('Status', 'LIKE', '%' . $text . '%')->get();
+                $users = User::where('Status', 'LIKE', '%' . $text . '%')->latest()->get();
             }
             if ($users->isEmpty()) {
-                $users = User::where('position', 'LIKE', '%' . $text . '%')->get();
+                $users = User::where('position', 'LIKE', '%' . $text . '%')->latest()->get();
             }
             return view('users', compact('users'));
         }
 
-        $users = User::all();
+        $users = DB::table('users')->latest()->get();
         return view('users', compact('users'));
     }
 

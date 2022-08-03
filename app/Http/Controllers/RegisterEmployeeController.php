@@ -71,8 +71,16 @@ class RegisterEmployeeController extends Controller
                         $user->name = $employee['name'];
                         $user->position = $employee['position'];
                         if ($employee['username'] == "") {
-                            $user->username = $employee['name'];
-                            $user->email = $employee['name'] . "@24-7intouch.com";
+
+                            $split = explode(' ', $employee['name']);
+
+                            if (sizeof($split) == 3) {
+                                $user->username = strtolower($split[0]) . "." . strtolower($split[1]);
+                                $user->email = strtolower($split[0]) . "." . strtolower($split[1]) . "@24-7intouch.com";
+                            } else {
+                                $user->username = strtolower($split[0]) . "." . strtolower($split[2]);
+                                $user->email = strtolower($split[0]) . "." . strtolower($split[2]) . "@24-7intouch.com";
+                            }
                         } else {
                             $user->username = $employee['username'];
                             $user->email = $employee['username'] . "@24-7intouch.com";
