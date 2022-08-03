@@ -171,7 +171,7 @@ class UsersTableSeeder extends Seeder
         $user13->status = "Active";
         $user13->privilege = 30001;
         $user13->save();
-        
+
         $user14 = new User();
         $user14->cde = "C222238";
         $user14->name = "Laura Virginia Pena Cabrera";
@@ -183,7 +183,7 @@ class UsersTableSeeder extends Seeder
         $user14->status = "Active";
         $user14->privilege = 30001;
         $user14->save();
-        
+
         $user15 = new User();
         $user15->cde = "C222450";
         $user15->name = "Angela Tatiana Garzon Martinez";
@@ -195,7 +195,7 @@ class UsersTableSeeder extends Seeder
         $user15->status = "Active";
         $user15->privilege = 30001;
         $user15->save();
-        
+
         $user16 = new User();
         $user16->cde = "C222426";
         $user16->name = "Jose Lisandro Mora Fiesco";
@@ -207,5 +207,17 @@ class UsersTableSeeder extends Seeder
         $user16->status = "Active";
         $user16->privilege = 30001;
         $user16->save();
+
+        $user17 = new User();
+        $user17->cde = "C212990";
+        $user17->name = "Laura Alejandra Acero Amaya";
+        $user17->position = "HR Intern";
+        $user17->username = "laura.amaya";
+        $user17->password = Hash::make('Bogota2022*');
+        $user17->email = "laura.amaya@24-7intouch.com";
+        $user17->ContactInfo = "3229455501";
+        $user17->status = "Active";
+        $user17->privilege = 50001;
+        $user17->save();
     }
 }

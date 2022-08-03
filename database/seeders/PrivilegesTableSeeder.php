@@ -30,6 +30,11 @@ class PrivilegesTableSeeder extends Seeder
         $privilege3->description = "IT Privileges";
         $privilege3->save();
 
+        $privilege5 = new privilege;
+        $privilege5->id = 50001;
+        $privilege5->description = "HR Privileges";
+        $privilege5->save();
+
         $privilege4 = new privilege;
         $privilege4->id = 40001;
         $privilege4->description = "Agent Privileges";

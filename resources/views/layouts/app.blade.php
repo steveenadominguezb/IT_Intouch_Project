@@ -109,8 +109,7 @@
                                         href="{{ route('users.list') }}">{{ __('Users') }}</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="ms-2 h-75 nav-link text-light"
-                                        href="/home/wave/6/101">{{ __('Attrition') }}</a>
+                                    <a class="ms-2 h-75 nav-link text-light" href="/attrition">{{ __('Attrition') }}</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="ms-2 h-75 nav-link text-light"
@@ -132,12 +131,6 @@
                                         href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
-
-                            <!-- @if (Route::has('register'))
-    <li class="nav-item">
-                                        <a class="nav-link text-light" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                    </li>
-    @endif -->
                         @else
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="h-75 nav-link dropdown-toggle text-light fw-bold"

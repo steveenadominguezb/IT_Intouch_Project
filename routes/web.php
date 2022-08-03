@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttritionController;
 use App\Http\Controllers\ComputerController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InventoryController;
@@ -89,6 +90,10 @@ Route::get('/home/wave/{IdWave}/{location}/inventory', [WaveController::class, '
 
 #Ruta de gestion del inventario
 Route::get('/home/inventory', [InventoryController::class, 'index'])->name('inventory.index');
+
+
+#Ruta del attrition
+Route::get('/attrition', [AttritionController::class, 'index'])->name('attrition.index');
 
 
 #Rutas para el login

@@ -51,13 +51,6 @@ class WavesTableSeeder extends Seeder
         $wave4->IdProgram = 1;
         $wave4->save();
 
-        $wave5 = new Wave();
-        $wave5->Name = "Attrition";
-        $wave5->StartDate = "2022-01-01";
-        $wave5->ItopsInspector = "SD";
-        $wave5->IdProgram = 1;
-        $wave5->save();
-
         $waveLocation = new WaveLocation();
         $waveLocation->IdWave = 5;
         $waveLocation->IdLocation = 101;
@@ -80,11 +73,6 @@ class WavesTableSeeder extends Seeder
 
         $waveLocation = new WaveLocation();
         $waveLocation->IdWave = 4;
-        $waveLocation->IdLocation = 101;
-        $waveLocation->save();
-
-        $waveLocation = new WaveLocation();
-        $waveLocation->IdWave = 6;
         $waveLocation->IdLocation = 101;
         $waveLocation->save();
     }
