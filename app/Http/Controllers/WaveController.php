@@ -56,6 +56,7 @@ class WaveController extends Controller
 
     public function create($IdWave, $location)
     {
+        
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
         $i = 101;
         while (!$wave) {

@@ -86,7 +86,7 @@ class ComputerController extends Controller
                         $mes = explode(":", $fails);
                         return back()->with(['message' => $count . ' computers successfully registered. ', 'th' => $fails, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_fails]);
                     }
-                    return back()->with(['message' => 'Successfull', 'alert' => 'success']);
+                    return back()->with(['message' => $count . ' computers successfully registered. ', 'alert' => 'success']);
                 } else {
                     return "¡Possible file upload attack!\n";
                 }
