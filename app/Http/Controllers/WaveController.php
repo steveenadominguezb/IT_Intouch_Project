@@ -56,7 +56,7 @@ class WaveController extends Controller
 
     public function create($IdWave, $location)
     {
-        
+
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
         $i = 101;
         while (!$wave) {
@@ -331,9 +331,12 @@ class WaveController extends Controller
     {
         $locations = WaveLocation::where('IdWave', $IdWave)->get();
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
-        $computers_registered = 'This Computers is not registered: ';
+        $computers_registered = 'These Computers is not registered: ';
         $count_computers = 0;
-        $users_assigned = 'This Users is already assigned or does not correspond to the wave or location: ';
+        $users_registered = 'These Users is not registered: ';
+        $count_users_registered = 0;
+        $registered_users = false;
+        $users_assigned = 'These Users is already assigned or does not correspond to the wave or location: ';
         $count_users = 0;
         $assigned = false;
         $registered = false;
@@ -362,7 +365,10 @@ class WaveController extends Controller
                                 }
 
                                 if (sizeof($resultUser) == 0) {
-                                    return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['Username'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
+                                    $registered_users = true;
+                                    $count_users_registered++;
+                                    $users_registered .= $computer['Username'] . '; ';
+                                    continue;
                                 }
                                 $celdas = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
                                     ->where('cde', $resultUser[0]->cde)
@@ -381,12 +387,16 @@ class WaveController extends Controller
                                         ->where('cde', $resultUser[0]->cde)
                                         ->update(['SerialNumberComputer' => $computer['Serial']]);
                                     $count++;
-                                } else {
+                                } elseif(sizeof($celdas) == 0 && sizeof($resultUser) > 0) {
                                     $assigned = true;
                                     $count_users++;
                                     $users_assigned .= $resultUser[0]->cde . ' - ' . $resultUser[0]->name . '; ';
                                 }
                             }
+                        }
+                        if ($registered_users) {
+                            $mes = explode(":", $users_registered);
+                            return back()->with(['message' => $count . ' computers successfully assigned. ', 'th' => $users_registered, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_users_registered]);
                         }
                         if ($assigned) {
                             $mes = explode(":", $users_assigned);
