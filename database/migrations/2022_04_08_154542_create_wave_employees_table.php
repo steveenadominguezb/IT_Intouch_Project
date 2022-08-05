@@ -22,6 +22,7 @@ return new class extends Migration
 
 
             $table->string('cde')->nullable();
+            $table->boolean('attrition')->nullable()->default(false);
             $table->string('SerialNumberKey')->nullable();
             $table->string('SerialNumberComputer')->nullable();
 

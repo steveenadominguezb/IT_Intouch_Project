@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Attrition;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AttritionController extends Controller
 {
@@ -18,6 +20,7 @@ class AttritionController extends Controller
 
     public function index()
     {
-        return view('attrition');
+        $attritions = DB::table('attritions')->latest()->get();
+        return view('attrition', compact('attritions'));
     }
 }
