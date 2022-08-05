@@ -45,9 +45,6 @@
                             <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->location->IdLocation }}/users"
                                 class="btn-flat fw-bold border-start border-end border-3" style="font-size: 12px">Assign
                                 Users</a>
-                            <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->location->IdLocation }}/inventory"
-                                class="btn-flat fw-bold border-end border-3" style="font-size: 12px">
-                                Inventory Update</a>
                         </div>
                     </div>
 

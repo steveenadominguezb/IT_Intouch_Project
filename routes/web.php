@@ -85,16 +85,8 @@ Route::post('/home/users', [UsersController::class, 'userUpdate'])->name('users.
 Route::get('/home/users/{cde}', [UsersController::class, 'userTracert'])->name('users.tracert');
 
 
-#Ruta para actualizar inventario desde la wave
-Route::get('/home/wave/{IdWave}/{location}/inventory', [WaveController::class, 'inventory'])->name('wave.show.inventory');
-
-#Ruta de gestion del inventario
-Route::get('/home/inventory', [InventoryController::class, 'index'])->name('inventory.index');
-
-
 #Ruta del attrition
 Route::get('/attrition', [AttritionController::class, 'index'])->name('attrition.index');
-
 
 #Rutas para el login
 Auth::routes();

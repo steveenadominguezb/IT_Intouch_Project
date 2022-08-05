@@ -111,10 +111,6 @@
                                 <li class="nav-item">
                                     <a class="ms-2 h-75 nav-link text-light" href="/attrition">{{ __('Attrition') }}</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="ms-2 h-75 nav-link text-light"
-                                        href="{{ route('inventory.index') }}">{{ __('Inventory') }}</a>
-                                </li>
                             @endif
                         @endguest
 
