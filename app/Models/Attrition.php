@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Attrition extends Model
 {
     use HasFactory;
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'cde', 'cde');
+    }
 }

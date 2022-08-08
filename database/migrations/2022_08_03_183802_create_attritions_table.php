@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+     * Run migrations.
      *
      * @return void
      */
@@ -17,14 +17,14 @@ return new class extends Migration
             $table->id();
             $table->string('cde');
             $table->unsignedBigInteger('IdProgram');
-            $table->boolean('hardware');
-            $table->string('SerialNumber');
-            $table->string('wfs-attrition');
-            $table->string('hardware_returned');
+            $table->boolean('hardware')->default(true);
+            $table->string('SerialNumber')->nullable();
+            $table->string('wfs-attrition')->nullable();
+            $table->string('hardware_returned')->default('checking');;
             $table->date('attrition_date');
             $table->date('tested_date')->nullable();
             $table->string('NewSerialNumber')->nullable();
-            $table->string('comments');
+            $table->string('comments')->nullable();
             $table->timestamps();
 
             $table->foreign('cde')->references('cde')->on('users');

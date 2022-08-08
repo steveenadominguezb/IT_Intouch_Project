@@ -9,8 +9,8 @@
                             <a href="#" style="color: black;">Attrition</a>
                         </div>
                         <div style="display: inline-block; text-align: end; width: 59%;">
-                            <a href="#" class="btn-flat fw-bold border-start border-end border-3"
-                                style="font-size: 12px">INSERT</a>
+                            <button type="button" class="btn-flat fw-bold border-start border-end border-3"
+                                style="font-size: 12px" data-bs-toggle="modal" data-bs-target="#modalInsert">INSERT</button>
                         </div>
                     </div>
                     <div class="card-body" style="height: max-content">
@@ -43,11 +43,46 @@
                             </div>
                         @endif
                         <div>
-
+                            @foreach ($rows as $row)
+                                {{ $row->cde }}
+                                {{ $row->user->name }}
+                                @if ($row->SerialNumber != null)
+                                    {{ $row->SerialNumber }}
+                                @else
+                                    null
+                                @endif
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Modal INSERT USER TO ATTRITION -->
+    <div class="modal fade" id="modalInsert" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true" style="background: none; box-shadow: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <form enctype="multipart/form-data" class="" method="POST" action="">
+                    @csrf
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">
+                            Search User
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        @csrf
+                        <div style="display: inline-block">
+                            <input type="text" name="name_user">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary grey" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary blue" style="margin-left: 20px;">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div><!-- End Modal INSERT USER TO ATTRITION -->
 @endsection

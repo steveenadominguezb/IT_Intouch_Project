@@ -87,6 +87,8 @@ Route::get('/home/users/{cde}', [UsersController::class, 'userTracert'])->name('
 
 #Ruta del attrition
 Route::get('/attrition', [AttritionController::class, 'index'])->name('attrition.index');
+#Ruta de insertar un usuario al attrition
+Route::post('/attrition', [AttritionController::class, 'store'])->name('attrition.store');
 
 #Rutas para el login
 Auth::routes();
