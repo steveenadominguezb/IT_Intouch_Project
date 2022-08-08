@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <div class="attrition" style="width: 70%; margin: auto">
+    <div class="attrition" style="width: 80%; margin: auto">
         <div class="row justify-content-center">
             <div class="col-md-13">
                 <div class="card">
@@ -43,15 +43,100 @@
                             </div>
                         @endif
                         <div>
-                            @foreach ($rows as $row)
-                                {{ $row->cde }}
-                                {{ $row->user->name }}
-                                @if ($row->SerialNumber != null)
-                                    {{ $row->SerialNumber }}
-                                @else
-                                    null
-                                @endif
-                            @endforeach
+                            <table style="font-size: 12px;">
+                                <thead>
+                                    <tr class="black" style="color: white;">
+                                        <th class="border-end text-center">CODE</th>
+                                        <th class="border-end text-center">NAME</th>
+                                        <th class="border-end text-center">USERNAME</th>
+                                        <th class="border-end text-center">PROGRAM</th>
+                                        <th class="border-end text-center">HARDWARE</th>
+                                        <th class="border-end text-center">WORKSTATION</th>
+                                        <th class="border-end text-center">SERIAL</th>
+                                        <th class="border-end text-center">WFS-ATTRITION</th>
+                                        <th class="border-end text-center">HARDWARE RETURNED</th>
+                                        <th class="border-end text-center">ATTRITION DATE</th>
+                                        <th class="border-end text-center">TESTED DATE</th>
+                                        <th class="border-end text-center">NEW COMPUTER</th>
+                                        <th class="border-end text-center">COMMENTS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($rows as $row)
+                                        <form action="/attrition/update_user" method="POST">
+                                            @csrf
+
+                                            @if ($row->hardware_returned == 'checking')
+                                                <tr class="yellow">
+                                            @endif
+                                            @if ($row->hardware_returned == 'yes')
+                                                <tr class="green">
+                                            @endif
+
+                                            @if ($row->hardware_returned == 'no')
+                                                <tr class="red">
+                                            @endif
+                                            <td class="border-end">
+
+                                                <input type="text" name="id" value="{{ $row->id }}" style="display: none">
+                                                <input type="text" name="cde"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    value={{ $row->cde }} readonly>
+                                            </td>
+                                            <td class="border-end"><input type="text" name="name"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center;"
+                                                    value="{{ $row->user->name }}" readonly></td>
+                                            <td class="border-end"><input type="text" name="username"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    value={{ $row->user->username }} readonly></td>
+                                            <td class="border-end text-center"><input type="text" name="program"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    value={{ $row->program->Name }} readonly></td>
+                                            <td class="border-end"><input type="text" name="hardware"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    value={{ $row->hardware == 1 ? 'yes' : 'no' }} readonly></td>
+                                            <td class="border-end"><input type="text" name="host"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    value="{{ $row->computer->HostName ?? '' }}" readonly></td>
+                                            <td class="border-end"><input type="text" name="serial"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    value="{{ $row->SerialNumber }}" readonly></td>
+                                            <td class="border-end">
+                                                <select class="form-select bg-transparent" style="width: min-content"
+                                                    name="wfs" aria-label="Default select example">
+                                                    <option selected>{{ $row->wfs_attrition }}</option>
+                                                    <option value="attrition">attrition</option>
+                                                    <option value="wfs">work on site</option>
+                                                </select>
+                                            </td>
+                                            <td class="border-end text-center">
+                                                <select class="form-select bg-transparent" name="returned"
+                                                    aria-label="Default select example">
+                                                    <option selected> {{ $row->hardware_returned }}</option>
+                                                    <option value="yes">yes</option>
+                                                    <option value="no">no</option>
+                                                </select>
+                                            </td>
+                                            <td class="border-end text-center"><input type="text" name="at_date"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    value={{ $row->attrition_date }} readonly></td>
+                                            <td class="border-end"><input type="text" name="test_date"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    value="{{ $row->tested_date }}" readonly></td>
+                                            <td class="border-end"><input type="text" name="new_serial"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    value={{ $row->newComputer->HostName ?? '' }}></td>
+                                            <td class="border-end"><input type="text" name="comment"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    value="{{ $row->comments }}" readonly></td>
+                                            <td class="bg-white"> <button type="submit"
+                                                    class="bg-transparent border-white"><i
+                                                        class="material-icons">save</i></button></td>
+                                            </tr>
+                                        </form>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

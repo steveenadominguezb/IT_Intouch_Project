@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('IdProgram');
             $table->boolean('hardware')->default(true);
             $table->string('SerialNumber')->nullable();
-            $table->string('wfs-attrition')->nullable();
+            $table->string('wfs_attrition')->nullable();
             $table->string('hardware_returned')->default('checking');;
             $table->date('attrition_date');
             $table->date('tested_date')->nullable();

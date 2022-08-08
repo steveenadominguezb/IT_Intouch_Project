@@ -44,15 +44,38 @@ class AttritionController extends Controller
                     }
                     $attrition->attrition_date = now();
                     $attrition->save();
-                }else{
+                } else {
                     return "This user is not assigned to wave";
                 }
-            }else{
+            } else {
                 return "This User is not already registered";
             }
             return back();
         } catch (\Throwable $th) {
             return $th;
         }
+    }
+
+    public function update()
+    {
+        switch (request('wfs')) {
+            case 'attrition':
+                $attrition = Attrition::find(request('id'));
+                $attrition->wfs_attrition = request('wfs');
+                $attrition->hardware_returned = request('returned');
+                $attrition->tested_date = now();
+                $attrition->save();
+                return back();
+                break;
+            case 'wfs':
+                if (request('new_serial') == null) {
+                    return "error, do not have a new serial";
+                }
+                break;
+            default:
+                return "select a option: attrition or work on site";
+                break;
+        }
+        return request();
     }
 }
