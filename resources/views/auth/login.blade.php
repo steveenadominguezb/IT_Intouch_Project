@@ -1,73 +1,111 @@
-@extends('layouts.app')
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-@section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Login') }}</div>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-                        <div class="row mb-3">
-                            <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('UserName') }}</label>
+    <title>{{ config('app.name', 'IT Inventory') }}</title>
+    <link href="{{ asset('css/styleIndex.css') }}" rel="stylesheet">
 
-                            <div class="col-md-6">
-                                <input id="username" type="text" style="padding-left: 5px;" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,600;1,700&display=swap" rel="stylesheet">
 
-                                @error('username')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+    <section class="header">
+        <nav>
+            <a href="index.html"><img src="{{ asset('img/247logo1.png') }}"></a>
+        </nav>
+
+        <div class="text-box">
+            <h1>IT Inventory</h1>
+            <p>For storage management</p>
+            <a href="#login-col" class="hero-btn">Login</a>
+        </div>
+    </section>
+    <section class="login">
+        <h1 class="ITLogo">IT Inventory</h1>
+        <div class="row">
+            <div class="login-col" id="login-col">
+                <h1>Log In</h1>
+                <form action="{{ route('login') }}" method="POST">
+                    @csrf
+
+                    <div class="row mb-3">
+                        <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Username') }}</label>
+
+                        <div class="col-md-6">
+                            <input id="username" type="text" placeholder="Enter your username" style="align-content: center" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
+
+                            @error('username')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
+                    </div>
 
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+                    <div class="row mb-3">
+                        <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" style="padding-left: 5px;" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                        <div class="col-md-6">
+                            <input id="password" type="password" placeholder="Enter your password" style="align-content: center" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
+                            @error('password')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
+                    </div>
 
-                        <div class="row mb-3">
-                            <div class="col-md-6 offset-md-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-
-                                    <label class="form-check-label" for="remember">
-                                        {{ __('Remember Me') }}
-                                    </label>
-                                </div>
-                            </div>
+                    <p>If you forgot your password, please contact the support manager</p>
+                    <div class="row mb-0">
+                        <div class="col-md-8 offset-md-4">
+                            <button type="submit" class="btn btn-primary">
+                                {{ __('Login') }}
+                            </button>
                         </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Login') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                    <a class="btn btn-link" href="{{ route('password.request') }}">
-                                        {{ __('Forgot Your Password?') }}
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
+            </div>
+            <div class="login-col">
+                <h1>Registration</h1>
+                <p>If you want to start your registration in the application, please contact the support administrator</p>
             </div>
         </div>
-    </div>
-</div>
-@endsection
+    </section>
+    <section id="footer" class="footer">
+        <h4>About Us</h4>
+        <p>24-7 Intouch is a global customer care and technology company, providing value-driven solutions for over 20 years.</p>
+        <div class="icons">
+            <a href="https://www.facebook.com/247intouch/"> <i class="fa fa-facebook"></i></a>
+            <a href="https://twitter.com/247intouch"><i class="fa fa-twitter"></i></a>
+            <a href="https://www.instagram.com/24_7intouch/"><i class="fa fa-instagram"></i></a>
+            <a href="https://www.linkedin.com/company/24-7-intouch"><i class="fa fa-linkedin"></i></a>
+        </div>
+        <p>Made with <i class="fa fa-heart-o"></i> by Virginia Pe&ntilde;a</p>
+    </section>
+</body>
+<script>
+    $(document).ready(function() {
+        $('a[href^="#"]').click(function() {
+            var destino = $(this.hash); //this.hash lee el atributo href de este
+            $('html, body').animate({
+                scrollTop: destino.offset().top
+            }, 700); //Llega a su destino con el tiempo deseado
+            return false;
+        });
+    });
+</script>
+
+</html>
