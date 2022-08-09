@@ -25,6 +25,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link type="text/css" rel="stylesheet" href="{{ asset('css/materialize.min.css') }}" media="screen,projection" />
+    <link rel="icon" href="{{ asset('img/247logo1.ico') }}">
 
 
     <!-- CSS only -->

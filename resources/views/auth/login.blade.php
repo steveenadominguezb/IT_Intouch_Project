@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en" xml:lang="en">
 
 <head>
     <meta charset="utf-8">
@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,600;1,700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="{{ asset('img/247logo1.ico') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 </head>
 
@@ -39,11 +40,8 @@
                 <h1>Log In</h1>
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
-
-                    <div class="row mb-3">
-                        <label for="username" class="col-md-4 col-form-label text-md-end">{{ __('Username') }}</label>
-
-                        <div class="col-md-6">
+                        <h3 for="username">{{ __('Username: ') }} 
+                            
                             <input id="username" type="text" placeholder="Enter your username" style="align-content: center" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
 
                             @error('username')
@@ -51,13 +49,10 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                             @enderror
-                        </div>
-                    </div>
 
-                    <div class="row mb-3">
-                        <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                        <div class="col-md-6">
+                        </h3>
+                        <h3 for="password">{{ __('Password: ') }} 
+                            
                             <input id="password" type="password" placeholder="Enter your password" style="align-content: center" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
 
                             @error('password')
@@ -65,17 +60,12 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                             @enderror
-                        </div>
-                    </div>
+                        </h3>
 
                     <p>If you forgot your password, please contact the support manager</p>
-                    <div class="row mb-0">
-                        <div class="col-md-8 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn-log">
                                 {{ __('Login') }}
                             </button>
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="login-col">
@@ -93,7 +83,7 @@
             <a href="https://www.instagram.com/24_7intouch/"><i class="fa fa-instagram"></i></a>
             <a href="https://www.linkedin.com/company/24-7-intouch"><i class="fa fa-linkedin"></i></a>
         </div>
-        <p>Made with <i class="fa fa-heart-o"></i> by Virginia Pe&ntilde;a</p>
+        <p>Made with <i class="fa fa-heart-o"></i> by Steveen Dominguez & Virginia Pe&ntilde;a</p>
     </section>
 </body>
 <script>
