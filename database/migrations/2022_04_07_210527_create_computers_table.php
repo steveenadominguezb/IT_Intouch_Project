@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('computers', function (Blueprint $table) {
+            $table->id();
             $table->string('SerialNumber')->unique();
             $table->string('HostName')->unique();
             $table->boolean('Laptop')->default(false);
@@ -22,8 +23,6 @@ return new class extends Migration
             $table->string('Brand');
             $table->string('Status')->default('InStorage');
             $table->timestamps();
-
-            $table->primary('SerialNumber');
         });
     }
 

@@ -45,7 +45,7 @@
                         <div>
                             <table style="font-size: 12px;">
                                 <thead>
-                                    <tr class="black" style="color: white;">
+                                    <tr class="grey darken-3" style="color: white;">
                                         <th class="border-end text-center">CODE</th>
                                         <th class="border-end text-center">NAME</th>
                                         <th class="border-end text-center">USERNAME</th>
@@ -67,67 +67,71 @@
                                             @csrf
 
                                             @if ($row->hardware_returned == 'checking')
-                                                <tr class="yellow">
+                                                <tr class="yellow lighten-3">
                                             @endif
                                             @if ($row->hardware_returned == 'yes')
-                                                <tr class="green">
+                                                <tr class="green lighten-3">
                                             @endif
 
                                             @if ($row->hardware_returned == 'no')
-                                                <tr class="red">
+                                                <tr class="red lighten-3">
                                             @endif
                                             <td class="border-end">
 
-                                                <input type="text" name="id" value="{{ $row->id }}" style="display: none">
+                                                <input type="text" name="id" value="{{ $row->id }}"
+                                                    style="display: none">
                                                 <input type="text" name="cde"
-                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value={{ $row->cde }} readonly>
                                             </td>
-                                            <td class="border-end"><input type="text" name="name"
-                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center;"
-                                                    value="{{ $row->user->name }}" readonly></td>
+                                            <td class="border-end"
+                                                style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold">
+                                                {{ $row->user->name }}</td>
                                             <td class="border-end"><input type="text" name="username"
-                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value={{ $row->user->username }} readonly></td>
                                             <td class="border-end text-center"><input type="text" name="program"
-                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value={{ $row->program->Name }} readonly></td>
                                             <td class="border-end"><input type="text" name="hardware"
-                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value={{ $row->hardware == 1 ? 'yes' : 'no' }} readonly></td>
                                             <td class="border-end"><input type="text" name="host"
-                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value="{{ $row->computer->HostName ?? '' }}" readonly></td>
                                             <td class="border-end"><input type="text" name="serial"
-                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value="{{ $row->SerialNumber }}" readonly></td>
                                             <td class="border-end">
-                                                <select class="form-select bg-transparent" style="width: min-content"
-                                                    name="wfs" aria-label="Default select example">
+                                                <select class="form-select bg-transparent fw-bold"
+                                                    style="width: min-content" name="wfs"
+                                                    aria-label="Default select example">
                                                     <option selected>{{ $row->wfs_attrition }}</option>
                                                     <option value="attrition">attrition</option>
                                                     <option value="wfs">work on site</option>
                                                 </select>
                                             </td>
                                             <td class="border-end text-center">
-                                                <select class="form-select bg-transparent" name="returned"
+                                                <select class="form-select bg-transparent fw-bold" name="returned"
                                                     aria-label="Default select example">
                                                     <option selected> {{ $row->hardware_returned }}</option>
                                                     <option value="yes">yes</option>
                                                     <option value="no">no</option>
+                                                    <option value="no">checking</option>
                                                 </select>
                                             </td>
                                             <td class="border-end text-center"><input type="text" name="at_date"
-                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value={{ $row->attrition_date }} readonly></td>
                                             <td class="border-end"><input type="text" name="test_date"
-                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value="{{ $row->tested_date }}" readonly></td>
-                                            <td class="border-end"><input type="text" name="new_serial"
-                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                            <td class="border-end"><input type="text" name="new_host"
+                                                    autocomplete="off"
+                                                    style="background: transparent; ; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value={{ $row->newComputer->HostName ?? '' }}></td>
                                             <td class="border-end"><input type="text" name="comment"
-                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center"
+                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value="{{ $row->comments }}" readonly></td>
                                             <td class="bg-white"> <button type="submit"
                                                     class="bg-transparent border-white"><i

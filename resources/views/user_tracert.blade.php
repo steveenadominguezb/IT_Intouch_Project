@@ -25,6 +25,7 @@
                                 <th>Name: {{ $user->name }}</th>
                                 <th>Username: {{ $user->username }}</th>
                                 <th>Position: {{ $user->position }}</th>
+                                <th>Status: {{ $user->status }}</th>
                             </tr>
                             @foreach ($waves_user as $wave)
                                 <tr>
