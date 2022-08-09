@@ -63,11 +63,11 @@ class WaveController extends Controller
             $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $i)->first();
             $i += 100;
         }
-        $computers_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)
+        $computers_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('attrition', '==', '0')
             ->join('computers', 'wave_employees.SerialNumberComputer', '=', 'computers.SerialNumber')
             ->leftJoin('users', 'wave_employees.cde', '=', 'users.cde')
             ->get();
-        $users_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)
+        $users_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('attrition', '==', '0')
             ->join('users', 'wave_employees.cde', '=', 'users.cde')
             ->get();
 
@@ -387,7 +387,7 @@ class WaveController extends Controller
                                         ->where('cde', $resultUser[0]->cde)
                                         ->update(['SerialNumberComputer' => $computer['Serial']]);
                                     $count++;
-                                } elseif(sizeof($celdas) == 0 && sizeof($resultUser) > 0) {
+                                } elseif (sizeof($celdas) == 0 && sizeof($resultUser) > 0) {
                                     $assigned = true;
                                     $count_users++;
                                     $users_assigned .= $resultUser[0]->cde . ' - ' . $resultUser[0]->name . '; ';
