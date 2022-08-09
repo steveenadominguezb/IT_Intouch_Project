@@ -42,7 +42,7 @@
                     @csrf
                         <h3 for="username">{{ __('Username: ') }} 
                             
-                            <input id="username" type="text" placeholder="Enter your username" style="align-content: center" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username" autofocus>
+                            <input id="username" type="text" placeholder="Enter your username" style="align-content: center" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username">
 
                             @error('username')
                             <span class="invalid-feedback" role="alert">
