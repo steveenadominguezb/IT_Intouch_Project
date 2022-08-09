@@ -188,9 +188,19 @@ class WaveController extends Controller
             }
             foreach (request('assign') as $value) {
 
-                DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'SerialNumberComputer' => $value], ['SerialNumberComputer' => $value]);
+                $wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $value)->first();
 
-                DB::table('computers')->where('SerialNumber', $value)->update(['Status' => 'Taken']);
+                if (!$wave_employee) {
+                    $wave_employee = new WaveEmployee();
+                }
+
+                $wave_employee->SerialNumberComputer = $value;
+                $wave_employee->IdWave = $wave->IdWaveLocation;
+                $wave_employee->save();
+
+                $computer = Computer::where('SerialNumber', $value)->first();
+                $computer->Status = "Taken";
+                $computer->save();
             }
             return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations]);
         } catch (\Throwable $th) {
@@ -208,9 +218,20 @@ class WaveController extends Controller
             }
             foreach (request('assign') as $value) {
 
-                DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'cde' => $value], ['cde' => $value, 'Date' => now()]);
+                $wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('cde', $value)->first();
+                if (!$wave_employee) {
+                    $wave_employee = new WaveEmployee();
+                }
 
-                DB::table('users')->where('cde', $value)->update(['status' => 'ActiveFull']);
+                $wave_employee->cde = $value;
+                $wave_employee->Date = now();
+                $wave_employee->IdWave = $wave->IdWaveLocation;
+                $wave_employee->save();
+
+
+                $user = User::where('cde', $value)->first();
+                $user->status = "ActiveFull";
+                $user->save();
             }
 
             return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations]);
@@ -264,7 +285,6 @@ class WaveController extends Controller
 
     public function assignComputerUser($IdWave, $location, $SerialNumber)
     {
-
         try {
             $locations = WaveLocation::where('IdWave', $IdWave)->get();
             $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
@@ -285,7 +305,7 @@ class WaveController extends Controller
 
                 DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
                     ->where('cde', request('UserCode'))
-                    ->update(['SerialNumberComputer' => $SerialNumber]);
+                    ->update(['SerialNumberComputer' => $SerialNumber, 'SerialNumberKey' => request('yubikey')]);
             } else {
 
                 return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, user is already assigned or does not correspond to the wave', 'alert' => 'danger', 'locations' => $locations]);

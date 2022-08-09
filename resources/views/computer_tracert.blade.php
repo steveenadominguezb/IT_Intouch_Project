@@ -39,39 +39,45 @@
                             </div>
                             <div style="margin-bottom: 3%; display: inline-block">
                                 <h6>End User</h6>
-                                @foreach ($waves_computer as $wave)
-                                    <div style="display: table; font-size: 15px">
-                                        <p style="display: table-cell; border-right: 20px solid transparent">
-                                            <label>Code:</label>
-                                            {{ $wave->user->cde }}
-                                        </p>
-                                        <p style="display: table-cell; border-right: 20px solid transparent">
-                                            <label>Name:</label>
-                                            {{ $wave->user->name }}
-                                        </p>
-                                        <p style="display: table-cell; border-right: 20px solid transparent">
-                                            <label>UserName:</label>
-                                            {{ $wave->user->username }}
-                                        </p>
-                                    </div>
-                                @endforeach
+                                <div style="display: table; font-size: 15px">
+                                    <p style="display: table-cell; border-right: 20px solid transparent">
+                                        <label>Code:</label>
+                                        {{ $waves_computer[0]->user->cde ?? '' }}
+                                    </p>
+                                    <p style="display: table-cell; border-right: 20px solid transparent">
+                                        <label>Name:</label>
+                                        {{ $waves_computer[0]->user->name ?? '' }}
+                                    </p>
+                                    <p style="display: table-cell; border-right: 20px solid transparent">
+                                        <label>UserName:</label>
+                                        {{ $waves_computer[0]->user->username ?? '' }}
+                                    </p>
+                                </div>
 
                             </div>
                             <div>
                                 <h6>Waves History Information</h6>
                                 @foreach ($waves_computer as $wave)
-                                    <div style="display: table; font-size: 15px">
-                                        <p style="display: table-cell; border-right: 20px solid transparent">
+                                    <div style="display: table; font-size: 15px;">
+                                        <p style="display: table-cell; width: 200px">
                                             <label>Program:</label>
                                             {{ $wave->parent->parent->programs->Name }}
                                         </p>
-                                        <p style="display: table-cell; border-right: 20px solid transparent">
+                                        <p style="display: table-cell; width: 150px">
                                             <label>Location:</label>
                                             {{ $wave->parent->location->Name }}
                                         </p>
-                                        <p style="display: table-cell; border-right: 20px solid transparent">
+                                        <p style="display: table-cell; width: 230px">
                                             <label>Wave:</label>
                                             {{ $wave->parent->parent->Name }}
+                                        </p>
+                                        <p style="display: table-cell; width: 150px">
+                                            @if ($wave->attrition == 0)
+                                                <label>
+                                                    <input name="group{{ $wave->parent->parent->Name }}" type="radio" checked/>
+                                                    <span>.</span>
+                                                </label>
+                                            @endif
                                         </p>
                                     </div>
                                 @endforeach

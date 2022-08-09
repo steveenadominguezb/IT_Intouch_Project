@@ -234,6 +234,16 @@
                                                                                 value="{{ $computer->cde }}" required>
                                                                             <label for="floatingInput">User Code</label>
                                                                         </div>
+                                                                        @if ($wave->parent->programs->Name == 'Airbnb')
+                                                                            <div class="form-floating mb-3">
+                                                                                <input type="text" class="form-control"
+                                                                                    style="margin-left: 10px;"
+                                                                                    name="yubikey" placeholder="nameWave"
+                                                                                    value="" required>
+                                                                                <label for="floatingInput">Yubikey</label>
+                                                                            </div>
+                                                                        @endif
+
 
                                                                     </div>
                                                                     <div class="modal-footer">
