@@ -44,11 +44,13 @@
                             
                             <input id="username" type="text" placeholder="Enter your username" style="align-content: center" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username">
 
-                            @error('username')
+                            <divn class="">
+                                @error('username')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>
                             </span>
                             @enderror
+                            </div>
 
                         </h3>
                         <h3 for="password">{{ __('Password: ') }} 
