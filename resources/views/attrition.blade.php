@@ -130,9 +130,21 @@
                                                     autocomplete="off"
                                                     style="background: transparent; ; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value={{ $row->newComputer->HostName ?? '' }}></td>
-                                            <td class="border-end"><input type="text" name="comment"
-                                                    style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
-                                                    value="{{ $row->comments }}" readonly></td>
+                                            <td class="border-end fw-bold" style="text-align: center">
+                                                @if ($row->comments)
+                                                    {{-- Button trigger Modal AddComment --}}
+                                                    <button type="button"
+                                                        style="background: transparent; ; font-size: 12px; border: none; text-align: center; font-weight: bold"
+                                                        class="waves-effect waves-light" data-bs-toggle="modal"
+                                                        data-bs-target="#AddComment{{ $row->id }}">{{ $row->comments }}</button>
+                                                @else
+                                                    {{-- Button trigger Modal AddComment --}}
+                                                    <button type="button" style="background: none; border: none"
+                                                        class="waves-effect waves-light" data-bs-toggle="modal"
+                                                        data-bs-target="#AddComment{{ $row->id }}"><i
+                                                            class="material-icons">add_circle</i></button>
+                                                @endif
+                                            </td>
                                             <td class="bg-white"> <button type="submit"
                                                     class="bg-transparent border-white" style="border: none"><i
                                                         class="material-icons">save</i></button></td>
@@ -142,7 +154,7 @@
                                             <button type="submit" style="background: none; border: none"
                                                 class="waves-effect waves-light" data-bs-toggle="modal"
                                                 data-bs-target="#DeleteAttritionModal{{ $row->id }}"><i
-                                                    class="material-icons right">delete</i></button>
+                                                    class="material-icons">delete</i></button>
                                             <!-- Modal to Delete Attrition -->
                                             <div class="modal fade" id="DeleteAttritionModal{{ $row->id }}"
                                                 style="background: none; box-shadow: none; width: 600px"
@@ -178,6 +190,40 @@
                                         </td>
 
                                         </tr>
+                                        <!-- Modal to AddComment -->
+                                        <div class="modal fade" id="AddComment{{ $row->id }}"
+                                            style="background: none; box-shadow: none; width: 600px"
+                                            data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">
+                                                            Add Comment</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <form action="{{ route('attrition.addComment') }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="id"
+                                                            value="{{ $row->id }}">
+                                                        <div class="modal-body">
+                                                            <div class="form-floating mb-1 ">
+                                                                <input type="text" name="comment" class="form-control"
+                                                                    placeholder="comment" id="comment"
+                                                                    autocomplete="off" value="{{ $row->comments }}">
+                                                                <label for="floatingInput" class="fw-bold">Comment</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn me-3 grey"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn blue">Submit</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div> {{-- End Modal to Delete Wave --}}
                                     @endforeach
                                 </tbody>
                             </table>

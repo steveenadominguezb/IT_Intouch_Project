@@ -93,6 +93,8 @@ Route::post('/attrition', [AttritionController::class, 'store'])->name('attritio
 Route::post('/attrition/update_user', [AttritionController::class, 'update'])->name('attrition.update');
 #Ruta para borrar un usuario del attrition
 Route::post('/attrition/delete_user', [AttritionController::class, 'deleteUser'])->name('attrition.deleteUser');
+#Ruta para agregar un comentario al attrition
+Route::post('/attrition/add_comment', [AttritionController::class, 'addComment'])->name('attrition.addComment');
 
 
 #Rutas para el login

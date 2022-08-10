@@ -145,4 +145,18 @@ class AttritionController extends Controller
             return back()->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
         }
     }
+
+    public function addComment()
+    {
+        try {
+
+            $attrition = Attrition::find(request('id'));
+            $attrition->comments = request('comment');
+            $attrition->save();
+
+            return back()->with(['message' => 'Comment added', 'alert' => 'success']);
+        } catch (\Throwable $th) {
+            return back()->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
+        }
+    }
 }
