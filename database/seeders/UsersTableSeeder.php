@@ -176,7 +176,7 @@ class UsersTableSeeder extends Seeder
         $user14->cde = "C222238";
         $user14->name = "Laura Virginia Pena Cabrera";
         $user14->position = "IT Intern";
-        $user14->username = "laura.pena";
+        $user14->username = "lauravirginia.pena";
         $user14->password = Hash::make('!ntouch247');
         $user14->email = "laura.pena@24-7intouch.com";
         $user14->ContactInfo = "+573001234567";

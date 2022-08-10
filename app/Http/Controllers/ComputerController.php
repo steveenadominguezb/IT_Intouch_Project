@@ -179,7 +179,7 @@ class ComputerController extends Controller
     public function computerTracert($SerialNumber)
     {
         $computer = Computer::where('SerialNumber', $SerialNumber)->first();
-        $waves_computer = WaveEmployee::where('SerialNumberComputer', $SerialNumber)->get();
+        $waves_computer = WaveEmployee::where('SerialNumberComputer', $SerialNumber)->latest()->get();
         return view('computer_tracert', compact('computer', 'waves_computer'));
     }
 
