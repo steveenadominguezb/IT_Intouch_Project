@@ -305,9 +305,11 @@
                                                     foreach ($waves_locations as $value) {
                                                         $computers += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('SerialNumberComputer', 'LIKE', '%')
+                                                            ->where('attrition', '0')
                                                             ->count();
                                                         $users += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('cde', 'LIKE', '%')
+                                                            ->where('attrition', '0')
                                                             ->count();
                                                     }
                                                 @endphp

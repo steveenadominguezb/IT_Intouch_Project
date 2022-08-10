@@ -28,7 +28,7 @@
         </nav>
 
         <div class="text-box">
-            <h1>IT Inventory</h1>
+            <h1>IT</h1>
             <p>For storage management</p>
             <a href="#login-col" class="hero-btn">Login</a>
         </div>

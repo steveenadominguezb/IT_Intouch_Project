@@ -16,7 +16,7 @@
                     <div class="card-body" style="height: max-content">
                         @if (session()->has('message'))
                             <div class="alert alert-{{ session()->get('alert') }}" role="alert"
-                                style="width: 65%; margin: auto;">
+                                style="width: 100%; margin: auto;">
                                 {{ session()->get('message') }}
                                 @if (session()->has('th'))
                                     <div class="accordion" id="accordionExample" style="background-color: none;">
@@ -53,7 +53,7 @@
                                         <th class="border-end text-center">HARDWARE</th>
                                         <th class="border-end text-center">WORKSTATION</th>
                                         <th class="border-end text-center">SERIAL</th>
-                                        <th class="border-end text-center">WFS-ATTRITION</th>
+                                        <th class="border-end text-center">ATTRITION-EXCHANGE</th>
                                         <th class="border-end text-center">HARDWARE RETURNED</th>
                                         <th class="border-end text-center">ATTRITION DATE</th>
                                         <th class="border-end text-center">TESTED DATE</th>
@@ -108,7 +108,7 @@
                                                     aria-label="Default select example">
                                                     <option selected>{{ $row->wfs_attrition }}</option>
                                                     <option value="attrition">attrition</option>
-                                                    <option value="wfs">work on site</option>
+                                                    <option value="exchange">exchange</option>
                                                 </select>
                                             </td>
                                             <td class="border-end text-center">
@@ -117,7 +117,7 @@
                                                     <option selected> {{ $row->hardware_returned }}</option>
                                                     <option value="yes">yes</option>
                                                     <option value="no">no</option>
-                                                    <option value="no">checking</option>
+                                                    <option value="checking">checking</option>
                                                 </select>
                                             </td>
                                             <td class="border-end text-center"><input type="text" name="at_date"
@@ -134,10 +134,50 @@
                                                     style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value="{{ $row->comments }}" readonly></td>
                                             <td class="bg-white"> <button type="submit"
-                                                    class="bg-transparent border-white"><i
+                                                    class="bg-transparent border-white" style="border: none"><i
                                                         class="material-icons">save</i></button></td>
-                                            </tr>
                                         </form>
+                                        <td class="bg-white">
+                                            {{-- Button trigger DeleteWaveModal --}}
+                                            <button type="submit" style="background: none; border: none"
+                                                class="waves-effect waves-light" data-bs-toggle="modal"
+                                                data-bs-target="#DeleteAttritionModal{{ $row->id }}"><i
+                                                    class="material-icons right">delete</i></button>
+                                            <!-- Modal to Delete Attrition -->
+                                            <div class="modal fade" id="DeleteAttritionModal{{ $row->id }}"
+                                                style="background: none; box-shadow: none; width: 600px"
+                                                data-bs-backdrop="static" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel">
+                                                                Delete Attrition</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <form action="{{ route('attrition.deleteUser') }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            <input type="hidden" name="id"
+                                                                value="{{ $row->id }}">
+                                                            <div class="modal-body">
+                                                                <p>Are you sure that want to delete this
+                                                                    user({{ $row->user->name }}) in attrition?
+                                                                </p>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary me-3"
+                                                                    data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn red">Yes</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div> {{-- End Modal to Delete Wave --}}
+                                        </td>
+
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -161,9 +201,15 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        @csrf
-                        <div style="display: inline-block">
-                            <input type="text" name="name_user">
+                        <div class="form-floating mb-3 ">
+                            <input type="text" name="name_user" class="form-control" placeholder="fullname"
+                                id="fullname" autocomplete="off" required>
+                            <label for="floatingInput" class="fw-bold">FullName</label>
+                        </div>
+                        <div class="form-floating mb-3 ">
+                            <input type="text" name="cde" class="form-control" placeholder="code" id="cde"
+                                autocomplete="off">
+                            <label for="floatingInput" class="fw-bold">Code</label>
                         </div>
                     </div>
                     <div class="modal-footer">
