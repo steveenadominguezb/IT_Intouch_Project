@@ -31,10 +31,23 @@ class AttritionController extends Controller
     {
         try {
             $name_user = request('name_user');
+            $cde_user = request('cde');
             $user = User::where('name', 'LIKE', '%' . $name_user . '%')
-                ->first();
-            if ($user) {
-                $wave_employee = WaveEmployee::where('cde', $user->cde)->first();
+                ->get();
+            if (sizeof($user) >= 1) {
+                if (sizeof($user) == 1) {
+                    $wave_employee = WaveEmployee::where('cde', $user[0]->cde)->first();
+                } else {
+                    if ($cde_user) {
+                        $user = User::where('name', 'LIKE', '%' . $name_user . '%')->where('cde', $cde_user)->first();
+                        if (!$user) {
+                            return back()->with(['message' => 'invalid employee code', 'alert' => 'warning']);
+                        }
+                        $wave_employee = WaveEmployee::where('cde', $user->cde)->first();
+                    } else {
+                        return back()->with(['message' => 'There are many records with the same name, please try again and enter the employee code', 'alert' => 'warning']);
+                    }
+                }
                 if ($wave_employee) {
 
                     $attrition = new Attrition();
@@ -46,14 +59,14 @@ class AttritionController extends Controller
                     $attrition->attrition_date = now();
                     $attrition->save();
                 } else {
-                    return "This user is not assigned to wave";
+                    return back()->with(['message' => 'This user(' . $name_user . ') is not assigned to a wave', 'alert' => 'warning']);
                 }
             } else {
-                return "This User is not already registered";
+                return back()->with(['message' => 'This user(' . $name_user . ') is not already registered', 'alert' => 'warning']);
             }
             return back();
         } catch (\Throwable $th) {
-            return $th;
+            return back()->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
         }
     }
 

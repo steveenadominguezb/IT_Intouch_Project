@@ -11,8 +11,8 @@
                             {{ __('Dashboard') }}
                         </div>
                         <div class="d-inline-block text-end" style="width: 49%;">
-                            <button class="fw-bold fs-3 " style="border: none; background: none;" data-bs-toggle="modal"
-                                data-bs-target="#exampleModal">+</button>
+                            <a class="btn-floating waves-effect waves-light blue lighten-2"><i class="material-icons"
+                                    data-bs-toggle="modal" data-bs-target="#exampleModal">add</i></a>
                         </div>
                     </div>
                     <div class="card-body">

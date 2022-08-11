@@ -38,6 +38,9 @@ class UsersController extends Controller
             if ($users->isEmpty()) {
                 $users = User::where('position', 'LIKE', '%' . $text . '%')->latest()->get();
             }
+            if ($users->isEmpty()) {
+                $users = User::where('username', 'LIKE', '%' . $text . '%')->latest()->get();
+            }
             return view('users', compact('users'));
         }
 
@@ -69,6 +72,7 @@ class UsersController extends Controller
             'name' => 'required',
             'username' => 'required',
             'position' => 'required',
+            'status' => 'required',
             'email' => 'required|email'
         ]);
 
@@ -80,6 +84,7 @@ class UsersController extends Controller
                     'username' => request('username'),
                     'position' => request('position'),
                     'email' => request('email'),
+                    'status' => request('status'),
                 ]);
             return back()->with(['message' => 'Updated', 'alert' => 'success']);
         } catch (\Throwable $th) {

@@ -74,7 +74,7 @@ class RegisterEmployeeController extends Controller
 
                             $split = explode(' ', $employee['name']);
 
-                            if (sizeof($split) == 3) {
+                            if (sizeof($split) == 3 || sizeof($split) == 2) {
                                 $user->username = strtolower($split[0]) . "." . strtolower($split[1]);
                                 $user->email = strtolower($split[0]) . "." . strtolower($split[1]) . "@24-7intouch.com";
                             } else {

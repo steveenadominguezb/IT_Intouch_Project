@@ -166,7 +166,7 @@ class WaveController extends Controller
                             }
                             DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'SerialNumberComputer' => $computer['Serial']], ['SerialNumberComputer' => $computer['Serial']]);
 
-                            DB::table('computers')->where('SerialNumber', $computer['Serial'])->update(['Status' => 'Taken']);
+                            DB::table('computers')->where('SerialNumber', $computer['Serial'])->update(['Status' => 'Deployed']);
                         }
                         echo '<script language="javascript">alert("successful");</script>';
                     } else {
@@ -199,7 +199,7 @@ class WaveController extends Controller
                 $wave_employee->save();
 
                 $computer = Computer::where('SerialNumber', $value)->first();
-                $computer->Status = "Taken";
+                $computer->Status = "Deployed";
                 $computer->save();
             }
             return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations]);
