@@ -22,7 +22,7 @@
                             </div>
                         @endif
                         @if (Auth::user()->name == 'Laura Alejandra Acero Amaya')
-                            <div class="sizes">
+                            <div class="container-card">
                                 <div class="card " style="height: 320px;">
                                     <div class=" card-image waves-effect waves-block waves-light small">
                                         <img class="activator" style="height: fit-content;" src="img/love.png"
@@ -56,18 +56,25 @@
                             </div>
                         @endif
                         @foreach ($waves as $wave)
-                            <div class="sizes">
-                                <div class="card " style="height: 320px;">
+                            <div class="container-card">
+                                <div class="card">
                                     <div class=" card-image waves-effect waves-block waves-light small">
                                         <img class="activator" style="height: fit-content;"
                                             src="img/{{ $wave->programs->img }}" alt="program image">
                                     </div>
                                     <div class="card-content">
-                                        <span class="card-title activator grey-text text-darken-4 fw-bold"
-                                            style="font-size: 15px;">{{ $wave->programs->Name }}<i
-                                                class="material-icons right">more_vert</i></span>
-                                        <p class="card-text fw-bold">{{ $wave->Name }}</p>
-                                        <p>{{ $wave->StartDate }}</p>
+                                        <div class="name-program">
+                                            <span>{{ $wave->programs->Name }}<i
+                                                    class="material-icons right">more_vert</i></span>
+                                        </div>
+                                        <div class="name-wave">
+                                            <p class="card-text fw-bold">{{ $wave->Name }}</p>
+                                        </div>
+                                        <div class="date-wave">
+                                            <p>{{ $wave->StartDate }}</p>
+                                        </div>
+
+
                                     </div>
                                     <div class="card-reveal">
                                         <div style="position: relative;">
@@ -160,18 +167,25 @@
                         @endif
 
                         @foreach ($waves_last_week as $wave)
-                            <div class="sizes">
-                                <div class="card " style="height: 320px;">
+                            <div class="container-card">
+                                <div class="card">
                                     <div class=" card-image waves-effect waves-block waves-light small">
                                         <img class="activator" style="height: fit-content;"
                                             src="img/{{ $wave->programs->img }}" alt="program image">
                                     </div>
                                     <div class="card-content">
-                                        <span class="card-title activator grey-text text-darken-4 fw-bold"
-                                            style="font-size: 15px;">{{ $wave->programs->Name }}<i
-                                                class="material-icons right">more_vert</i></span>
-                                        <p class="card-text fw-bold">{{ $wave->Name }}</p>
-                                        <p>{{ $wave->StartDate }}</p>
+                                        <div class="name-program">
+                                            <span>{{ $wave->programs->Name }}<i
+                                                    class="material-icons right">more_vert</i></span>
+                                        </div>
+                                        <div class="name-wave">
+                                            <p class="card-text fw-bold">{{ $wave->Name }}</p>
+                                        </div>
+                                        <div class="date-wave">
+                                            <p>{{ $wave->StartDate }}</p>
+                                        </div>
+
+
                                     </div>
                                     <div class="card-reveal">
                                         <div style="position: relative;">
@@ -209,9 +223,10 @@
                                                                 class="material-icons right">delete</i></button>
                                                     </div>
                                                 @endif
-
                                             </div>
                                         </div>
+
+
                                     </div>
                                 </div>
                             </div>
@@ -273,24 +288,25 @@
                         @endif
 
                         @foreach ($search_wave as $wave)
-                            <div class="sizes">
-                                <div class="card " style="height: 320px;">
+                            <div class="container-card">
+                                <div class="card">
                                     <div class=" card-image waves-effect waves-block waves-light small">
                                         <img class="activator" style="height: fit-content;"
                                             src="img/{{ $wave->programs->img }}" alt="program image">
                                     </div>
                                     <div class="card-content">
-                                        <span class="card-title activator grey-text text-darken-4 fw-bold"
-                                            style="font-size: 15px;">
-                                            @if ($wave->Name == 'Staff' || $wave->Name == 'Attrition')
-                                                {{ $wave->Name }}
-                                            @else
-                                                {{ $wave->programs->Name }}
-                                            @endif
-                                            <i class="material-icons right">more_vert</i>
-                                        </span>
-                                        <p class="card-text fw-bold">{{ $wave->Name }}</p>
-                                        <p>{{ $wave->StartDate }}</p>
+                                        <div class="name-program">
+                                            <span>{{ $wave->programs->Name }}<i
+                                                    class="material-icons right">more_vert</i></span>
+                                        </div>
+                                        <div class="name-wave">
+                                            <p class="card-text fw-bold">{{ $wave->Name }}</p>
+                                        </div>
+                                        <div class="date-wave">
+                                            <p>{{ $wave->StartDate }}</p>
+                                        </div>
+
+
                                     </div>
                                     <div class="card-reveal">
                                         <div style="position: relative;">
@@ -305,11 +321,9 @@
                                                     foreach ($waves_locations as $value) {
                                                         $computers += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('SerialNumberComputer', 'LIKE', '%')
-                                                            ->where('attrition', '0')
                                                             ->count();
                                                         $users += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('cde', 'LIKE', '%')
-                                                            ->where('attrition', '0')
                                                             ->count();
                                                     }
                                                 @endphp
@@ -332,6 +346,7 @@
                                                 @endif
                                             </div>
                                         </div>
+
 
                                     </div>
                                 </div>
