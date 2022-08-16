@@ -1,0 +1,175 @@
+.navegation {
+    background-color: #43a047;
+    display: flex;
+}
+
+.back_menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.navegation-brand {
+    margin-left: 12%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+}
+
+.navegation-brand:hover {
+    color: white;
+}
+
+.navegation-link {
+    margin-left: 2%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+}
+
+.navegation-user {
+    margin-left: 45%;
+
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+}
+
+.name-program {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.container-card {
+    width: 18%;
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.icon-menu {
+    background: none;
+    border: none;
+}
+
+.app button i {
+
+    display: none;
+}
+
+.navegation-responsive {
+    display: none;
+    background-color: #43a047;
+}
+
+@media screen and (max-width: 1650px) {
+    .container-card {
+        width: 20%;
+    }
+}
+
+@media screen and (max-width: 1500px) {
+    .container-card {
+        width: 22%;
+    }
+}
+
+@media screen and (max-width: 1370px) {
+    .container-card {
+        width: 25%;
+    }
+
+    .navegation-user {
+        margin-left: 40%;
+    }
+}
+
+@media screen and (max-width: 1225px) {
+    .container-card {
+        width: 29%;
+    }
+
+    .navegation-user {
+        margin-left: 35%;
+    }
+}
+
+@media screen and (max-width: 1080px) {
+    .navegation-brand {
+        margin-left: 10%;
+    }
+
+    .navegation-user {
+        margin-left: 30%;
+    }
+}
+
+@media screen and (max-width: 890px) {
+    .container-card {
+        font-size: 10px;
+        width: 43.7%;
+    }
+
+    .name-program {
+        font-size: 15px;
+    }
+
+    .navegation-user {
+        margin-left: 25%;
+    }
+}
+
+@media screen and (max-width: 750px) {
+    .navegation {
+        position: fixed;
+        top: 0;
+        right: -250px;
+        background-color: #43a047;
+        width: 200px;
+        height: 100vh;
+        padding: 40px;
+        z-index: 2;
+        display: list-item;
+        transition: all 300ms;
+    }
+
+    .navegation a {
+        display: block;
+        margin: 0;
+    }
+
+    .back_menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 2;
+        display: none;
+    }
+
+    .app button i {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50px;
+        height: 50px;
+        background-color: rgba(255, 255, 255, 0.05);
+        font-size: 24px;
+        border-radius: 50px;
+        cursor: pointer;
+        position: absolute;
+        top: 0.5%;
+        right: 8%;
+        transition: all 300ms;
+    }
+
+    .app button i:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .navegation-responsive {
+        display: block;
+        background-color: #43a047;
+    }
+
+
+}
