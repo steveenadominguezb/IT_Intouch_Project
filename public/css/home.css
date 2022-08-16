@@ -49,7 +49,7 @@
     border: none;
 }
 
-.app button i {
+.icon-menu i {
 
     display: none;
 }
@@ -58,6 +58,31 @@
     display: none;
     background-color: #43a047;
 }
+
+
+/* Attrition Styles  */
+
+.content-attrition {
+    overflow-x: scroll;
+}
+
+#btn-attrition-insert:hover {
+    background-color: rgba(66, 66, 66, 0.2);
+}
+
+/* End Attrition Styles */
+
+
+/* Wave Styles  */
+
+.content-wave-options {
+    display: inline-block;
+    text-align: end;
+    width: 59%;
+}
+
+/* End Wave Styles */
+
 
 @media screen and (max-width: 1650px) {
     .container-card {
@@ -114,6 +139,11 @@
     .navegation-user {
         margin-left: 25%;
     }
+
+    .content-wave-options a {
+        font-size: 8px;
+        background-color: #43a047;
+    }
 }
 
 @media screen and (max-width: 750px) {
@@ -125,7 +155,7 @@
         width: 200px;
         height: 100vh;
         padding: 40px;
-        z-index: 2;
+        z-index: 4;
         display: list-item;
         transition: all 300ms;
     }
@@ -142,11 +172,11 @@
         width: 100%;
         height: 100vh;
         background: rgba(0, 0, 0, 0.5);
-        z-index: 2;
+        z-index: 4;
         display: none;
     }
 
-    .app button i {
+    .icon-menu i {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -162,7 +192,7 @@
         transition: all 300ms;
     }
 
-    .app button i:hover {
+    .icon-menu i:hover {
         background-color: rgba(255, 255, 255, 0.2);
     }
 

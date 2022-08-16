@@ -38,7 +38,7 @@
                                 </ul>
                             </div>
                         </div>
-                        <div style="display: inline-block; text-align: end; width: 59%;">
+                        <div class="content-wave-options">
                             <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->location->IdLocation }}/computers"
                                 class="btn-flat fw-bold border-start border-3" style="font-size: 12px">Assign Computers</a>
                             <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->location->IdLocation }}/users"

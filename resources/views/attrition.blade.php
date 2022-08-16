@@ -9,7 +9,7 @@
                             <a href="#" style="color: black;">Attrition</a>
                         </div>
                         <div style="display: inline-block; text-align: end; width: 59%;">
-                            <button type="button" class="btn-flat fw-bold border-start border-end border-3"
+                            <button type="button" class="btn-flat fw-bold border-start border-end border-3" id="btn-attrition-insert"
                                 style="font-size: 12px" data-bs-toggle="modal" data-bs-target="#modalInsert">INSERT</button>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                                 @endif
                             </div>
                         @endif
-                        <div>
+                        <div class="content-attrition">
                             <table style="font-size: 12px;">
                                 <thead>
                                     <tr class="grey darken-3" style="color: white;">
