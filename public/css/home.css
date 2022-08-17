@@ -81,6 +81,10 @@
     width: 59%;
 }
 
+.content-wave-options a {
+    font-size: 12px;
+}
+
 /* End Wave Styles */
 
 
@@ -141,8 +145,11 @@
     }
 
     .content-wave-options a {
-        font-size: 8px;
-        background-color: #43a047;
+        font-size: 10px;
+    }
+
+    #btn-all-locations {
+        font-size: 10px;
     }
 }
 
@@ -152,12 +159,14 @@
         top: 0;
         right: -250px;
         background-color: #43a047;
-        width: 200px;
+        width: 210px;
         height: 100vh;
         padding: 40px;
         z-index: 4;
         display: list-item;
         transition: all 300ms;
+
+        overflow-y: scroll;
     }
 
     .navegation a {
@@ -199,6 +208,11 @@
     .navegation-responsive {
         display: block;
         background-color: #43a047;
+    }
+
+    .content-wave-options a {
+        font-size: 8px;
+        width: fit-content
     }
 
 

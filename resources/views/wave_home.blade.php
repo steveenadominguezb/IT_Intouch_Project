@@ -11,7 +11,7 @@
                                 style="color: black;">{{ $wave->parent->programs->Name }} -</a>
 
                             <div class="dropdown" style="display: inline-block;">
-                                <button class="dropdown-toggle fw-bold" type="button" id="dropdownMenuButton1"
+                                <button class="dropdown-toggle fw-bold" type="button" id="btn-all-locations"
                                     style="background: none; border: none" data-bs-toggle="dropdown" aria-expanded="false">
                                     @if (session()->has('all_locations'))
                                         {{ $all_locations }}
@@ -38,11 +38,11 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="content-wave-options">
+                        <div class="content-wave-options" id="btn-all-locations">
                             <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->location->IdLocation }}/computers"
-                                class="btn-flat fw-bold border-start border-3" style="font-size: 12px">Assign Computers</a>
+                                class="btn-flat fw-bold border-start border-3">Assign Computers</a>
                             <a href="/home/wave/{{ $wave->IdWave }}/{{ $wave->location->IdLocation }}/users"
-                                class="btn-flat fw-bold border-start border-end border-3" style="font-size: 12px">Assign
+                                class="btn-flat fw-bold border-start border-end border-3">Assign
                                 Users</a>
                         </div>
                     </div>
