@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class HomeController extends Controller
 {
     /**
-     * Create a new controller instance.
+     * Create a new controller instance with privileges validations.
      *
      * @return void
      */
@@ -19,7 +19,7 @@ class HomeController extends Controller
 
     /**
      * Show the application dashboard.
-     *
+     * Busca la información de las waves y las ordena segun su fecha de entrega.
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
