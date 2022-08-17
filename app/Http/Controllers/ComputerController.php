@@ -113,7 +113,7 @@ class ComputerController extends Controller
                     if ($registered) {
                         // Convierte en un array la información de computadores que ya estaban registrados
                         $mes = explode(":", $fails);
-                        // Retorna un mensaje diciendo el numero de computadores que se registraron y la información de computadores que ys estaban registrados
+                        // Retorna un mensaje diciendo el numero de computadores que se registraron y la información de computadores que ya estaban registrados
                         return back()->with(['message' => $count . ' computers successfully registered. ', 'th' => $fails, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_fails]);
                     }
                     // Retorna un mensaje successful indicando la cantidad de computadores nuevos registrados

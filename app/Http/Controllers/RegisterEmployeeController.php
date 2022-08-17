@@ -45,117 +45,170 @@ class RegisterEmployeeController extends Controller
     {
 
         try {
+            // Comprueba que si se subió algun archivo y el tipo de archivo
             if ($_FILES['file']['size'] > 0 && $_FILES['file']['type'] == 'text/csv') {
+                // Declara una variable fails que indica los usuarios que ya están registrados
                 $fails = 'This Users is already registered: ';
+                // Declara una variable para llevar la cuenta de los usuarios ya registrados
                 $count_fails = 0;
+                // Declara una variable que indica que se encontraron usuarios ya registrados
                 $registered = false;
+                // Declara una variable para saber cuantos usuarios nuevos se van a registrar
                 $count = 0;
+                // Se establece el directorio de subida del archivo entrante
                 $dir_subida = 'files/users/';
+                // Se establece el directorio completo de la ubicacion del archivo
                 $fichero_subido = $dir_subida . basename($_FILES['file']['name']);
+                // Se valida y mueve el archivo subido al directorio suministrado
                 if (move_uploaded_file($_FILES['file']['tmp_name'], $fichero_subido)) {
 
-                    // $fichero_texto = fopen('files/users/' . $_FILES['file']['name'], "r");
-                    // $contenido_fichero = fread($fichero_texto, filesize('files/users/' . $_FILES['file']['name']));
-
-                    // $text = explode("\n", $contenido_fichero);
+                    // Se mapea el archivo, leyendolo y almacenandolo en una variable tipo array
                     $csv = array_map('str_getcsv', file('files/users/' . $_FILES['file']['name']));
                     array_walk($csv, function (&$a) use ($csv) {
                         $a = array_combine($csv[0], $a);
                     });
                     array_shift($csv);
 
+                    // Se recorre el array con la información del archivo
                     foreach ($csv as $employee) {
+
+                        // Busca usuarios que tenga el codigo leído
                         $result = DB::table('users')->where('cde', $employee['cde'])->get();
+
+                        // Establece un registro para la tabla user
                         $user = new User();
+                        // Asigna el codigo al registro creado
                         $user->cde = $employee['cde'];
+                        // Asigna el name al registro creado
                         $user->name = $employee['name'];
+                        // Asigna la position al registro creado
                         $user->position = $employee['position'];
+                        // Valida si se le ingresó un username
                         if ($employee['username'] == "") {
-
+                            // Separa el nombre en un array
                             $split = explode(' ', $employee['name']);
-
+                            // Valida si el tamaño del array es 2 0 3 (nombres con solo primer nombre y dos apellidos o primer nombre y un apellido)
                             if (sizeof($split) == 3 || sizeof($split) == 2) {
+                                // Establece el username con la concatenación del primer nombre y primer apellido
                                 $user->username = strtolower($split[0]) . "." . strtolower($split[1]);
+                                // Establece el email con la concatenación del primer nombre y primer apellido
                                 $user->email = strtolower($split[0]) . "." . strtolower($split[1]) . "@24-7intouch.com";
                             } else {
+                                // Establece el username con la concatenación del primer nombre y primer apellido
                                 $user->username = strtolower($split[0]) . "." . strtolower($split[2]);
+                                // Establece el email con la concatenación del primer nombre y primer apellido
                                 $user->email = strtolower($split[0]) . "." . strtolower($split[2]) . "@24-7intouch.com";
                             }
                         } else {
+                            // Establece el username con el dato suministrado
                             $user->username = $employee['username'];
+                            // Establece el email con el username suministrado
                             $user->email = $employee['username'] . "@24-7intouch.com";
                         }
-
+                        // Asigna el numero de contacto al registro
                         $user->ContactInfo = $employee['ContactInfo'];
-
+                        // Valida la position suministrada
                         switch ($employee['position']) {
                             case 'Agent':
+                                // Establece los permisos para agent
                                 $user->privilege = 40001;
                                 break;
                             case 'TL':
+                                // Establece los permisos para TL
                                 $user->privilege = 40001;
                                 break;
                             case 'Trainer':
+                                // Establece los permisos para Trainer
                                 $user->privilege = 40001;
                                 break;
                             case 'IT Intern':
+                                // Establece los permisos para It Intern
                                 $user->privilege = 30001;
                                 break;
                             case 'IT Generalist':
+                                // Establece los permisos para IT Generalist
                                 $user->privilege = 10001;
                                 break;
                             default:
+                                // Establece los permisos por defecto
                                 $user->privilege = 20001;
                                 break;
                         }
-
+                        // Busca la wave suministrada
                         $wave = Wave::where('Name', $employee['wave'])->first();
+                        // Valida si existe alguna wave con esos datos
                         if (!$wave) {
-                            // echo '<script language="javascript">alert("Error, wave (' . $employee['wave'] . ') doesn\'t exist");</script>';
+                            // Retorna un mensaje diciendo que no hay una wave con ese nombre
                             return back()->with(['message' => 'Error, wave (' . $employee['wave'] . ') doesn\'t exist ', 'alert' => 'warning']);
                         }
+                        // Declara una variable para saber si existe la location suministrada
                         $created = false;
+                        // Establece un idlocation
                         $idLocation = 0;
+                        // Recorre cada location que tenga una la wave encontrada
                         foreach ($wave->locations as $location) {
+                            // Quita las tildes de las letras (á,í), pone en minisculas y valida si es igual a la location suministrada 
                             if (strtolower(str_replace(['á', 'í'], ['a', 'i'], $location->location['Name'])) == strtolower($employee['location'],)) {
+                                // Actualiza la variable que nos dice si la location ya está creada
                                 $created = true;
+                                // Actualiza el valor del idLocation
                                 $idLocation = $location['IdWaveLocation'];
                             }
                         }
+                        // Valida si la location no está creada
                         if (!$created) {
-                            //echo '<script language="javascript">alert("Error, wave (' . $employee['wave'] . ') doesn\'t have a ' . strtolower($employee['location']) . ' location");</script>';
+                            //Retorna un mensaje diciendo que la location no está creada en la wave
                             return back()->with(['message' => 'Error, wave (' . $employee['wave'] . ') doesn\'t have a ' . strtolower($employee['location']) . ' location', 'alert' => 'warning']);
                         }
+                        // Valida que haya algun registro con el codigo suministrado y si se suministró dicho codigo
                         if (sizeof($result) != 0 || $employee['cde'] == "") {
+                            // Actualiza la variable que indica que el usuario ya está registrado
                             $registered = true;
+                            // Aumenta el valor de la variable que indica el numero de usuarios registrados
                             $count_fails++;
+                            // Añade el usuario a la lista de registrados
                             $fails .= $employee['cde'] . ' - ' . $employee['name'] . '; ';
                         } else {
+                            //Aumenta el valor de la variable de los usuarios que se van a registrar
                             $count++;
+                            // Registra el usuario creado
                             $user->save();
                         }
 
+                        // Establece un registro para la tabla waveemployees
                         $wave_employees = new WaveEmployee();
+                        // Asigna el codigo del empleado al registro
                         $wave_employees->cde = $employee['cde'];
+                        // Asigna la location al registro
                         $wave_employees->IdWave = $idLocation;
+                        // Busca un registro que tenga ya el codigo de usuario suministrado
                         $result = DB::table('wave_employees')->where('cde', $employee['cde'])->get();
+                        // Valida si no encontró algun registro
                         if (sizeof($result) == 0) {
+                            // Guarda el nuevo registro en la db
                             $wave_employees->save();
+                            // Actualiza el estado del usuairo a ActiveFull
                             DB::table('users')->where('cde', $employee['cde'])->update(['status' => 'ActiveFull']);
                         }
                     }
+                    // Valida si hubieron usuarios ya registrados
                     if ($registered) {
+                        // Convierte en un array la información de usuarios que ya estaban registrados
                         $mes = explode(":", $fails);
+                        // Retorna un mensaje diciendo el numero de usuarios que se registraron y la información de usuarios que ya estaban registrados
                         return back()->with(['message' => $count . ' users successfully registered. ', 'th' => $fails, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_fails]);
                     }
+                    // Retorna un mensaje successful indicando la cantidad de usuarios nuevos registrados
                     return back()->with(['message' => $count . ' users successfully registered.', 'alert' => 'success']);
                 } else {
+                    // Retorna un mensaje indicando que hay un posible ataque de subida de archivos
                     return "¡Possible file upload attack!\n";
                 }
-
+                // Retorna la vista de registro de computadores
                 return view('register_employee');
             }
         } catch (\Throwable $th) {
+            // Si en algun momento se encontró algun error imprevisto, devuelve un mensaje de error con una descripción.
             return back()->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger']);
         }
 
