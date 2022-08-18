@@ -101,32 +101,12 @@ class WavesTableSeeder extends Seeder
         $wave12->save();
 
         for ($i = 1; $i <= 12; $i++) {
-            $waveLocation = new WaveLocation();
+            for ($j = 101; $j <= 501; $j = $j + 100) {
+                $waveLocation = new WaveLocation();
+                $waveLocation->IdWave = $i;
+                $waveLocation->IdLocation = $j;
+                $waveLocation->save();
+            }
         }
-
-        // $waveLocation = new WaveLocation();
-        // $waveLocation->IdWave = 5;
-        // $waveLocation->IdLocation = 101;
-        // $waveLocation->save();
-
-        // $waveLocation = new WaveLocation();
-        // $waveLocation->IdWave = 1;
-        // $waveLocation->IdLocation = 101;
-        // $waveLocation->save();
-
-        // $waveLocation = new WaveLocation();
-        // $waveLocation->IdWave = 2;
-        // $waveLocation->IdLocation = 101;
-        // $waveLocation->save();
-
-        // $waveLocation = new WaveLocation();
-        // $waveLocation->IdWave = 3;
-        // $waveLocation->IdLocation = 101;
-        // $waveLocation->save();
-
-        // $waveLocation = new WaveLocation();
-        // $waveLocation->IdWave = 4;
-        // $waveLocation->IdLocation = 101;
-        // $waveLocation->save();
     }
 }
