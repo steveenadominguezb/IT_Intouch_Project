@@ -72,9 +72,6 @@ class RegisterEmployeeController extends Controller
                     // Se recorre el array con la información del archivo
                     foreach ($csv as $employee) {
 
-                        // Busca usuarios que tenga el codigo leído
-                        $result = DB::table('users')->where('cde', $employee['cde'])->get();
-
                         // Establece un registro para la tabla user
                         $user = new User();
                         // Asigna el codigo al registro creado
@@ -83,10 +80,14 @@ class RegisterEmployeeController extends Controller
                         $user->name = $employee['name'];
                         // Asigna la position al registro creado
                         $user->position = $employee['position'];
+
+                        // Numero extra para los usuarios repetidos
+                        $num = 1;
                         // Valida si se le ingresó un username
                         if ($employee['username'] == "") {
                             // Separa el nombre en un array
                             $split = explode(' ', $employee['name']);
+
                             // Valida si el tamaño del array es 2 0 3 (nombres con solo primer nombre y dos apellidos o primer nombre y un apellido)
                             if (sizeof($split) == 3 || sizeof($split) == 2) {
                                 // Establece el username con la concatenación del primer nombre y primer apellido
@@ -98,6 +99,14 @@ class RegisterEmployeeController extends Controller
                                 $user->username = strtolower($split[0]) . "." . strtolower($split[2]);
                                 // Establece el email con la concatenación del primer nombre y primer apellido
                                 $user->email = strtolower($split[0]) . "." . strtolower($split[2]) . "@24-7intouch.com";
+                            }
+
+                            $ver_user = User::where('username', $user->username)->first();
+                            while ($ver_user) {
+                                $user->username = $user->username . $num;
+                                $user->email =  $user->username . "@24-7intouch.com";
+                                $ver_user = User::where('username', $user->username)->first();
+                                $num++;
                             }
                         } else {
                             // Establece el username con el dato suministrado
@@ -117,6 +126,14 @@ class RegisterEmployeeController extends Controller
                                 // Establece los permisos para TL
                                 $user->privilege = 40001;
                                 break;
+                            case 'QA':
+                                // Establece los permisos para QA
+                                $user->privilege = 40001;
+                                break;
+                            case 'OM':
+                                // Establece los permisos para OM
+                                $user->privilege = 40001;
+                                break;
                             case 'Trainer':
                                 // Establece los permisos para Trainer
                                 $user->privilege = 40001;
@@ -134,13 +151,24 @@ class RegisterEmployeeController extends Controller
                                 $user->privilege = 20001;
                                 break;
                         }
-                        // Busca la wave suministrada
-                        $wave = Wave::where('Name', $employee['wave'])->first();
-                        // Valida si existe alguna wave con esos datos
-                        if (!$wave) {
-                            // Retorna un mensaje diciendo que no hay una wave con ese nombre
-                            return back()->with(['message' => 'Error, wave (' . $employee['wave'] . ') doesn\'t exist ', 'alert' => 'warning']);
+                        // Valida si el cargo es diferente a agent
+                        if ($employee['position'] != 'Agent') {
+                            // Busca la wave staff de la campaña
+                            $wave = Wave::where('Name', $employee['program'] . ' Staff')->first();
+                            if (!$wave) {
+                                // Retorna un mensaje diciendo que no hay una wave con ese nombre
+                                return back()->with(['message' => 'Error, wave (' . $employee['program'] . ') Staff doesn\'t exist ', 'alert' => 'warning']);
+                            }
+                        } else {
+                            // Busca la wave suministrada
+                            $wave = Wave::where('Name', $employee['wave'])->first();
+                            // Valida si existe alguna wave con esos datos
+                            if (!$wave) {
+                                // Retorna un mensaje diciendo que no hay una wave con ese nombre
+                                return back()->with(['message' => 'Error, wave (' . $employee['wave'] . ') doesn\'t exist ', 'alert' => 'warning']);
+                            }
                         }
+
                         // Declara una variable para saber si existe la location suministrada
                         $created = false;
                         // Establece un idlocation
@@ -160,8 +188,17 @@ class RegisterEmployeeController extends Controller
                             //Retorna un mensaje diciendo que la location no está creada en la wave
                             return back()->with(['message' => 'Error, wave (' . $employee['wave'] . ') doesn\'t have a ' . strtolower($employee['location']) . ' location', 'alert' => 'warning']);
                         }
+
+                        if ($employee['cde'] == "") {
+                            $result = DB::table('users')->where('name', $employee['name'])->get();
+                        } else {
+
+                            // Busca usuarios que tenga el codigo leído
+                            $result = DB::table('users')->where('cde', $employee['cde'])->get();
+                        }
                         // Valida que haya algun registro con el codigo suministrado y si se suministró dicho codigo
-                        if (sizeof($result) != 0 || $employee['cde'] == "") {
+                        if (sizeof($result) != 0) {
+                            $user = $result->first();
                             // Actualiza la variable que indica que el usuario ya está registrado
                             $registered = true;
                             // Aumenta el valor de la variable que indica el numero de usuarios registrados
@@ -169,30 +206,40 @@ class RegisterEmployeeController extends Controller
                             // Añade el usuario a la lista de registrados
                             $fails .= $employee['cde'] . ' - ' . $employee['name'] . '; ';
                         } else {
+
                             //Aumenta el valor de la variable de los usuarios que se van a registrar
                             $count++;
                             // Registra el usuario creado
                             $user->save();
+
+                            if ($employee['cde'] == "") {
+                                $recent_user = User::where('Name', $user->name)->first();
+                                $user->cde = $recent_user->id;
+                                $user->save();
+                            }
                         }
 
                         // Establece un registro para la tabla waveemployees
                         $wave_employees = new WaveEmployee();
                         // Asigna el codigo del empleado al registro
-                        $wave_employees->cde = $employee['cde'];
+                        $wave_employees->cde = $user->cde;
                         // Asigna la location al registro
                         $wave_employees->IdWave = $idLocation;
                         // Asigna la date
                         $wave_employees->Date = $employee['date'];
                         // Busca un registro que tenga ya el codigo de usuario suministrado
-                        $result = DB::table('wave_employees')->where('cde', $employee['cde'])->get();
+                        $result = DB::table('wave_employees')->where('cde', $user->cde)->get();
+
                         // Valida si no encontró algun registro
                         if (sizeof($result) == 0) {
                             // Guarda el nuevo registro en la db
                             $wave_employees->save();
                             // Actualiza el estado del usuairo a ActiveFull
-                            DB::table('users')->where('cde', $employee['cde'])->update(['status' => 'ActiveFull']);
+                            $user->status = "ActiveFull";
+                            $user->save();
                         }
                     }
+
                     // Valida si hubieron usuarios ya registrados
                     if ($registered) {
                         // Convierte en un array la información de usuarios que ya estaban registrados

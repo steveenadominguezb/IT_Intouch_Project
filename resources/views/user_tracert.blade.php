@@ -32,7 +32,7 @@
                                     <td>Program: {{ $wave->parent->parent->programs->Name }}</td>
                                     <td>Location: {{ $wave->parent->location->Name }}</td>
                                     <td>Wave: {{ $wave->parent->parent->Name }}</td>
-                                    <td>Date: {{ $wave->parent->parent->StartDate }}</td>
+                                    <td>Date: {{ $wave->Date }}</td>
                                     @if (!isset($wave->computer->HostName))
                                         puto
                                     @endif
@@ -43,7 +43,7 @@
                                     </td>
                                     <td>Serial:
                                         @if (isset($wave->computer->SerialNumber))
-                                            {{ $wave->computer->SerialNumber}}
+                                            {{ $wave->computer->SerialNumber }}
                                         @endif
                                     </td>
                                 </tr>
