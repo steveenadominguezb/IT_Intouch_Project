@@ -23,33 +23,49 @@ class UsersController extends Controller
     }
     /**
      * Show the view
+     * Método para listar todos los usuarios o hacer alguna busqueda
+     *
      */
     public function index()
     {
+        // Declara la variable con la información que se quiere filtrar
         $text = trim(request('text'));
+        // Valida que se quiera hacer algun filtro
         if ($text != null) {
+            // Busca los usuarios que tenga información relacionada a la busqueda en el campo cde
             $users = User::where('cde', 'LIKE', '%' . $text . '%')->latest()->get();
+            // Verifica si se encontró alguna informació al respecto
             if ($users->isEmpty()) {
+                // Busca los usuarios que tenga información relacionada a la busqueda en el campo name
                 $users = User::where('name', 'LIKE', '%' . $text . '%')->latest()->get();
             }
+            // Verifica si se encontró alguna informació al respecto
             if ($users->isEmpty()) {
+                // Busca los usuarios que tenga información relacionada a la busqueda en el campo status
                 $users = User::where('Status', 'LIKE', '%' . $text . '%')->latest()->get();
             }
+            // Verifica si se encontró alguna informació al respecto
             if ($users->isEmpty()) {
+                // Busca los usuarios que tenga información relacionada a la busqueda en el campo position
                 $users = User::where('position', 'LIKE', '%' . $text . '%')->latest()->get();
             }
+            // Verifica si se encontró alguna informació al respecto
             if ($users->isEmpty()) {
+                // Busca los usuarios que tenga información relacionada a la busqueda en el campo username
                 $users = User::where('username', 'LIKE', '%' . $text . '%')->latest()->get();
             }
+            // Retorna la vista users con los usuarios encontrados
             return view('users', compact('users'));
         }
-
+        // Busca todos los usuarios
         $users = DB::table('users')->latest()->get();
+        // Retorna la vista users con los usuarios encontrados
         return view('users', compact('users'));
     }
 
     /**
      * User Tracert
+     * Método para dar información sobre la wave, computer y más del usuario en cuestión.
      */
     public function userTracert($cde)
     {
