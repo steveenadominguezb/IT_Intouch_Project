@@ -16,15 +16,15 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('cde')->unique();
-            $table->string('name');
-            $table->string('position');
-            $table->string('username')->unique();
-            $table->string('email')->unique();
+            $table->string('cde', 10)->unique()->nullable();
+            $table->string('name', 50);
+            $table->string('position', 20);
+            $table->string('username', 30)->unique();
+            $table->string('email', 60)->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->default(Hash::make('!ntouch24-7@'));
-            $table->string('ContactInfo');
-            $table->string('status')->default('Active');
+            $table->string('ContactInfo', 20);
+            $table->string('status', 10)->default('Active');
             $table->rememberToken();
             $table->timestamps();
 
