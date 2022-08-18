@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('waves', function (Blueprint $table) {
             $table->bigInteger('IdWave')->autoIncrement();
-            $table->string('Name');
+            $table->string('Name')->unique();
             $table->date('StartDate');
             $table->string('ItopsInspector');
             $table->timestamps();

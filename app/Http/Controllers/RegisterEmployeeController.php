@@ -181,6 +181,8 @@ class RegisterEmployeeController extends Controller
                         $wave_employees->cde = $employee['cde'];
                         // Asigna la location al registro
                         $wave_employees->IdWave = $idLocation;
+                        // Asigna la date
+                        $wave_employees->Date = $employee['date'];
                         // Busca un registro que tenga ya el codigo de usuario suministrado
                         $result = DB::table('wave_employees')->where('cde', $employee['cde'])->get();
                         // Valida si no encontró algun registro

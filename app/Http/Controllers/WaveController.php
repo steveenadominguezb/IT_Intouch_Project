@@ -25,6 +25,10 @@ class WaveController extends Controller
     {
         $this->middleware('auth');
     }
+
+    /**
+     * Método para insertar una wave nueva a la db
+     */
     public function store(Request $request)
     {
 
@@ -33,54 +37,84 @@ class WaveController extends Controller
         //     'floatingDate' => 'required',
         //     'floatingInspector' => 'required',
         // ]);
-        $wave = new Wave();
-        $wave->Name = request('floatingName');
-        $wave->StartDate = request('floatingDate');
-        $wave->ItopsInspector = request('floatingInspector');
-        $wave->IdProgram = request('floatingSelect');
 
+        // Crea una instancia wave 
+        $wave = new Wave();
+        // Asigna el nombre de la wave
+        $wave->Name = request('floatingName');
+        // Asigna la fecha de la wave
+        $wave->StartDate = request('floatingDate');
+        // Asigna la persona responsable de la wave
+        $wave->ItopsInspector = request('floatingInspector');
+        // Asigna el programa de la wave
+        $wave->IdProgram = request('floatingSelect');
+        // Guarda la wave en la db
         $wave->save();
 
+        // Busca la wave recientemente creada
         $wave = Wave::where('Name', request('floatingName'))->orderByDesc('created_at')->first();
 
+        // Recorre el array de locations para insertar una por una en la wave
         foreach (request('locations') as $location) {
-            $wave_location = new WaveLocation();
-            $wave_location->IdWave = $wave->IdWave;
-            $wave_location->IdLocation = $location;
 
+            // Crea una instancia wavelocation
+            $wave_location = new WaveLocation();
+            // Establece la wave a la que pertenece
+            $wave_location->IdWave = $wave->IdWave;
+            // Establece la location a la que pertenece
+            $wave_location->IdLocation = $location;
+            // Guarda la instancia en la db
             $wave_location->save();
         }
-
+        // Regresa a la vista home
         return back();
     }
 
+    /**
+     * Método para mostrar la información de la wave junto con sus locations, computers y users asignados.
+     */
     public function create($IdWave, $location)
     {
-
+        // Busca la wave que corresponda al IdWave y IdLocation dado en la url
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+        // Establece una variable que va ayudar a buscar la información de las otras locations
         $i = 101;
+        // Verifica si no existe una wave con la información dada, hasta que no existe una location de esa wave no sale del bucle
         while (!$wave) {
+            // Busca una nueva wave con el IdLocation correspondiente a $i
             $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $i)->first();
+            // Incrementa el IdLocation para validar la si existe un registro con la siguiente location
             $i += 100;
         }
+        // Busca los computadores asignados a esa wave y location
         $computers_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('attrition', '==', '0')
             ->join('computers', 'wave_employees.SerialNumberComputer', '=', 'computers.SerialNumber')
             ->leftJoin('users', 'wave_employees.cde', '=', 'users.cde')
             ->get();
+        // Busca los usuarios asignados a esa wave y location
         $users_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('attrition', '==', '0')
             ->join('users', 'wave_employees.cde', '=', 'users.cde')
             ->get();
 
+        // Verifica si existe la wave correspondiente
         if ($wave) {
+            // Busca todas los locations relacionadas a esa wave
             $locations = WaveLocation::where('IdWave', $IdWave)->get();
+            // Valida si la location dada en la url no es igual a la location de la wave
             if ($location != $wave->location->IdLocation) {
+                // Redirige a la vista de la wave con un valor valido de una location de la wave
                 return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $wave->location->IdLocation . '')->with(['wave' => $wave, 'locations' => $locations]);
             }
+            // Dirige a la vista de la wave con toda la información encontrada
             return view('wave_home', compact('wave', 'locations', 'computers_view', 'users_view'));
         }
+        // Retorna un mensaje diciendo que la wave no existe
         return "wave doesn't exist";
     }
 
+    /**
+     * Método para borrar una wave
+     */
     public function delete()
     {
         try {
@@ -94,6 +128,9 @@ class WaveController extends Controller
         }
     }
 
+    /**
+     * 
+     */
     public function showComputers($IdWave, $location)
     {
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
