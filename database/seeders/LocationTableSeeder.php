@@ -39,6 +39,25 @@ class LocationTableSeeder extends Seeder
         $location5->IdLocation = 501;
         $location5->Name = "Cali";
         $location5->save();
+
+        $location6 = new Location();
+        $location6->IdLocation = 601;
+        $location6->Name = "Sogamoso";
+        $location6->save();
+
+        $location7 = new Location();
+        $location7->IdLocation = 701;
+        $location7->Name = "Tunja";
+        $location7->save();
         
+        $location8 = new Location();
+        $location8->IdLocation = 801;
+        $location8->Name = "Duitama";
+        $location8->save();
+
+        $location9 = new Location();
+        $location9->IdLocation = 901;
+        $location9->Name = "Boyaca";
+        $location9->save();
     }
 }

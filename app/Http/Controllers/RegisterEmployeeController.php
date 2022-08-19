@@ -80,7 +80,6 @@ class RegisterEmployeeController extends Controller
                         $user->name = $employee['name'];
                         // Asigna la position al registro creado
                         $user->position = $employee['position'];
-
                         // Numero extra para los usuarios repetidos
                         $num = 1;
                         // Valida si se le ingresó un username
@@ -113,6 +112,18 @@ class RegisterEmployeeController extends Controller
                             $user->username = $employee['username'];
                             // Establece el email con el username suministrado
                             $user->email = $employee['username'] . "@24-7intouch.com";
+
+                            $ver_user = User::where('username', $user->username)->first();
+                            if ($ver_user) {
+                                while ($ver_user) {
+                                    // Establece el username con el dato suministrado
+                                    $user->username = $user->username . $num;
+                                    // Establece el email con el username suministrado
+                                    $user->email =  $user->username . "@24-7intouch.com";
+                                    $ver_user = User::where('username', $user->username)->first();
+                                    $num++;
+                                }
+                            }
                         }
                         // Asigna el numero de contacto al registro
                         $user->ContactInfo = $employee['ContactInfo'];
@@ -219,6 +230,8 @@ class RegisterEmployeeController extends Controller
                             }
                         }
 
+
+
                         // Establece un registro para la tabla waveemployees
                         $wave_employees = new WaveEmployee();
                         // Asigna el codigo del empleado al registro
@@ -228,10 +241,10 @@ class RegisterEmployeeController extends Controller
                         // Asigna la date
                         $wave_employees->Date = $employee['date'];
                         // Busca un registro que tenga ya el codigo de usuario suministrado
-                        $result = DB::table('wave_employees')->where('cde', $user->cde)->get();
+                        $result_wave = DB::table('wave_employees')->where('cde', $user->cde)->get();
 
                         // Valida si no encontró algun registro
-                        if (sizeof($result) == 0) {
+                        if (sizeof($result_wave) == 0 && sizeof($result) == 0) {
                             // Guarda el nuevo registro en la db
                             $wave_employees->save();
                             // Actualiza el estado del usuairo a ActiveFull

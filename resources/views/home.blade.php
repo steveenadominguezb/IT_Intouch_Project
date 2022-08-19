@@ -425,7 +425,7 @@
                             <div style="display: inline-block; margin-right: 12%; margin-left: 5%">
                                 <div>
                                     <label>
-                                        <input type="checkbox" name="locations[]" value="101" />
+                                        <input type="checkbox" name="locations[]" value="101" checked/>
                                         <span>Bogotá</span>
                                     </label>
                                 </div>
@@ -441,6 +441,18 @@
                                         <span>Bucaramanga</span>
                                     </label>
                                 </div>
+                                <div>
+                                    <label>
+                                        <input type="checkbox" name="locations[]" value="501" />
+                                        <span>Cali</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input type="checkbox" name="locations[]" value="901" />
+                                        <span>Boyaca</span>
+                                    </label>
+                                </div>
                             </div>
                             <div style="display: inline-block">
                                 <div>
@@ -451,8 +463,20 @@
                                 </div>
                                 <div>
                                     <label>
-                                        <input type="checkbox" name="locations[]" value="501" />
-                                        <span>Cali</span>
+                                        <input type="checkbox" name="locations[]" value="601" />
+                                        <span>Sogamoso</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input type="checkbox" name="locations[]" value="701" />
+                                        <span>Tunja</span>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label>
+                                        <input type="checkbox" name="locations[]" value="801" />
+                                        <span>Duitama</span>
                                     </label>
                                 </div>
                             </div>
@@ -477,8 +501,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="button" class="btn grey me-3" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn blue">Save</button>
                     </div>
                 </form>
             </div>

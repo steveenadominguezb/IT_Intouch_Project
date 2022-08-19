@@ -52,42 +52,6 @@ class UsersTableSeeder extends Seeder
         $user3->privilege = 20001;
         $user3->save();
 
-        $user4 = new User();
-        $user4->cde = "C220809";
-        $user4->name = "Sebastian Camilo Gonzalez Sanchez";
-        $user4->position = "Agent";
-        $user4->username = "sebastian.gonzalez";
-        $user4->password = Hash::make('!ntouch247@');
-        $user4->email = "sebastian.gonzalez@24-7intouch.com";
-        $user4->ContactInfo = "3507616668";
-        $user4->status = "Active";
-        $user4->privilege = 40001;
-        $user4->save();
-
-        $user5 = new User();
-        $user5->cde = "C221328";
-        $user5->name = "Valeria Barberi Ochoa";
-        $user5->position = "Agent";
-        $user5->username = "valeria.barberi";
-        $user5->password = Hash::make('!ntouch247@');
-        $user5->email = "valeria.barberi@24-7intouch.com";
-        $user5->ContactInfo = "3204914511";
-        $user5->status = "Active";
-        $user5->privilege = 40001;
-        $user5->save();
-
-        $user6 = new User();
-        $user6->cde = "C221332";
-        $user6->name = "Natalia Patricia Gonzalez Maldonado";
-        $user6->position = "Agent";
-        $user6->username = "natalia.gonzalez";
-        $user6->password = Hash::make('!ntouch247@');
-        $user6->email = "natalia.gonzalez@24-7intouch.com";
-        $user6->ContactInfo = "3156932797";
-        $user6->status = "Active";
-        $user6->privilege = 40001;
-        $user6->save();
-
         $user7 = new User();
         $user7->cde = "C220395";
         $user7->name = "Santiago Chicaeme";
