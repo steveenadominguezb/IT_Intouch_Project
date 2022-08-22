@@ -201,7 +201,7 @@ class RegisterEmployeeController extends Controller
                         }
 
                         if ($employee['cde'] == "") {
-                            $result = DB::table('users')->where('name', $employee['name'])->get();
+                            $result = DB::table('users')->where('name', $employee['name'])->where('status', 'Actve')->get();
                         } else {
 
                             // Busca usuarios que tenga el codigo leído
