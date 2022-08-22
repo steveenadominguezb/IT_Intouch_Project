@@ -72,6 +72,21 @@
 </head>
 
 <body>
+    <div class="content_preloader" id="content_preloader">
+        <div class="preloader-wrapper big active big">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="app" id="app">
         <div class="back_menu" id="back_menu"></div>
         <nav class="navegation" id="navegation">

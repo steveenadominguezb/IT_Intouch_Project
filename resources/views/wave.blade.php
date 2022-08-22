@@ -55,7 +55,7 @@
                             </div>
                         @endif
                         <div style="margin-left: 5%; width: 100%; height: max-content">
-                            <div style="width: 35%; float: left; margin-right: 15%;">
+                            <div style="width: 35%; float: left; margin-right: 15%;display: inline-block">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" style="margin-left: 10px;"
                                         name="floatingName" placeholder="nameWave" value="{{ $wave->parent->Name }}"
@@ -72,6 +72,18 @@
                                         name="floatingInspector" placeholder="Itops Inspector"
                                         value="{{ $wave->parent->ItopsInspector }}" required>
                                     <label for="floatingInput">Itops Inspector</label>
+                                </div>
+                            </div>
+                            <div id="wave_progress" style="display: inline-block; width: 40%">
+                                <div class="progress grey">
+                                    @if ($progress == 100)
+                                        {
+                                        <div class="determinate green" style="width: {{ $progress }}%"></div>
+                                        }
+                                    @else
+                                    <div class="determinate yellow" style="width: {{ $progress }}%"></div>
+                                    @endif
+                                    
                                 </div>
                             </div>
                         </div>
@@ -137,7 +149,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary me-3" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
+                        <button type="submit" id="btn-register" class="btn btn-primary">Save</button>
                     </div>
                 </form>
             </div>

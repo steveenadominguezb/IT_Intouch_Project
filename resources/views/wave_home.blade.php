@@ -54,7 +54,7 @@
                             </div>
                         @endif
                         <div style="margin-left: 5%; width: 100%; height: max-content">
-                            <div style="width: 35%; float: left; margin-right: 15%;">
+                            <div style="width: 35%; float: left; margin-right: 15%; display: inline-block">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" style="margin-left: 10px;"
                                         name="floatingName" placeholder="nameWave" value="{{ $wave->parent->Name }}"
@@ -73,7 +73,17 @@
                                     <label for="floatingInput">Itops Inspector</label>
                                 </div>
                             </div>
-
+                            <div id="wave_progress" style="display: inline-block; width: 40%">
+                                <div class="progress grey">
+                                    @if ($progress == 100)
+                                        {
+                                        <div class="determinate green" style="width: {{ $progress }}%"></div>
+                                        }
+                                    @else
+                                        <div class="determinate yellow" style="width: {{ $progress }}%"></div>
+                                    @endif
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -119,8 +129,8 @@
                         </button>
                     </div>
                     <!-- Modal RELATE EVERYTHING -->
-                    <div class="modal fade" id="modal_relate_everything" data-bs-backdrop="static" data-bs-keyboard="false"
-                        tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"
+                    <div class="modal fade" id="modal_relate_everything" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true"
                         style="background: none; box-shadow: none;">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
@@ -142,8 +152,9 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary grey"
                                             data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary blue"
-                                            style="margin-left: 20px;">Submit</button>
+                                        <button type="submit" id="btn-register" class="btn btn-primary blue"
+                                            style="margin-left: 20px;"
+                                            onclick="style ='margin-left: 20px;cursor: not-allowed; pointer-events: none;'">Submit</button>
                                     </div>
                                 </form>
                             </div>

@@ -75,8 +75,13 @@ class WaveController extends Controller
      */
     public function create($IdWave, $location)
     {
+
         // Busca la wave que corresponda al IdWave y IdLocation dado en la url
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+        $wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('attrition', 0)->get();
+        $count_registers = (sizeof($wave_employee) == 0) ? 1 : sizeof($wave_employee);
+        $count_progress = sizeof(WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('cde', '!=', null)->where('SerialNumberComputer', '!=', null)->where('attrition', 0)->get());
+        $progress = ($count_progress / $count_registers) * 100;
         // Establece una variable que va ayudar a buscar la información de las otras locations
         $i = 101;
         // Verifica si no existe una wave con la información dada, hasta que no existe una location de esa wave no sale del bucle
@@ -103,10 +108,10 @@ class WaveController extends Controller
             // Valida si la location dada en la url no es igual a la location de la wave
             if ($location != $wave->location->IdLocation) {
                 // Redirige a la vista de la wave con un valor valido de una location de la wave
-                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $wave->location->IdLocation . '')->with(['wave' => $wave, 'locations' => $locations]);
+                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $wave->location->IdLocation . '')->with(['wave' => $wave, 'locations' => $locations, 'progress' => $progress]);
             }
             // Dirige a la vista de la wave con toda la información encontrada
-            return view('wave_home', compact('wave', 'locations', 'computers_view', 'users_view'));
+            return view('wave_home', compact('wave', 'locations', 'computers_view', 'users_view', 'progress'));
         }
         // Retorna un mensaje diciendo que la wave no existe
         return "wave doesn't exist";
@@ -134,6 +139,10 @@ class WaveController extends Controller
     public function showComputers($IdWave, $location)
     {
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+        $wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->get();
+        $count_registers = (sizeof($wave_employee) == 0) ? 1 : sizeof($wave_employee);
+        $count_progress = sizeof(WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('cde', '!=', null)->where('SerialNumberComputer', '!=', null)->get());
+        $progress = ($count_progress / $count_registers) * 100;
         $locations = WaveLocation::where('IdWave', $IdWave)->get();
         $text = trim(request('text'));
         if ($text != null) {
@@ -141,12 +150,12 @@ class WaveController extends Controller
             if ($computers->isEmpty()) {
                 $computers = Computer::where('HostName', 'LIKE', '%' . $text . '%')->where('Status', 'InStorage')->orderByDesc('created_at')->get();
             }
-            return view('assign_computers', compact('wave', 'locations', 'computers'));
+            return view('assign_computers', compact('wave', 'locations', 'computers', 'progress'));
         }
 
         $computers = Computer::where('Status', 'InStorage')->orderByDesc('created_at')->get();
         if ($wave) {
-            return view('assign_computers', compact('wave', 'computers', 'locations'));
+            return view('assign_computers', compact('wave', 'computers', 'locations', 'progress'));
         }
         return "wave doesn't exist";
     }
@@ -154,23 +163,34 @@ class WaveController extends Controller
     public function showUsers($IdWave, $location)
     {
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+        $wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->get();
+        $count_registers = (sizeof($wave_employee) == 0) ? 1 : sizeof($wave_employee);
+        $count_progress = sizeof(WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('cde', '!=', null)->where('SerialNumberComputer', '!=', null)->get());
+        $progress = ($count_progress / $count_registers) * 100;
         $locations = WaveLocation::where('IdWave', $IdWave)->get();
         $text = trim(request('text'));
         if ($text != null) {
-            $users = User::where('cde', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->where('status', 'Active')->get();
+            $users = User::where('cde', 'LIKE', '%' . $text . '%')->where('status', 'Active')
+                ->where('privilege', 40001)
+                ->get();
             if ($users->isEmpty()) {
-                $users = User::where('name', 'LIKE', '%' . $text . '%')->where('Position', 'Agent')->where('status', 'Active')->get();
+                $users = User::where('name', 'LIKE', '%' . $text . '%')->where('status', 'Active')
+                    ->where('privilege', 40001)
+                    ->get();
             }
-            return view('assign_users', compact('wave', 'users', 'locations'));
+            return view('assign_users', compact('wave', 'users', 'locations', 'progress'));
         }
 
         if ($wave->parent->Name == 'Staff') {
             $users = User::where('privilege', '!=', '40001')->where('status', '!=', 'ActiveFull')->get();
-            return view('assign_users', compact('wave', 'users', 'locations'));
+            return view('assign_users', compact('wave', 'users', 'locations', 'progress'));
         }
-        $users = User::where('Position', 'Agent')->where('status', 'Active')->get();
+        $users = User::where('status', 'Active')->where('Position', 'Agent')
+            ->orWhere('Position', 'TL')
+            ->orWhere('Position', 'OM')
+            ->orWhere('Position', 'QA')->get();
         if ($wave) {
-            return view('assign_users', compact('wave', 'users', 'locations'));
+            return view('assign_users', compact('wave', 'users', 'locations', 'progress'));
         }
         return "wave doesn't exist";
     }
@@ -181,7 +201,12 @@ class WaveController extends Controller
             try {
                 $locations = WaveLocation::where('IdWave', $IdWave)->get();
                 $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
-
+                $wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->get();
+                $count_registers = (sizeof($wave_employee) == 0) ? 1 : sizeof($wave_employee);
+                $count_progress = sizeof(WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('cde', '!=', null)->where('SerialNumberComputer', '!=', null)->get());
+                $progress = ($count_progress / $count_registers) * 100;
+                $assigned = "";
+                $no_registered = "";
                 if ($_FILES['file']['size'] > 0 && $_FILES['file']['type'] == 'text/csv') {
                     $dir_subida = 'files/users/';
                     $fichero_subido = $dir_subida . basename($_FILES['file']['name']);
@@ -196,30 +221,37 @@ class WaveController extends Controller
                         foreach ($csv as $computer) {
                             $result = DB::table('computers')->where('SerialNumber', $computer['Serial'])->get();
                             if (sizeof($result) == 0) {
-                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $computer['Serial'] . ' is not registered', 'alert' => 'danger', 'locations' => $locations]);
+                                $no_registered .= 'Error, ' . $computer['Serial'] . ' is not registered; ';
                             }
                             if ($result[0]->Status != "InStorage") {
-                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, ' . $result[0]->HostName . ' is already assigned or does not correspond to the wave', 'alert' => 'danger', 'locations' => $locations]);
-                            }
-                            DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'SerialNumberComputer' => $computer['Serial']], ['SerialNumberComputer' => $computer['Serial']]);
+                                $assigned .= 'Error, ' . $result[0]->HostName . ' is already assigned or does not correspond to the wave; ';
+                            } else {
+                                DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'SerialNumberComputer' => $computer['Serial']], ['SerialNumberComputer' => $computer['Serial']]);
 
-                            DB::table('computers')->where('SerialNumber', $computer['Serial'])->update(['Status' => 'Deployed']);
+                                DB::table('computers')->where('SerialNumber', $computer['Serial'])->update(['Status' => 'Deployed']);
+                            }
                         }
                         echo '<script language="javascript">alert("successful");</script>';
                     } else {
                         return "¡Possible file upload attack!\n";
                     }
                 }
-                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations]);
+                if ($assigned != "" || $no_registered != "") {
+                    return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['mesage' => 'Error', 'th' => $assigned . "--" . $no_registered, 'alert' => 'warning', 'locations' => $locations, 'progress' => $progress]);
+                }
+                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations, 'progress' => $progress]);
             } catch (\Throwable $th) {
-                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'wave' => $wave, 'locations' => $locations]);
+                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'wave' => $wave, 'locations' => $locations, 'progress' => $progress]);
             }
         }
 
         try {
             $locations = WaveLocation::where('IdWave', $IdWave)->get();
             $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
-
+            $wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->get();
+            $count_registers = (sizeof($wave_employee) == 0) ? 1 : sizeof($wave_employee);
+            $count_progress = sizeof(WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('cde', '!=', null)->where('SerialNumberComputer', '!=', null)->get());
+            $progress = ($count_progress / $count_registers) * 100;
             if (is_null(request('assign'))) {
                 return back()->with(['message' => 'Nothing selected', 'alert' => 'success', 'locations' => $locations]);
             }
@@ -239,9 +271,9 @@ class WaveController extends Controller
                 $computer->Status = "Deployed";
                 $computer->save();
             }
-            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations]);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations, 'progress' => $progress]);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'wave' => $wave, 'locations' => $locations]);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'wave' => $wave, 'locations' => $locations, 'progress' => $progress]);
         }
     }
 
@@ -250,8 +282,12 @@ class WaveController extends Controller
         try {
             $locations = WaveLocation::where('IdWave', $IdWave)->get();
             $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+            $wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->get();
+            $count_registers = (sizeof($wave_employee) == 0) ? 1 : sizeof($wave_employee);
+            $count_progress = sizeof(WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('cde', '!=', null)->where('SerialNumberComputer', '!=', null)->get());
+            $progress = ($count_progress / $count_registers) * 100;
             if (is_null(request('assign'))) {
-                return back()->with(['message' => 'Nothing selected', 'alert' => 'success', 'locations' => $locations]);
+                return back()->with(['message' => 'Nothing selected', 'alert' => 'success', 'locations' => $locations, 'progress' => $progress]);
             }
             foreach (request('assign') as $value) {
 
@@ -271,9 +307,9 @@ class WaveController extends Controller
                 $user->save();
             }
 
-            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations]);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations, 'progress' => $progress]);
         } catch (\Throwable $th) {
-            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'locations' => $locations]);
+            return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'locations' => $locations, 'progress' => $progress]);
         }
     }
 
@@ -482,6 +518,8 @@ class WaveController extends Controller
             ->get();
         $result = [];
         $num_locations = 0;
+        $count_registers = 0;
+        $count_progress = 0;
         foreach ($locations as $location) {
             array_push($result, $location);
             $computers_info = WaveEmployee::where('IdWave', $location->IdWaveLocation)->where('attrition', 0)
@@ -502,9 +540,25 @@ class WaveController extends Controller
                 $result[$num_locations]['Users'] = [];
             }
             $num_locations++;
+
+            $wave_employee = WaveEmployee::where('IdWave',  $location->IdWaveLocation)->where('attrition', 0)->get();
+            $count_registers += (sizeof($wave_employee) == 0) ? 1 : sizeof($wave_employee);
+            $count_progress += sizeof(WaveEmployee::where('IdWave', $location->IdWaveLocation)->where('cde', '!=', null)->where('SerialNumberComputer', '!=', null)->where('attrition', 0)->get());
         }
         $wave = WaveLocation::where('IdWave', $IdWave)->first();
         $all_locations = "All Locations";
-        return view('wave_all_locations', compact('wave', 'locations', 'all_locations', 'result'));
+
+
+        $progress = ($count_progress / $count_registers) * 100;
+        return view('wave_all_locations', compact('wave', 'locations', 'all_locations', 'result', 'progress'));
+    }
+
+    public function progress($IdWave, $location)
+    {
+        $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
+        $wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->get();
+        $count_registers = sizeof($wave_employee) == 0 ?? 1;
+        $count_progress = sizeof(WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('cde', '!=', null)->where('SerialNumberComputer', '!=', null)->get());
+        return ($count_progress / $count_registers) * 100;
     }
 }

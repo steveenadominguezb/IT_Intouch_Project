@@ -29,7 +29,7 @@ return new class extends Migration
 
             $table->foreign('cde')->references('cde')->on('users');
             $table->foreign('SerialNumberKey')->references('SerialNumber')->on('yubikeys');
-            $table->foreign('SerialNumberComputer')->references('SerialNumber')->on('computers');
+            $table->foreign('SerialNumberComputer')->references('SerialNumber')->on('computers')->onUpdate('cascade');
         });
     }
 
