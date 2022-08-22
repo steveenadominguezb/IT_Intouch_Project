@@ -71,8 +71,7 @@ class ComputerController extends Controller
                     // Se recorre el array con la información del archivo
                     foreach ($csv as $computer_data) {
                         // Busca computadores que tenga el serial leído
-                        $resultComputer = DB::table('computers')->where('SerialNumber', $computer_data['Serial'])->get();
-
+                        $resultComputer = DB::table('computers')->where('SerialNumber', $computer_data['Serial'])->orWhere('Hostname', $computer_data['Workstation'])->get();
                         // Establece un registro para la tabla computador
                         $computer = new Computer();
                         // Asigna el serial al registro creado

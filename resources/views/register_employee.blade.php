@@ -1,6 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+    <div class="content_preloader" id="content_preloader">
+        <div class="preloader-wrapper big active big">
+            <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -148,7 +163,7 @@
                             <div style="text-align: center;margin-top: 30px;">
                                 <input type="file" name="file">
                             </div>
-                            <button type="submit" class="but-register btn btn-success fw-bold d-block">Submit</button>
+                            <button type="submit" id="btn-register" class="but-register btn btn-success fw-bold d-block">Submit</button>
                         </form>
                     </div>
                 </div>
