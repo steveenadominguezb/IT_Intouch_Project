@@ -205,7 +205,7 @@ class RegisterEmployeeController extends Controller
                         } else {
 
                             // Busca usuarios que tenga el codigo leído
-                            $result = DB::table('users')->where('cde', $employee['cde'])->get();
+                            $result = DB::table('users')->where('cde', $employee['cde'])->where('status', 'Actve')->get();
                         }
                         // Valida que haya algun registro con el codigo suministrado y si se suministró dicho codigo
                         if (sizeof($result) != 0) {
