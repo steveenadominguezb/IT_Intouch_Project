@@ -102,8 +102,8 @@ class RegisterEmployeeController extends Controller
 
                             $ver_user = User::where('username', $user->username)->first();
                             while ($ver_user) {
-                                $user->username = $user->username . $num;
-                                $user->email =  $user->username . "@24-7intouch.com";
+                                $user->username = "xx".$user->username . $num;
+                                $user->email =  "xx".$user->username . "@24-7intouch.com";
                                 $ver_user = User::where('username', $user->username)->first();
                                 $num++;
                             }
