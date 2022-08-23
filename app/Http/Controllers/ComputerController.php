@@ -71,13 +71,13 @@ class ComputerController extends Controller
                     // Se recorre el array con la información del archivo
                     foreach ($csv as $computer_data) {
                         // Busca computadores que tenga el serial leído
-                        $resultComputer = DB::table('computers')->where('SerialNumber', $computer_data['Serial'])->orWhere('Hostname', $computer_data['Workstation'])->get();
+                        $resultComputer = DB::table('computers')->where('SerialNumber', str_replace(" ", "", $computer_data['Serial']))->orWhere('Hostname', str_replace(" ", "", $computer_data['Workstation']))->get();
                         // Establece un registro para la tabla computador
                         $computer = new Computer();
                         // Asigna el serial al registro creado
-                        $computer->SerialNumber = $computer_data['Serial'];
+                        $computer->SerialNumber = str_replace(" ", "", $computer_data['Serial']);
                         // Asigna el hostname al registro creado
-                        $computer->HostName = $computer_data['Workstation'];
+                        $computer->HostName = str_replace(" ", "", $computer_data['Workstation']);
                         // Asigna el sistema operativo al registro creado
                         $computer->OS = $computer_data['OS'];
                         // Asigna la marca al regirstro creado
@@ -211,16 +211,35 @@ class ComputerController extends Controller
         try {
             // Valida si debe guardarse como una laptop o no.
             $laptop = request('laptop') == 'on' ? true : false;
-            // Busca y actualiza la información del computador en cuestión.
-            DB::table('computers')->where('SerialNumber', request('serial'))
-                ->update([
-                    'HostName' => request('host'),
-                    'OS' => request('os'),
-                    'OS' => request('os'),
-                    'Brand' => request('brand'),
-                    'Model' => request('model'),
-                    'Laptop' => $laptop,
-                ]);
+
+            $computer = Computer::where('SerialNumber', request('serial'))->first();
+
+            $computer->HostName = request('host');
+            $computer->OS = request('host');
+            $computer->Brand = request('brand');
+            $computer->Model = request('model');
+            $computer->Laptop = $laptop;
+            $computer->save();
+            switch (request('status')) {
+                case 'InStorage':
+                    $is_deployed = WaveEmployee::where('SerialNumberComputer', $computer->SerialNumber)->where('attrition', 0)->first();
+                    if ($is_deployed) {
+                        return back()->with(['message' => 'The status selected did not change because the computer is deployed in a wave', 'alert' => 'warning']);
+                    }
+                    $computer->Status = "InStorage";
+                    $computer->save();
+                    break;
+                case 'Deployed':
+                    # code...
+                    break;
+                case 'Damaged':
+                    # code...
+                    break;
+
+                default:
+                    return back()->with(['message' => 'The status selected is not valid', 'alert' => 'warning']);
+                    break;
+            }
             // Retorna un mensaje successful
             return back()->with(['message' => 'Updated', 'alert' => 'success']);
         } catch (\Throwable $th) {

@@ -27,8 +27,8 @@ return new class extends Migration
             $table->string('SerialNumberComputer')->nullable();
 
 
-            $table->foreign('cde')->references('cde')->on('users');
-            $table->foreign('SerialNumberKey')->references('SerialNumber')->on('yubikeys');
+            $table->foreign('cde')->references('cde')->on('users')->onUpdate('cascade');
+            $table->foreign('SerialNumberKey')->references('SerialNumber')->on('yubikeys')->onUpdate('cascade');
             $table->foreign('SerialNumberComputer')->references('SerialNumber')->on('computers')->onUpdate('cascade');
         });
     }

@@ -250,7 +250,7 @@
                                                                                 <input type="text" class="form-control"
                                                                                     style="margin-left: 10px;"
                                                                                     name="yubikey" placeholder="nameWave"
-                                                                                    value="" required>
+                                                                                    value="{{ $computer->SerialNumberKey }}" required>
                                                                                 <label for="floatingInput">Yubikey</label>
                                                                             </div>
                                                                         @endif

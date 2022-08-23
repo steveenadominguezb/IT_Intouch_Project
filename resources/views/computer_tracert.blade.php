@@ -74,7 +74,7 @@
                                         <p style="display: table-cell; width: 150px">
                                             @if ($wave->attrition == 0)
                                                 <label>
-                                                    <input name="group{{ $wave->parent->parent->Name }}" type="radio" checked/>
+                                                    <input name="group{{ $wave->parent->parent->Name }}" class="blue" type="radio" checked/>
                                                     <span>.</span>
                                                 </label>
                                             @endif

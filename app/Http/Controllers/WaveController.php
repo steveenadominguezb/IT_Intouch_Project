@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Wave;
 use App\Models\WaveEmployee;
 use App\Models\WaveLocation;
+use App\Models\Yubikey;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Stmt\Return_;
@@ -219,25 +220,33 @@ class WaveController extends Controller
                         array_shift($csv);
 
                         foreach ($csv as $computer) {
-                            $result = DB::table('computers')->where('SerialNumber', $computer['Serial'])->get();
+                            $computer['Serial'] = str_replace(" ", "", $computer['Serial']);
+                            $result = Computer::where('SerialNumber', str_replace(" ", "", $computer['Serial']))->get();
                             if (sizeof($result) == 0) {
                                 $no_registered .= 'Error, ' . $computer['Serial'] . ' is not registered; ';
                             }
                             if ($result[0]->Status != "InStorage") {
                                 $assigned .= 'Error, ' . $result[0]->HostName . ' is already assigned or does not correspond to the wave; ';
                             } else {
-                                DB::table('wave_employees')->updateOrInsert(['IdWave' => $wave->IdWaveLocation, 'SerialNumberComputer' => $computer['Serial']], ['SerialNumberComputer' => $computer['Serial']]);
+                                $update_wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->first();
+                                if (!$update_wave_employee) {
+                                    $update_wave_employee = new WaveEmployee();
+                                }
+                                $update_wave_employee->SerialNumberComputer = $computer['Serial'];
+                                $update_wave_employee->IdWave = $wave->IdWaveLocation;
+                                $update_wave_employee->save();
 
-                                DB::table('computers')->where('SerialNumber', $computer['Serial'])->update(['Status' => 'Deployed']);
+                                $computer = Computer::where('SerialNumber', $computer['Serial'])->first();
+                                $computer->Status = "Deployed";
+                                $computer->save();
                             }
                         }
-                        echo '<script language="javascript">alert("successful");</script>';
                     } else {
                         return "¡Possible file upload attack!\n";
                     }
                 }
                 if ($assigned != "" || $no_registered != "") {
-                    return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['mesage' => 'Error', 'th' => $assigned . "--" . $no_registered, 'alert' => 'warning', 'locations' => $locations, 'progress' => $progress]);
+                    return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error', 'th' => $assigned . "--" . $no_registered, 'alert' => 'warning', 'locations' => $locations, 'progress' => $progress]);
                 }
                 return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Successful', 'alert' => 'success', 'wave' => $wave, 'locations' => $locations, 'progress' => $progress]);
             } catch (\Throwable $th) {
@@ -434,6 +443,7 @@ class WaveController extends Controller
         $assigned = false;
         $registered = false;
         $count = 0;
+        $no_yubikey = "";
         if (request('file')) {
             try {
                 if ($_FILES['file']['size'] > 0 && $_FILES['file']['type'] == 'text/csv') {
@@ -448,43 +458,63 @@ class WaveController extends Controller
                         array_shift($csv);
 
                         foreach ($csv as $computer) {
-                            if ($computer['Serial'] != "") {
-                                $resultUser = DB::table('users')->where('name', $computer['Username'])->get();
-                                $resultComputer = DB::table('computers')->where('SerialNumber', $computer['Serial'])->get();
-                                if (sizeof($resultComputer) == 0) {
-                                    $registered = true;
-                                    $count_computers++;
-                                    $computers_registered .= $computer['Serial'] . ' - ' . $computer['Workstation'] . '; ';
-                                }
-
-                                if (sizeof($resultUser) == 0) {
-                                    $registered_users = true;
-                                    $count_users_registered++;
-                                    $users_registered .= $computer['Username'] . '; ';
-                                    continue;
-                                }
-                                $celdas = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
-                                    ->where('cde', $resultUser[0]->cde)
-                                    ->get();
-                                if (sizeof($celdas) == 1) {
-
-                                    $wave_employees = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->first();
-
-                                    if ($wave_employees->cde != null) {
-                                        DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->update(['SerialNumberComputer' => null]);
+                            try {
+                                if ($computer['YubiKey'] == "") {
+                                    $no_yubikey .= 'No YubiKey in This Relationship [' . $computer['Workstation'] . '] - [' . $computer['Username'] . ']; ';
+                                } else {
+                                    $yubikey = Yubikey::where('SerialNumber', $computer['YubiKey'])->first();
+                                    if (!$yubikey) {
+                                        $no_yubikey .= 'This yubikey [' . $computer['YubiKey'] . '] is not registered; ';
                                     } else {
-                                        DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->delete();
-                                    }
+                                        if ($computer['Serial'] != "") {
+                                            $resultUser = DB::table('users')->where('name', $computer['Username'])->get();
+                                            $resultComputer = DB::table('computers')->where('SerialNumber', $computer['Serial'])->get();
+                                            if (sizeof($resultComputer) == 0) {
+                                                $registered = true;
+                                                $count_computers++;
+                                                $computers_registered .= $computer['Serial'] . ' - ' . $computer['Workstation'] . '; ';
+                                            }
 
-                                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
-                                        ->where('cde', $resultUser[0]->cde)
-                                        ->update(['SerialNumberComputer' => $computer['Serial']]);
-                                    $count++;
-                                } elseif (sizeof($celdas) == 0 && sizeof($resultUser) > 0) {
-                                    $assigned = true;
-                                    $count_users++;
-                                    $users_assigned .= $resultUser[0]->cde . ' - ' . $resultUser[0]->name . '; ';
+                                            if (sizeof($resultUser) == 0) {
+                                                $registered_users = true;
+                                                $count_users_registered++;
+                                                $users_registered .= $computer['Username'] . '; ';
+                                                continue;
+                                            }
+                                            $celdas = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
+                                                ->where('cde', $resultUser[0]->cde)
+                                                ->get();
+                                            if (sizeof($celdas) == 1) {
+
+                                                $wave_employees = WaveEmployee::where('IdWave', $wave->IdWaveLocation)
+                                                    ->where('SerialNumberComputer', $computer['Serial'])->first();
+
+                                                if ($wave_employees->cde != null) {
+                                                    $wave_employees->SerialNumberComputer = null;
+                                                    $wave_employees->save();
+                                                } else {
+                                                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->delete();
+                                                }
+                                                $wave_employee_1 = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
+                                                    ->where('cde', $resultUser[0]->cde)->first();
+
+                                                $wave_employee_1->SerialNumberComputer = $computer['Serial'];
+
+                                                $wave_employee_1->SerialNumberKey = $yubikey->SerialNumber;
+
+                                                $wave_employee_1->save();
+
+                                                $count++;
+                                            } elseif (sizeof($celdas) == 0 && sizeof($resultUser) > 0) {
+                                                $assigned = true;
+                                                $count_users++;
+                                                $users_assigned .= $resultUser[0]->cde . ' - ' . $resultUser[0]->name . '; ';
+                                            }
+                                        }
+                                    }
                                 }
+                            } catch (\Throwable $th) {
+                                return redirect()->to('/home/wave/' . $wave->IdWave . '/' . $location . '')->with(['message' => 'Error, try again', 'th' => $th, 'alert' => 'danger', 'wave' => $wave, 'locations' => $locations]);
                             }
                         }
                         if ($registered_users) {
@@ -498,6 +528,9 @@ class WaveController extends Controller
                         if ($registered) {
                             $mes = explode(":", $computers_registered);
                             return back()->with(['message' => $count . ' computers successfully assigned. ', 'th' => $computers_registered, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_computers]);
+                        }
+                        if ($no_yubikey != "") {
+                            return back()->with(['message' => $count . ' computers successfully assigned. ', 'th' => $no_yubikey, 'alert' => 'warning']);
                         }
                     } else {
                         return "¡Possible file upload attack!\n";
