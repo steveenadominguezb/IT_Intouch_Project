@@ -31,6 +31,7 @@
                                         <tr>
                                             <th>CODE</th>
                                             <th>Full Name</th>
+                                            <th>UserName</th>
                                             <th>Position</th>
                                         </tr>
                                     </thead>
@@ -39,6 +40,7 @@
                                             <tr>
                                                 <td>{{ $user->cde }}</td>
                                                 <td>{{ $user->name }}</td>
+                                                <td>{{ $user->username }}</td>
                                                 <td>{{ $user->position }}</td>
                                                 <td>
                                                     <div class="form-check">

@@ -86,6 +86,8 @@
                                                     $waves_locations = \App\Models\WaveLocation::where('IdWave', $wave->IdWave)->get();
                                                     $computers = 0;
                                                     $users = 0;
+                                                    $count_registers = 0;
+                                                    $count_progress = 0;
                                                     foreach ($waves_locations as $value) {
                                                         $computers += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('SerialNumberComputer', 'LIKE', '%')
@@ -93,7 +95,20 @@
                                                         $users += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('cde', 'LIKE', '%')
                                                             ->count();
+                                                    
+                                                        $wave_employee = \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
+                                                            ->where('attrition', 0)
+                                                            ->get();
+                                                        $count_registers += sizeof($wave_employee) == 0 ? 1 : sizeof($wave_employee);
+                                                        $count_progress += sizeof(
+                                                            \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
+                                                                ->where('cde', '!=', null)
+                                                                ->where('SerialNumberComputer', '!=', null)
+                                                                ->where('attrition', 0)
+                                                                ->get(),
+                                                        );
                                                     }
+                                                    $progress = ($count_progress / $count_registers) * 100;
                                                 @endphp
                                                 <br>
                                                 <p style="font-size: 12px;">Assigned computers: {{ $computers }}</p>
@@ -112,6 +127,20 @@
                                                                 class="material-icons right">delete</i></button>
                                                     </div>
                                                 @endif
+                                            </div>
+                                            <div id="wave_progress" style="height: 30%; width: 40%">
+                                                <div class="progress grey">
+                                                    @if ($progress == 100)
+                                                        {
+                                                        <div class="determinate green" style="width: {{ $progress }}%">
+                                                        </div>
+                                                        }
+                                                    @else
+                                                        <div class="determinate yellow"
+                                                            style="width: {{ $progress }}%">
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
 
@@ -197,6 +226,8 @@
                                                     $waves_locations = \App\Models\WaveLocation::where('IdWave', $wave->IdWave)->get();
                                                     $computers = 0;
                                                     $users = 0;
+                                                    $count_registers = 0;
+                                                    $count_progress = 0;
                                                     foreach ($waves_locations as $value) {
                                                         $computers += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('SerialNumberComputer', 'LIKE', '%')
@@ -204,7 +235,20 @@
                                                         $users += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('cde', 'LIKE', '%')
                                                             ->count();
+                                                    
+                                                        $wave_employee = \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
+                                                            ->where('attrition', 0)
+                                                            ->get();
+                                                        $count_registers += sizeof($wave_employee) == 0 ? 1 : sizeof($wave_employee);
+                                                        $count_progress += sizeof(
+                                                            \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
+                                                                ->where('cde', '!=', null)
+                                                                ->where('SerialNumberComputer', '!=', null)
+                                                                ->where('attrition', 0)
+                                                                ->get(),
+                                                        );
                                                     }
+                                                    $progress = ($count_progress / $count_registers) * 100;
                                                 @endphp
                                                 <br>
                                                 <p style="font-size: 12px;">Assigned computers: {{ $computers }}</p>
@@ -223,6 +267,21 @@
                                                                 class="material-icons right">delete</i></button>
                                                     </div>
                                                 @endif
+                                            </div>
+                                            <div id="wave_progress" style="height: 30%; width: 40%">
+                                                <div class="progress grey">
+                                                    @if ($progress == 100)
+                                                        {
+                                                        <div class="determinate green"
+                                                            style="width: {{ $progress }}%">
+                                                        </div>
+                                                        }
+                                                    @else
+                                                        <div class="determinate yellow"
+                                                            style="width: {{ $progress }}%">
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
 
@@ -318,6 +377,8 @@
                                                     $waves_locations = \App\Models\WaveLocation::where('IdWave', $wave->IdWave)->get();
                                                     $computers = 0;
                                                     $users = 0;
+                                                    $count_registers = 0;
+                                                    $count_progress = 0;
                                                     foreach ($waves_locations as $value) {
                                                         $computers += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('SerialNumberComputer', 'LIKE', '%')
@@ -325,7 +386,20 @@
                                                         $users += \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
                                                             ->where('cde', 'LIKE', '%')
                                                             ->count();
+                                                    
+                                                        $wave_employee = \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
+                                                            ->where('attrition', 0)
+                                                            ->get();
+                                                        $count_registers += sizeof($wave_employee) == 0 ? 1 : sizeof($wave_employee);
+                                                        $count_progress += sizeof(
+                                                            \App\Models\WaveEmployee::where('IdWave', $value->IdWaveLocation)
+                                                                ->where('cde', '!=', null)
+                                                                ->where('SerialNumberComputer', '!=', null)
+                                                                ->where('attrition', 0)
+                                                                ->get(),
+                                                        );
                                                     }
+                                                    $progress = ($count_progress / $count_registers) * 100;
                                                 @endphp
                                                 <br>
                                                 <p style="font-size: 12px;">Assigned computers: {{ $computers }}</p>
@@ -347,7 +421,19 @@
                                             </div>
                                         </div>
 
-
+                                        <div id="wave_progress" style="height: 30%; width: 40%">
+                                            <div class="progress grey">
+                                                @if ($progress == 100)
+                                                    {
+                                                    <div class="determinate green" style="width: {{ $progress }}%">
+                                                    </div>
+                                                    }
+                                                @else
+                                                    <div class="determinate yellow" style="width: {{ $progress }}%">
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -425,7 +511,7 @@
                             <div style="display: inline-block; margin-right: 12%; margin-left: 5%">
                                 <div>
                                     <label>
-                                        <input type="checkbox" name="locations[]" value="101" checked/>
+                                        <input type="checkbox" name="locations[]" value="101" checked />
                                         <span>Bogotá</span>
                                     </label>
                                 </div>

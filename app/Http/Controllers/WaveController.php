@@ -179,6 +179,11 @@ class WaveController extends Controller
                     ->where('privilege', 40001)
                     ->get();
             }
+            if ($users->isEmpty()) {
+                $users = User::where('username', 'LIKE', '%' . $text . '%')->where('status', 'Active')
+                    ->where('privilege', 40001)
+                    ->get();
+            }
             return view('assign_users', compact('wave', 'users', 'locations', 'progress'));
         }
 
@@ -221,24 +226,26 @@ class WaveController extends Controller
 
                         foreach ($csv as $computer) {
                             $computer['Serial'] = str_replace(" ", "", $computer['Serial']);
+
                             $result = Computer::where('SerialNumber', str_replace(" ", "", $computer['Serial']))->get();
                             if (sizeof($result) == 0) {
-                                $no_registered .= 'Error, ' . $computer['Serial'] . ' is not registered; ';
-                            }
-                            if ($result[0]->Status != "InStorage") {
-                                $assigned .= 'Error, ' . $result[0]->HostName . ' is already assigned or does not correspond to the wave; ';
+                                $no_registered .= 'Error, ' . $computer['Serial'] . ' is not registered;';
                             } else {
-                                $update_wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->first();
-                                if (!$update_wave_employee) {
-                                    $update_wave_employee = new WaveEmployee();
-                                }
-                                $update_wave_employee->SerialNumberComputer = $computer['Serial'];
-                                $update_wave_employee->IdWave = $wave->IdWaveLocation;
-                                $update_wave_employee->save();
+                                if ($result[0]->Status != "InStorage") {
+                                    $assigned .= 'Error, ' . $result[0]->HostName . ' is already assigned or does not correspond to the wave; ';
+                                } else {
+                                    $update_wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->first();
+                                    if (!$update_wave_employee) {
+                                        $update_wave_employee = new WaveEmployee();
+                                    }
+                                    $update_wave_employee->SerialNumberComputer = $computer['Serial'];
+                                    $update_wave_employee->IdWave = $wave->IdWaveLocation;
+                                    $update_wave_employee->save();
 
-                                $computer = Computer::where('SerialNumber', $computer['Serial'])->first();
-                                $computer->Status = "Deployed";
-                                $computer->save();
+                                    $computer = Computer::where('SerialNumber', $computer['Serial'])->first();
+                                    $computer->Status = "Deployed";
+                                    $computer->save();
+                                }
                             }
                         }
                     } else {
@@ -438,12 +445,13 @@ class WaveController extends Controller
         $users_registered = 'These Users is not registered: ';
         $count_users_registered = 0;
         $registered_users = false;
-        $users_assigned = 'These Users is already assigned or does not correspond to the wave or location: ';
+        $users_assigned = 'These Users are already assigned or do not correspond to the wave or location: ';
         $count_users = 0;
         $assigned = false;
         $registered = false;
         $count = 0;
         $no_yubikey = "";
+        $no_computer = "";
         if (request('file')) {
             try {
                 if ($_FILES['file']['size'] > 0 && $_FILES['file']['type'] == 'text/csv') {
@@ -459,11 +467,19 @@ class WaveController extends Controller
 
                         foreach ($csv as $computer) {
                             try {
-                                if ($computer['YubiKey'] == "") {
+                                $jump = true;
+                                if (!isset($computer['YubiKey'])) {
+                                    $jump = false;
+                                    $computer['YubiKey'] = null;
+                                }
+
+                                if ($computer['YubiKey'] == "" && $jump) {
                                     $no_yubikey .= 'No YubiKey in This Relationship [' . $computer['Workstation'] . '] - [' . $computer['Username'] . ']; ';
                                 } else {
+
                                     $yubikey = Yubikey::where('SerialNumber', $computer['YubiKey'])->first();
-                                    if (!$yubikey) {
+
+                                    if (!$yubikey && $jump) {
                                         $no_yubikey .= 'This yubikey [' . $computer['YubiKey'] . '] is not registered; ';
                                     } else {
                                         if ($computer['Serial'] != "") {
@@ -489,22 +505,26 @@ class WaveController extends Controller
                                                 $wave_employees = WaveEmployee::where('IdWave', $wave->IdWaveLocation)
                                                     ->where('SerialNumberComputer', $computer['Serial'])->first();
 
-                                                if ($wave_employees->cde != null) {
-                                                    $wave_employees->SerialNumberComputer = null;
-                                                    $wave_employees->save();
+                                                if ($wave_employees) {
+                                                    if ($wave_employees->cde != null) {
+                                                        $wave_employees->SerialNumberComputer = null;
+                                                        $wave_employees->save();
+                                                    } else {
+                                                        DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->delete();
+                                                    }
+                                                    $wave_employee_1 = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
+                                                        ->where('cde', $resultUser[0]->cde)->first();
+
+                                                    $wave_employee_1->SerialNumberComputer = $computer['Serial'];
+
+                                                    $wave_employee_1->SerialNumberKey = $computer['YubiKey'];
+
+                                                    $wave_employee_1->save();
+
+                                                    $count++;
                                                 } else {
-                                                    DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', $computer['Serial'])->delete();
+                                                    $no_computer .= 'This Computer [' . $computer['Workstation'] . '] is not assigned; ';
                                                 }
-                                                $wave_employee_1 = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('SerialNumberComputer', null)
-                                                    ->where('cde', $resultUser[0]->cde)->first();
-
-                                                $wave_employee_1->SerialNumberComputer = $computer['Serial'];
-
-                                                $wave_employee_1->SerialNumberKey = $yubikey->SerialNumber;
-
-                                                $wave_employee_1->save();
-
-                                                $count++;
                                             } elseif (sizeof($celdas) == 0 && sizeof($resultUser) > 0) {
                                                 $assigned = true;
                                                 $count_users++;
@@ -529,8 +549,8 @@ class WaveController extends Controller
                             $mes = explode(":", $computers_registered);
                             return back()->with(['message' => $count . ' computers successfully assigned. ', 'th' => $computers_registered, 'alert' => 'warning', 'mes' => $mes, 'fails' => $count_computers]);
                         }
-                        if ($no_yubikey != "") {
-                            return back()->with(['message' => $count . ' computers successfully assigned. ', 'th' => $no_yubikey, 'alert' => 'warning']);
+                        if ($no_yubikey != "" || $no_computer != "") {
+                            return back()->with(['message' => $count . ' computers successfully assigned. ', 'th' => $no_yubikey . $no_computer, 'alert' => 'warning']);
                         }
                     } else {
                         return "¡Possible file upload attack!\n";

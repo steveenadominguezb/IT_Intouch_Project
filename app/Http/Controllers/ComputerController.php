@@ -151,7 +151,7 @@ class ComputerController extends Controller
          * Crea una instancia computer
          */
         $computer = new Computer();
-        $computer->SerialNumber = request('serial');
+        $computer->SerialNumber = str_replace(" ", "", request('serial'));
         $computer->HostName = request('host');
         $laptop = request('laptop');
         if ($laptop) {
@@ -197,7 +197,7 @@ class ComputerController extends Controller
             return view('computers', compact('computers'));
         }
         // Busca todos los computadores
-        $computers = Computer::all();
+        $computers = DB::table('computers')->latest()->offset(2000)->limit(1000)->get();
         // Retorna la vista computers con los computadores encontrados
         return view('computers', compact('computers'));
     }

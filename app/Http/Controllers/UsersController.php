@@ -58,7 +58,7 @@ class UsersController extends Controller
             return view('users', compact('users'));
         }
         // Busca todos los usuarios
-        $users = DB::table('users')->latest()->get();
+        $users = DB::table('users')->latest()->offset(2000)->limit(1000)->get();
         // Retorna la vista users con los usuarios encontrados
         return view('users', compact('users'));
     }
