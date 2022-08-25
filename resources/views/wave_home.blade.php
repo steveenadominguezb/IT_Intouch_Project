@@ -152,7 +152,7 @@
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary grey"
                                             data-bs-dismiss="modal">Close</button>
-                                        <button type="submit" id="btn-register" class="btn btn-primary blue"
+                                        <button type="submit" id="btn_register" class="btn btn-primary blue"
                                             style="margin-left: 20px;"
                                             onclick="style ='margin-left: 20px;cursor: not-allowed; pointer-events: none;'">Submit</button>
                                     </div>

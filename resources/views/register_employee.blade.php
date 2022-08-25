@@ -163,7 +163,7 @@
                             <div style="text-align: center;margin-top: 30px;">
                                 <input type="file" name="file">
                             </div>
-                            <button type="submit" id="btn-register" class="but-register btn btn-success fw-bold d-block">Submit</button>
+                            <button type="submit" id="btn_register" class="but-register btn btn-success fw-bold d-block">Submit</button>
                         </form>
                     </div>
                 </div>

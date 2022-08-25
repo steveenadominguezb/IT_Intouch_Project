@@ -20,7 +20,7 @@
                                         <input type="text" name="text">
                                     </div>
                                     <div class="" style="display: inline-block;">
-                                        <button type="submit" id="btn-register" class="btn btn-primary">Search</button>
+                                        <button type="submit" id="btn_register" class="btn btn-primary">Search</button>
                                     </div>
                                 </form>
                             </div>
@@ -61,7 +61,7 @@
                     </div>
                 </div>
                 <div style="text-align: right;">
-                    <button type="submit" id="btn-register" class="btn btn-primary">Assign</button>
+                    <button type="submit" id="btn_register" class="btn btn-primary">Assign</button>
                 </div>
                 </form>
             </div>

@@ -121,7 +121,7 @@
                             <div style="text-align: center;margin-top: 30px;">
                                 <input type="file" name="file">
                             </div>
-                            <button type="submit" id="btn-register"
+                            <button type="submit" id="btn_register"
                                 class="but-register btn btn-success d-block fw-bold">Submit</button>
                         </form>
 

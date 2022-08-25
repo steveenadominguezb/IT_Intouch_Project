@@ -33,7 +33,7 @@
                                             <input type="file" name="file">
                                         </div>
                                         <div style="display: inline-block">
-                                            <button type="submit" id="btn-register"
+                                            <button type="submit" id="btn_register"
                                                 class="btn blue fw-bold">Submit</button>
                                         </div>
                                     </form>
@@ -72,7 +72,7 @@
                     </div>
                 </div>
                 <div style="text-align: right;">
-                    <button type="submit" id="btn-register" class="btn btn-primary">Assign</button>
+                    <button type="submit" id="btn_register" class="btn btn-primary">Assign</button>
                 </div>
                 </form>
             </div>
