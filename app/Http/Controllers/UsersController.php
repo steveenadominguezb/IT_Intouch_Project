@@ -71,6 +71,7 @@ class UsersController extends Controller
     {
         $user = User::where("cde", $cde)->first();
         $waves_user = WaveEmployee::where('cde', $cde)
+            ->latest()
             ->get();
         return view('user_tracert', compact('user', 'waves_user'));
     }
