@@ -159,7 +159,7 @@ class RegisterEmployeeController extends Controller
                                 break;
                             default:
                                 // Establece los permisos por defecto
-                                $user->privilege = 20001;
+                                $user->privilege = 40001;
                                 break;
                         }
                         // Valida si el cargo es diferente a agent
@@ -201,11 +201,11 @@ class RegisterEmployeeController extends Controller
                         }
 
                         if ($employee['cde'] == "") {
-                            $result = DB::table('users')->where('name', $employee['name'])->where('status', 'Actve')->get();
+                            $result = DB::table('users')->where('name', $employee['name'])->get();
                         } else {
 
                             // Busca usuarios que tenga el codigo leído
-                            $result = DB::table('users')->where('cde', $employee['cde'])->where('status', 'Actve')->get();
+                            $result = DB::table('users')->where('cde', $employee['cde'])->get();
                         }
                         // Valida que haya algun registro con el codigo suministrado y si se suministró dicho codigo
                         if (sizeof($result) != 0) {

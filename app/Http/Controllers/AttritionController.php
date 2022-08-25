@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attrition;
 use App\Models\Computer;
 use App\Models\User;
+use App\Models\Wave;
 use App\Models\WaveEmployee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -110,12 +111,14 @@ class AttritionController extends Controller
     public function update()
     {
         try {
+            // Busca el regristro del attrition que se está trabajando
+            $attrition = Attrition::find(request('id'));
             // Valida el tipo
             switch (request('wfs')) {
                     // Caso de attrition
                 case 'attrition':
                     // Busca el registro de información del empleado
-                    $wave_employee = WaveEmployee::where('cde', request('cde'))->first();
+                    $wave_employee = WaveEmployee::where('cde', request('cde'))->where('attrition', 0)->first();
                     // Establece ese registro como un attrition
                     $wave_employee->attrition = true;
                     // Guarda el registro modificado
@@ -216,6 +219,47 @@ class AttritionController extends Controller
                     // Retorna a la vista del attrition
                     return back();
 
+                    break;
+                case 'transfer':
+                    if (!request('new_wave')) {
+                        return back()->with(['message' => "The new wave column is required", 'alert' => 'warning']);
+                    }
+                    $wave = Wave::where('Name', request('new_wave'))->first();
+                    if (!$wave) {
+                        return back()->with(['message' => "This Wave [" . request('new_wave') . "] is not registered.", 'alert' => 'warning']);
+                    }
+                    $wave_employee = WaveEmployee::where('cde', request('cde'))->where('attrition', 0)->first();
+                    if (!$wave_employee) {
+                        return back()->with(['message' => 'This user(' . request('name') . ') is not assigned to a wave', 'alert' => 'warning']);
+                    }
+
+                    $new_wave_employee = new WaveEmployee();
+                    $new_wave_employee->Date = now();
+                    $new_wave_employee->cde = $wave_employee->cde;
+                    $new_wave_employee->SerialNumberKey = $wave_employee->SerialNumberKey;
+                    $new_wave_employee->SerialNumberComputer = $wave_employee->SerialNumberComputer;
+
+                    $id_location = $wave_employee->parent->location->IdLocation;
+                    foreach ($wave->locations as $wave_location) {
+                        if ($wave_location->IdLocation == $id_location) {
+                            $new_wave_employee->IdWave = $wave_location->IdWaveLocation;
+                        }
+                    }
+                    $wave_employee->attrition = true;
+                    $wave_employee->save();
+                    $new_wave_employee->save();
+
+                    // Actualiza el tipo de registro del attrition
+                    $attrition->wfs_attrition = request('wfs');
+                    // Actualiza el campo que valida la devolución del equipo viejo
+                    $attrition->hardware_returned = request('returned');
+                    $attrition->new_wave = request('new_wave');
+                    // Actualiza la fecha del registro del attrition
+                    $attrition->tested_date = now();
+                    // Guarda los cambios del attrition
+                    $attrition->save();
+
+                    return back();
                     break;
                 default:
                     // Retorna un mensaje indicando que debe seleccionar un tipo de attrition

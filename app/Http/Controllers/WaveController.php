@@ -76,13 +76,13 @@ class WaveController extends Controller
      */
     public function create($IdWave, $location)
     {
-
+        $wave_parent = Wave::where('IdWave', $IdWave)->first();
+        if (!$wave_parent) {
+            abort(404);
+        }
         // Busca la wave que corresponda al IdWave y IdLocation dado en la url
         $wave = WaveLocation::where('IdWave', $IdWave)->where('IdLocation', $location)->first();
-        $wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('attrition', 0)->get();
-        $count_registers = (sizeof($wave_employee) == 0) ? 1 : sizeof($wave_employee);
-        $count_progress = sizeof(WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('cde', '!=', null)->where('SerialNumberComputer', '!=', null)->where('attrition', 0)->get());
-        $progress = ($count_progress / $count_registers) * 100;
+
         // Establece una variable que va ayudar a buscar la información de las otras locations
         $i = 101;
         // Verifica si no existe una wave con la información dada, hasta que no existe una location de esa wave no sale del bucle
@@ -92,6 +92,10 @@ class WaveController extends Controller
             // Incrementa el IdLocation para validar la si existe un registro con la siguiente location
             $i += 100;
         }
+        $wave_employee = WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('attrition', 0)->get();
+        $count_registers = (sizeof($wave_employee) == 0) ? 1 : sizeof($wave_employee);
+        $count_progress = sizeof(WaveEmployee::where('IdWave', $wave->IdWaveLocation)->where('cde', '!=', null)->where('SerialNumberComputer', '!=', null)->where('attrition', 0)->get());
+        $progress = ($count_progress / $count_registers) * 100;
         // Busca los computadores asignados a esa wave y location
         $computers_view = DB::table('wave_employees')->where('IdWave', $wave->IdWaveLocation)->where('attrition', '==', '0')
             ->join('computers', 'wave_employees.SerialNumberComputer', '=', 'computers.SerialNumber')

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('SerialNumber')->nullable();
             $table->string('wfs_attrition')->nullable();
             $table->string('hardware_returned')->default('checking');;
+            $table->string('new_wave');
             $table->date('attrition_date');
             $table->date('tested_date')->nullable();
             $table->string('NewSerialNumber')->nullable();

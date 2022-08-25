@@ -9,8 +9,9 @@
                             <a href="#" style="color: black;">Attrition</a>
                         </div>
                         <div style="display: inline-block; text-align: end; width: 59%;">
-                            <button type="button" class="btn-flat fw-bold border-start border-end border-3" id="btn-attrition-insert"
-                                style="font-size: 12px" data-bs-toggle="modal" data-bs-target="#modalInsert">INSERT</button>
+                            <button type="button" class="btn-flat fw-bold border-start border-end border-3"
+                                id="btn-attrition-insert" style="font-size: 12px" data-bs-toggle="modal"
+                                data-bs-target="#modalInsert">INSERT</button>
                         </div>
                     </div>
                     <div class="card-body" style="height: max-content">
@@ -55,6 +56,7 @@
                                         <th class="border-end text-center">SERIAL</th>
                                         <th class="border-end text-center">ATTRITION-EXCHANGE</th>
                                         <th class="border-end text-center">HARDWARE RETURNED</th>
+                                        <th class="border-end text-center">TRANSFER TO</th>
                                         <th class="border-end text-center">ATTRITION DATE</th>
                                         <th class="border-end text-center">TESTED DATE</th>
                                         <th class="border-end text-center">NEW COMPUTER</th>
@@ -109,6 +111,7 @@
                                                     <option selected>{{ $row->wfs_attrition }}</option>
                                                     <option value="attrition">attrition</option>
                                                     <option value="exchange">exchange</option>
+                                                    <option value="transfer">transfer</option>
                                                 </select>
                                             </td>
                                             <td class="border-end text-center">
@@ -120,6 +123,10 @@
                                                     <option value="checking">checking</option>
                                                 </select>
                                             </td>
+                                            <td class="border-end"><input type="text" name="new_wave" id="new_wave"
+                                                    autocomplete="off"
+                                                    style="background: transparent; ; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
+                                                    value={{ $row->new_wave ?? '' }}></td>
                                             <td class="border-end text-center"><input type="text" name="at_date"
                                                     style="background: none; font-size: 12px; color: black; border: none; text-align: center; font-weight: bold"
                                                     value={{ $row->attrition_date }} readonly></td>
