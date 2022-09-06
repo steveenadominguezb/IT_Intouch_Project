@@ -100,6 +100,13 @@ class WavesTableSeeder extends Seeder
         $wave12->IdProgram = 111;
         $wave12->save();
 
+        $wave13 = new Wave();
+        $wave13->Name = "Red Robin Staff";
+        $wave13->StartDate = "2022-09-05";
+        $wave13->ItopsInspector = "IH";
+        $wave13->IdProgram = 112;
+        $wave13->save();
+
         for ($i = 1; $i <= 12; $i++) {
             for ($j = 101; $j <= 501; $j = $j + 100) {
                 $waveLocation = new WaveLocation();
